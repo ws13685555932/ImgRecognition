@@ -8,4 +8,5 @@
 
     <color name="buttonTextColor">#fff</color>
     <color name="editTextUnderline">#aabbcc</color>
+    <color name="transparent">#00000000</color>
 </resources>

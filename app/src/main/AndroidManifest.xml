@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".module.login.view.MainActivity"
+            android:name=".module.login.view.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,9 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".module.register.RegisterActivity">
-
-        </activity>
+        <activity android:name=".module.register.RegisterActivity"></activity>
+        <activity android:name=".module.main.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

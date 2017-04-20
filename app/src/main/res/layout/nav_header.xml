@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@color/colorPrimary"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="5dp"
+        android:text="陌上疏影凉"
+        android:textColor="#fff"
+        android:textSize="16sp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civ_user_icon"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_above="@id/tv_user_name"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/user_icon"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_user_name"
+        android:layout_alignTop="@id/tv_user_name"
+        android:layout_marginLeft="2dp"
+        android:layout_toRightOf="@id/tv_user_name"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/bg_tv_level"
+            android:gravity="center_vertical"
+            android:paddingBottom="0dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="0dp"
+            android:text="Lv.6"
+            android:textColor="#fff"
+            android:textSize="10sp"
+            android:textStyle="italic|bold"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_user_name"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/tv_user_name">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_alignBottom="@id/tv_user_name"
+            android:layout_alignTop="@id/tv_user_name"
+            android:background="@drawable/bg_btn_check_in"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="签到"
+            android:textColor="#fff"
+            android:textSize="12sp"
+
+            />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
