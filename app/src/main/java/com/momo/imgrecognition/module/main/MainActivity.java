@@ -3,11 +3,16 @@ package com.momo.imgrecognition.module.main;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.momo.imgrecognition.R;
@@ -20,8 +25,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import solid.ren.skinlibrary.SkinLoaderListener;
+import solid.ren.skinlibrary.base.SkinBaseActivity;
+import solid.ren.skinlibrary.loader.SkinManager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends SkinBaseActivity {
 
     @BindView(R.id.drawer)
     DrawerLayout drawer;
@@ -29,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     @BindView(R.id.viewpager)
     ViewPager viewpager;
+    @BindView(R.id.nav_view)
+    NavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         CategoryFragment categoryFragment = new CategoryFragment();
         fragments.add(recommendFragment);
         fragments.add(categoryFragment);
-        viewpager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(),fragments));
+        viewpager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), fragments));
         tabLayout.setupWithViewPager(viewpager);
         tabLayout.getTabAt(0).setText("推荐");
         tabLayout.getTabAt(1).setText("分类");
@@ -64,6 +74,52 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_change_skin:
+                        changeSkin();
+
+                        break;
+                }
+                return true;
+            }
+        });
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        dynamicAddView(toolbar,"background",R.color.colorPrimary);
+
+    }
+
+    private void changeSkin() {
+        SkinManager.getInstance().loadSkin("RedSkin.skin",
+                new SkinLoaderListener() {
+                    @Override
+                    public void onStart() {
+                        Log.i("SkinLoaderListener", "正在切换中");
+                        //dialog.show();
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        Log.i("SkinLoaderListener", "切换成功");
+                    }
+
+                    @Override
+                    public void onFailed(String errMsg) {
+                        Log.i("SkinLoaderListener", "切换失败:" + errMsg);
+                    }
+
+                    @Override
+                    public void onProgress(int progress) {
+                        Log.i("SkinLoaderListener", "皮肤文件下载中:" + progress);
+                    }
+                }
+
+        );
 
     }
 }

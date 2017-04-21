@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    tools:ignore="MissingPrefix"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     tools:context="com.momo.imgrecognition.module.login.view.LoginActivity">
@@ -59,6 +61,7 @@
         android:background="@drawable/style_button_login"
         android:textColor="@color/buttonTextColor"
         android:textSize="17sp"
+        skin:enable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/login"/>
@@ -76,6 +79,7 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:text="@string/register_account"
+            skin:enable="true"
             android:textColor="@color/colorPrimary"
             android:layout_alignParentLeft="true"/>
 
@@ -85,6 +89,7 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:text="@string/forget_password"
+            skin:enable="true"
             android:textColor="@color/colorPrimary"
             android:layout_alignParentRight="true"/>
 

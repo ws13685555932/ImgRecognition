@@ -16,8 +16,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import solid.ren.skinlibrary.base.SkinBaseActivity;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends SkinBaseActivity {
 
     @BindView(R.id.iv_logo)
     ImageView ivLogo;

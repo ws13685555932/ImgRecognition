@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    tools:ignore="MissingPrefix"
     tools:context="com.momo.imgrecognition.module.main.MainActivity">
 
     <LinearLayout
@@ -24,6 +26,7 @@
                 android:layout_height="wrap_content">
 
                 <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?attr/colorAccent"
@@ -45,22 +48,16 @@
                         android:textSize="16sp" />
                 </android.support.v7.widget.Toolbar>
 
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    app:tabGravity="fill"
+                    app:tabIndicatorColor="#fff"
+                    app:tabSelectedTextColor="#fff"
+                    app:tabTextColor="@color/colorPrimaryLight" />
+
             </android.support.design.widget.AppBarLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </LinearLayout>
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tab_layout"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:tabIndicatorColor="#fff"
-                app:tabSelectedTextColor="#fff"
-                app:tabTextColor="@color/colorPrimaryLight" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
@@ -73,6 +70,7 @@
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="250dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"

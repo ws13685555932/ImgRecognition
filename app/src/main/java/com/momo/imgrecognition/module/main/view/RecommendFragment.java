@@ -16,16 +16,18 @@ import com.momo.imgrecognition.module.main.bean.ImageBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import solid.ren.skinlibrary.base.SkinBaseFragment;
 
 /**
  * Created by Administrator on 2017/4/21.
  */
 
-public class RecommendFragment extends Fragment {
+public class RecommendFragment extends SkinBaseFragment {
 
 
     @BindView(R.id.recycle)
@@ -34,7 +36,13 @@ public class RecommendFragment extends Fragment {
     private List<ImageBean> imageBeanList = new ArrayList<>();
     private int[] resId = new int[]{R.drawable.one, R.drawable.two, R.drawable.three, R.drawable.four
                 , R.drawable.five, R.drawable.six, R.drawable.seven};
-    private String[] resName = new String[]{"one","two","three","four","five","six","seven"};
+    private String[] resName = new String[]{"onedfhgsdf",
+            "twozcbzsgadgadasdhfvdsvdsfeahfaiunfadsngs",
+            "threegafdsfasdfa",
+            "fouradgafdfasdfasdfasdfasgs",
+            "fivaeasgdafdfasfas",
+            "sixasdf"
+            ,"seven"};
 
     @Nullable
     @Override
@@ -43,10 +51,10 @@ public class RecommendFragment extends Fragment {
 
         unbinder = ButterKnife.bind(this, view);
 
-        for(int i=0;i<7;i++) {
+        for(int i=0;i<20;i++) {
             ImageBean bean = new ImageBean();
-            bean.setImgId(resId[i]);
-            bean.setName(resName[i]);
+            bean.setImgId(resId[i%7]);
+            bean.setName(resName[i%7]);
             imageBeanList.add(bean);
         }
         StaggeredGridLayoutManager staggeredGridLayoutManager =
