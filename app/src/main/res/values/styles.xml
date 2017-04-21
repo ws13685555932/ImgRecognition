@@ -22,4 +22,8 @@
         <item name="android:textCursorDrawable">@drawable/cursor_edittext</item>
     </style>
 
+    <style name="TabText">
+        <item name="android:textColor">@color/colorTrans</item>
+    </style>
+
 </resources>

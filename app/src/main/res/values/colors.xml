@@ -5,8 +5,12 @@
     <color name="colorPrimaryDark">#1565C0</color>
     <color name="colorAccent">#2196F3</color>
     <color name="colorTrans">#B41A78C3</color>
+    <color name="colorPrimaryLight">#9CD6FF</color>
 
     <color name="buttonTextColor">#fff</color>
     <color name="editTextUnderline">#aabbcc</color>
     <color name="transparent">#00000000</color>
+    <color name="white">#fff</color>
+    <color name="background">#f4f4f4</color>
+
 </resources>
