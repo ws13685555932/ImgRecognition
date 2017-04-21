@@ -1,7 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group>
-        <item android:title="我的消息"></item>
-        <item android:title="会员中心"></item>
+    <group android:id="@+id/group1">
+        <item
+            android:icon="@mipmap/ic_launcher"
+            android:title="首页" />
+        <item
+            android:icon="@mipmap/ic_launcher"
+            android:title="我的消息" />
+        <item
+            android:icon="@mipmap/ic_launcher"
+            android:title="我的积分" />
+
+    </group>
+    <group android:id="@+id/group2">
+        <item
+            android:icon="@mipmap/ic_launcher"
+            android:title="稍后再评" />
+        <item
+            android:icon="@mipmap/ic_launcher"
+            android:title="历史记录" />
+        <item
+            android:icon="@mipmap/ic_launcher"
+            android:title="我的任务" />
+    </group>
+    <group android:id="@+id/group3">
+        <item
+            android:icon="@mipmap/ic_launcher"
+            android:title="主体选择" />
+        <item
+            android:icon="@mipmap/ic_launcher"
+            android:title="设置" />
     </group>
 </menu>
