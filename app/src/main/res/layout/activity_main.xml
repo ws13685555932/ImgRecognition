@@ -5,7 +5,7 @@
     android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/theme_color_primary"
     xmlns:skin="http://schemas.android.com/android/skin"
     tools:ignore="MissingPrefix"
     tools:context="com.momo.imgrecognition.module.main.MainActivity">

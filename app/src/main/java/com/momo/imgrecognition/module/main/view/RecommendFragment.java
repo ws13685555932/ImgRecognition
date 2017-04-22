@@ -21,13 +21,12 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import solid.ren.skinlibrary.base.SkinBaseFragment;
 
 /**
  * Created by Administrator on 2017/4/21.
  */
 
-public class RecommendFragment extends SkinBaseFragment {
+public class RecommendFragment extends Fragment {
 
 
     @BindView(R.id.recycle)

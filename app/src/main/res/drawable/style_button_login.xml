@@ -3,18 +3,18 @@
     <item android:state_enabled="true" android:state_pressed="true">
         <shape android:shape="rectangle">
             <corners android:radius="4dp" />
-            <solid android:color="@color/colorPrimaryDark" />
+            <solid android:color="@color/theme_color_primary_dark" />
         </shape>
     </item>
     <item android:state_enabled="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/colorPrimary" />
+            <solid android:color="@color/theme_color_primary" />
             <corners android:radius="4dp" />
         </shape>
     </item>
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
-            <solid android:alpha="0.3" android:color="@color/colorTrans" />
+            <solid android:alpha="0.3" android:color="@color/theme_color_primary_trans" />
             <corners android:radius="4dp" />
         </shape>
     </item>

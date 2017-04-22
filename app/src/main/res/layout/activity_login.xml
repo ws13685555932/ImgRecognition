@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    xmlns:skin="http://schemas.android.com/android/skin"
     tools:ignore="MissingPrefix"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
@@ -30,6 +29,7 @@
         android:paddingRight="10dp"
 
         android:drawableLeft="@drawable/user"
+        app:drawableLeftTint="@color/selector_focus"
         android:drawablePadding="10dp"
         android:drawableRight="@drawable/delete"
 
@@ -43,6 +43,7 @@
 
         style="@style/AppEditText"
         android:drawableLeft="@drawable/pass"
+        app:drawableLeftTint="@color/selector_focus"
         android:drawableRight="@drawable/delete"
         android:drawablePadding="10dp"
 
@@ -53,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
-    <Button
+    <com.bilibili.magicasakura.widgets.TintButton
         android:id="@+id/btn_login"
         android:enabled="true"
         android:layout_below="@id/et_password"
@@ -61,7 +62,6 @@
         android:background="@drawable/style_button_login"
         android:textColor="@color/buttonTextColor"
         android:textSize="17sp"
-        skin:enable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/login"/>
@@ -73,24 +73,22 @@
         android:layout_marginTop="20dp"
         android:layout_below="@id/btn_login">
 
-        <TextView
+        <com.bilibili.magicasakura.widgets.TintTextView
             android:id="@+id/tv_register_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:text="@string/register_account"
-            skin:enable="true"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/theme_color_primary"
             android:layout_alignParentLeft="true"/>
 
-        <TextView
+        <com.bilibili.magicasakura.widgets.TintTextView
             android:id="@+id/tv_forget_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:text="@string/forget_password"
-            skin:enable="true"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/theme_color_primary"
             android:layout_alignParentRight="true"/>
 
     </RelativeLayout>

@@ -6,22 +6,21 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.StateListDrawable;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.widget.DrawableUtils;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.bilibili.magicasakura.utils.ThemeUtils;
+import com.bilibili.magicasakura.widgets.TintEditText;
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.utils.DrawableUtil;
 
 import static com.momo.imgrecognition.utils.DrawableUtil.tintDrawable;
 
-public class ClearEditText extends android.support.v7.widget.AppCompatEditText implements View.OnFocusChangeListener,
+public class ClearEditText extends AppCompatEditText implements View.OnFocusChangeListener,
         TextWatcher {
     //EditText右侧的删除按钮
     //TODO:删除图片变色效果
@@ -31,6 +30,10 @@ public class ClearEditText extends android.support.v7.widget.AppCompatEditText i
     int underlineHeight = 5;
     float paddingBottom = 0.05f;
     int paddingLeft = 5;
+
+    int themePrimary;
+    ColorStateList themePrimaryCsl;
+
 
     public ClearEditText(Context context) {
         this(context, null);
@@ -46,13 +49,15 @@ public class ClearEditText extends android.support.v7.widget.AppCompatEditText i
     }
 
     private void init() {
+        themePrimaryCsl= ThemeUtils.getThemeColorStateList(
+                getContext(),getResources().getColorStateList(R.color.theme_color_primary));
+        themePrimary = ThemeUtils.getColor(getContext(),getResources().getColor(R.color.theme_color_primary));
         // 获取EditText的DrawableRight,假如没有设置我们就使用默认的图片,获取图片的顺序是左上右下（0,1,2,3,）  
         mClearDrawable = getCompoundDrawables()[2];
         if (mClearDrawable == null) {
             mClearDrawable = getResources().getDrawable(
                     R.drawable.delete);
-            mClearDrawable = DrawableUtil.tintDrawable(mClearDrawable,
-                    ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+            mClearDrawable = DrawableUtil.tintDrawable(mClearDrawable,themePrimaryCsl);
         }
         mClearDrawable.setBounds(0, 0, 80, 80);
         setCompoundDrawables(getCompoundDrawables()[0], null, mClearDrawable, null);
@@ -122,15 +127,14 @@ public class ClearEditText extends android.support.v7.widget.AppCompatEditText i
         this.hasFoucs = hasFocus;
         if (hasFocus) {
             setClearIconVisible(getText().length() > 0);
-            underlinePaint.setColor(getResources().getColor(R.color.colorPrimary));
+            underlinePaint.setColor(themePrimary);
             Drawable left = getCompoundDrawables()[0];
-            tintAndSetBounds(left,ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+            tintAndSetBounds(left,themePrimaryCsl);
         } else {
             underlinePaint.setColor(getResources().getColor(R.color.editTextUnderline));
             setClearIconVisible(false);
             Drawable left =getCompoundDrawables()[0];
             tintAndSetBounds(left,ColorStateList.valueOf(getResources().getColor(R.color.editTextUnderline)));
-
         }
         postInvalidate();
     }
@@ -177,6 +181,17 @@ public class ClearEditText extends android.support.v7.widget.AppCompatEditText i
         int underlineRight = this.getWidth() - paddingLeft;
 
         canvas.drawRect(underlineLeft, underlineTop, underlineRight, underlineBottom, underlinePaint);
+    }
+
+
+    public void refreshUi(){
+        themePrimaryCsl= ThemeUtils.getThemeColorStateList(
+                getContext(),getResources().getColorStateList(R.color.theme_color_primary));
+        themePrimary = ThemeUtils.getColor(getContext(),getResources().getColor(R.color.theme_color_primary));
+        underlinePaint.setColor(themePrimary);
+        Drawable left = getCompoundDrawables()[0];
+        tintAndSetBounds(left,themePrimaryCsl);
+        postInvalidate();
     }
 
 }
