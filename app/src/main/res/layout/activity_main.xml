@@ -25,11 +25,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.v7.widget.Toolbar
+                <com.bilibili.magicasakura.widgets.TintToolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="?attr/colorAccent"
+                    android:background="@color/theme_color_primary"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:layout_scrollFlags="scroll|enterAlways|snap">
                     <!--app:contentInsetLeft="0dp"-->
@@ -46,7 +46,7 @@
                         android:text="陌上疏影凉"
                         android:textColor="#fff"
                         android:textSize="16sp" />
-                </android.support.v7.widget.Toolbar>
+                </com.bilibili.magicasakura.widgets.TintToolbar>
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tab_layout"

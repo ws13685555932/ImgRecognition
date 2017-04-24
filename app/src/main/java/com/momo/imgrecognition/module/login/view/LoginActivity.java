@@ -77,39 +77,38 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                startActivity(intent);
-                CardPickerDialog dialog = new CardPickerDialog();
-                dialog.setClickListener(new CardPickerDialog.ClickListener() {
-                    @Override
-                    public void onConfirm(int currentTheme) {
-                        if (ThemeHelper.getTheme(LoginActivity.this) != currentTheme) {
-                            ThemeHelper.setTheme(LoginActivity.this, currentTheme);
-                            ThemeUtils.refreshUI(LoginActivity.this, new ThemeUtils.ExtraRefreshable() {
-                                        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                                        @Override
-                                        public void refreshGlobal(Activity activity) {
-                                            //for global setting, just do once
-                                            final LoginActivity context = LoginActivity.this;
-                                            ActivityManager.TaskDescription taskDescription = new ActivityManager.TaskDescription(null, null, ThemeUtils.getThemeAttrColor(context, android.R.attr.colorPrimary));
-                                            setTaskDescription(taskDescription);
-                                            getWindow().setStatusBarColor(ThemeUtils.getColorById(context, R.color.theme_color_primary_dark));
-                                        }
-
-                                        @Override
-                                        public void refreshSpecificView(View view) {
-                                            //TODO: will do this for each traversal
-                                            if(view instanceof ClearEditText){
-                                                ((ClearEditText)view).refreshUi();
-                                            }
-                                        }
-                                    }
-                            );
-                        }
-                    }
-                });
-
-                dialog.show(getSupportFragmentManager(), CardPickerDialog.TAG);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+//                CardPickerDialog dialog = new CardPickerDialog();
+//                dialog.setClickListener(new CardPickerDialog.ClickListener() {
+//                    @Override
+//                    public void onConfirm(int currentTheme) {
+//                        if (ThemeHelper.getTheme(LoginActivity.this) != currentTheme) {
+//                            ThemeHelper.setTheme(LoginActivity.this, currentTheme);
+//                            ThemeUtils.refreshUI(LoginActivity.this, new ThemeUtils.ExtraRefreshable() {
+//                                        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+//                                        @Override
+//                                        public void refreshGlobal(Activity activity) {
+//                                            //for global setting, just do once
+//                                            final LoginActivity context = LoginActivity.this;
+//                                            ActivityManager.TaskDescription taskDescription = new ActivityManager.TaskDescription(null, null, ThemeUtils.getThemeAttrColor(context, android.R.attr.colorPrimary));
+//                                            setTaskDescription(taskDescription);
+//                                            getWindow().setStatusBarColor(ThemeUtils.getColorById(context, R.color.theme_color_primary_dark));
+//                                        }
+//
+//                                        @Override
+//                                        public void refreshSpecificView(View view) {
+//                                            //TODO: will do this for each traversal
+//                                            if(view instanceof ClearEditText){
+//                                                ((ClearEditText)view).refreshUi();
+//                                            }
+//                                        }
+//                                    }
+//                            );
+//                        }
+//                    }
+//                });
+//                dialog.show(getSupportFragmentManager(), CardPickerDialog.TAG);
 
             }
         });

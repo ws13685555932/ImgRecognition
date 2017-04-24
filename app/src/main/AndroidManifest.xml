@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.momo.imgrecognition">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication"
@@ -22,9 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".module.register.RegisterActivity"></activity>
-        <activity android:name=".module.main.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".module.register.RegisterActivity" />
+        <activity
+            android:name=".module.main.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".module.changeskin.ChangeSkinActivity"></activity>
     </application>
 
 </manifest>
