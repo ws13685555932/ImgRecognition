@@ -7,6 +7,9 @@
     android:orientation="vertical"
     tools:context="com.momo.imgrecognition.module.changeskin.ChangeSkinActivity">
 
+    <include
+        layout="@layout/include_toolbar"/>
+
     <ListView
         android:id="@+id/lv_skin_list"
         android:dividerHeight="0dp"
