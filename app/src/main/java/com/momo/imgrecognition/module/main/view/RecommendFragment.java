@@ -16,7 +16,6 @@ import com.momo.imgrecognition.module.main.bean.ImageBean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,20 +32,20 @@ public class RecommendFragment extends Fragment {
     RecyclerView recycle;
     Unbinder unbinder;
     private List<ImageBean> imageBeanList = new ArrayList<>();
-    private int[] resId = new int[]{R.drawable.one, R.drawable.two, R.drawable.three, R.drawable.four
-                , R.drawable.five, R.drawable.six, R.drawable.seven};
+    private int[] resId = new int[]{R.drawable.bg_sample_one, R.drawable.bg_sample_two, R.drawable.bg_sample_three, R.drawable.bg_sample_four
+                , R.drawable.bg_sample_five, R.drawable.bg_sample_six, R.drawable.bg_sample_seven};
     private String[] resName = new String[]{"onedfhgsdf",
             "twozcbzsgadgadasdhfvdsvdsfeahfaiunfadsngs",
             "threegafdsfasdfa",
             "fouradgafdfasdfasdfasdfasgs",
             "fivaeasgdafdfasfas",
             "sixasdf"
-            ,"seven"};
+            ,"bg_sample_seven"};
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_fragment_recommend, container, false);
+        View view = inflater.inflate(R.layout.fragment_recommend, container, false);
 
         unbinder = ButterKnife.bind(this, view);
 

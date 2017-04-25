@@ -25,7 +25,7 @@
     </group>
     <group android:id="@+id/group3">
         <item
-            android:id="@+id/menu_change_skin"
+            android:id="@+id/nav_change_skin"
             android:icon="@mipmap/ic_launcher"
             android:title="主题选择" />
         <item

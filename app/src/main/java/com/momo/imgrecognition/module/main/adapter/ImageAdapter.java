@@ -2,15 +2,11 @@ package com.momo.imgrecognition.module.main.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -57,7 +53,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         if (mContext != null) {
             mContext = parent.getContext();
         }
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_recommend, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_recycler_recommend, parent, false);
 
         return new ViewHolder(view);
     }

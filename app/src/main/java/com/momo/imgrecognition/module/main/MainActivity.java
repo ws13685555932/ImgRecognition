@@ -1,5 +1,6 @@
 package com.momo.imgrecognition.module.main;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.module.changeskin.ChangeSkinActivity;
 import com.momo.imgrecognition.module.main.adapter.ViewPagerAdapter;
 import com.momo.imgrecognition.module.main.view.CategoryFragment;
 import com.momo.imgrecognition.module.main.view.RecommendFragment;
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.menu_change_skin:
+                    case R.id.nav_change_skin:
                         changeSkin();
 
                         break;
@@ -91,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void changeSkin() {
-
+        Intent intent = new Intent(MainActivity.this, ChangeSkinActivity.class);
+        startActivity(intent);
     }
+
 }

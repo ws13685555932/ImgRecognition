@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+   <com.bilibili.magicasakura.widgets.TintTextView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:padding="15dp"
+       android:id="@+id/tint_tv_skin"
+       android:text="主题颜色"
+       android:drawablePadding="15dp"
+       android:gravity="center_vertical"
+       android:drawableLeft="@drawable/ic_skin_item"
+       app:drawableRightTint="@color/theme_color_primary"
+       android:drawableRight="@drawable/ic_tick"/>
+
+</LinearLayout>

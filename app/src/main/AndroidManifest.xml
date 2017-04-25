@@ -14,8 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".module.login.view.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".module.login.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBarWithTranslucentStatus">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

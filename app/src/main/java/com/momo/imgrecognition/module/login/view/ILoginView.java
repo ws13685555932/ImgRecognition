@@ -8,8 +8,6 @@ public interface ILoginView {
     String getUsername();
     String getPassword();
 
-
-
-
+    void toMainActivity();
     void toRegisterActivity();
 }

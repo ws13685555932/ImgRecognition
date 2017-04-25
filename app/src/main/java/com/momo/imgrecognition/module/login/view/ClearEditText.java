@@ -14,7 +14,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.bilibili.magicasakura.utils.ThemeUtils;
-import com.bilibili.magicasakura.widgets.TintEditText;
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.utils.DrawableUtil;
 
@@ -56,7 +55,7 @@ public class ClearEditText extends AppCompatEditText implements View.OnFocusChan
         mClearDrawable = getCompoundDrawables()[2];
         if (mClearDrawable == null) {
             mClearDrawable = getResources().getDrawable(
-                    R.drawable.delete);
+                    R.drawable.ic_text_delete);
             mClearDrawable = DrawableUtil.tintDrawable(mClearDrawable,themePrimaryCsl);
         }
         mClearDrawable.setBounds(0, 0, 80, 80);

@@ -37,7 +37,7 @@
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@drawable/user_icon" />
+                        android:src="@drawable/ic_user" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header"
+        app:headerLayout="@layout/header_nav"
         app:menu="@menu/nav_menu">
 
     </android.support.design.widget.NavigationView>

@@ -5,7 +5,7 @@
     <color name="theme_color_primary_dark">#b85671</color>
     <color name="colorAccent">#2196F3</color>
     <color name="theme_color_primary_trans">#99f0486c</color>
-    <color name="colorPrimaryLight">#9CD6FF</color>
+    <color name="colorPrimaryLight">#FBC7D4</color>
 
     <color name="buttonTextColor">#fff</color>
     <color name="editTextUnderline">#aabbcc</color>

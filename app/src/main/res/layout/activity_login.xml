@@ -9,13 +9,13 @@
     tools:ignore="MissingPrefix"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    tools:context="com.momo.imgrecognition.module.login.view.LoginActivity">
+    tools:context="com.momo.imgrecognition.module.login.LoginActivity">
 
 
     <ImageView
         android:id="@+id/iv_logo"
         android:layout_marginTop="10dp"
-        android:background="@drawable/cover"
+        android:background="@drawable/bg_cover"
         android:scaleType="fitCenter"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
@@ -28,10 +28,10 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
 
-        android:drawableLeft="@drawable/user"
+        android:drawableLeft="@drawable/ic_username"
         app:drawableLeftTint="@color/selector_focus"
         android:drawablePadding="10dp"
-        android:drawableRight="@drawable/delete"
+        android:drawableRight="@drawable/ic_text_delete"
 
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -42,9 +42,9 @@
         android:hint="@string/password_hint"
 
         style="@style/AppEditText"
-        android:drawableLeft="@drawable/pass"
+        android:drawableLeft="@drawable/ic_password"
         app:drawableLeftTint="@color/selector_focus"
-        android:drawableRight="@drawable/delete"
+        android:drawableRight="@drawable/ic_text_delete"
         android:drawablePadding="10dp"
 
         android:paddingLeft="10dp"
@@ -59,7 +59,7 @@
         android:enabled="true"
         android:layout_below="@id/et_password"
         android:layout_marginTop="15dp"
-        android:background="@drawable/style_button_login"
+        android:background="@drawable/selector_button_login"
         android:textColor="@color/buttonTextColor"
         android:textSize="17sp"
         android:layout_width="match_parent"
@@ -143,20 +143,20 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/qq"/>
+                android:background="@drawable/ic_login_qq"/>
 
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
-                android:background="@drawable/wechat"/>
+                android:background="@drawable/ic_login_wechat"/>
 
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="20dp"
-                android:background="@drawable/weibo"/>
+                android:background="@drawable/ic_login_weibo"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

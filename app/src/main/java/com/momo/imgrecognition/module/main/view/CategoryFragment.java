@@ -19,7 +19,7 @@ public class CategoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.layout_fragment_categroy,container,false);
+        View view = inflater.inflate(R.layout.fragment_categroy,container,false);
         return view;
     }
 }
