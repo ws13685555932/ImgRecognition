@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.module.main.bean.ImageBean;
+import com.momo.imgrecognition.module.main.view.PopupWindowWithAnim;
 
 import java.util.List;
 
@@ -73,12 +74,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     private void showPopUpWindow(View view) {
         View popView = LayoutInflater.from(mContext).inflate(R.layout.layout_pop, null);
-        PopupWindow pop;
-        pop = new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        pop.setContentView(popView);
+        PopupWindowWithAnim pop;
+        pop = new PopupWindowWithAnim(mContext,popView);
         pop.setTouchable(true);
-        pop.setOutsideTouchable(true);
         pop.setBackgroundDrawable(new ColorDrawable());
 
         //popupWindows中按钮设置点击事件
@@ -91,7 +89,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
         int marginRight = (int) (0.05 * view.getWidth());
         int offsetX = view.getWidth() - width;
-        int offsetY = -(view.getHeight());
+        int offsetY = view.getHeight();
 
         int[] location = new int[2];
         view.getLocationOnScreen(location);

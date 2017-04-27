@@ -98,4 +98,10 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
     public void toRegisterActivity() {
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ThemeUtils.refreshUI(this);
+    }
 }

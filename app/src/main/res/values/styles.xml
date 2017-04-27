@@ -39,4 +39,13 @@
         <item name="android:maxWidth">1080px</item>
     </style>
 
+    <!--选择皮肤时的textview样式-->
+    <style name="SKinItemText">
+        <item name="android:padding">15dp</item>
+        <item name="android:drawablePadding">15dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawableLeft">@drawable/ic_skin_item</item>
+        <item name="android:drawableRight">@drawable/ic_tick</item>
+    </style>
+
 </resources>

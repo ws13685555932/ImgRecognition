@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.nav_change_skin:
                         changeSkin();
-
                         break;
                 }
                 return true;

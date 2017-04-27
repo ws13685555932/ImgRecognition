@@ -48,9 +48,8 @@ public class ClearEditText extends AppCompatEditText implements View.OnFocusChan
     }
 
     private void init() {
-        themePrimaryCsl= ThemeUtils.getThemeColorStateList(
-                getContext(),getResources().getColorStateList(R.color.theme_color_primary));
-        themePrimary = ThemeUtils.getColor(getContext(),getResources().getColor(R.color.theme_color_primary));
+        themePrimaryCsl= getResources().getColorStateList(R.color.theme_color_primary);
+        themePrimary = getResources().getColor(R.color.theme_color_primary);
         // 获取EditText的DrawableRight,假如没有设置我们就使用默认的图片,获取图片的顺序是左上右下（0,1,2,3,）  
         mClearDrawable = getCompoundDrawables()[2];
         if (mClearDrawable == null) {
@@ -180,17 +179,6 @@ public class ClearEditText extends AppCompatEditText implements View.OnFocusChan
         int underlineRight = this.getWidth() - paddingLeft;
 
         canvas.drawRect(underlineLeft, underlineTop, underlineRight, underlineBottom, underlinePaint);
-    }
-
-
-    public void refreshUi(){
-        themePrimaryCsl= ThemeUtils.getThemeColorStateList(
-                getContext(),getResources().getColorStateList(R.color.theme_color_primary));
-        themePrimary = ThemeUtils.getColor(getContext(),getResources().getColor(R.color.theme_color_primary));
-        underlinePaint.setColor(themePrimary);
-        Drawable left = getCompoundDrawables()[0];
-        tintAndSetBounds(left,themePrimaryCsl);
-        postInvalidate();
     }
 
 }

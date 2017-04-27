@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
-    <com.bilibili.magicasakura.widgets.TintButton
+    <Button
         android:id="@+id/btn_login"
         android:enabled="true"
         android:layout_below="@id/et_password"
@@ -73,7 +73,7 @@
         android:layout_marginTop="20dp"
         android:layout_below="@id/btn_login">
 
-        <com.bilibili.magicasakura.widgets.TintTextView
+        <TextView
             android:id="@+id/tv_register_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
             android:textColor="@color/theme_color_primary"
             android:layout_alignParentLeft="true"/>
 
-        <com.bilibili.magicasakura.widgets.TintTextView
+        <TextView
             android:id="@+id/tv_forget_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

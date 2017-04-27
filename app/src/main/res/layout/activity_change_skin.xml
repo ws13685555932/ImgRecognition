@@ -10,13 +10,75 @@
     <include
         layout="@layout/include_toolbar"/>
 
-    <ListView
-        android:id="@+id/lv_skin_list"
-        android:dividerHeight="0dp"
+    <com.bilibili.magicasakura.widgets.TintTextView
+        android:id="@+id/tv_night"
+        android:text="夜间主题"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/skin_item_height"
+        style="@style/SKinItemText"/>
 
-    </ListView>
+    <com.bilibili.magicasakura.widgets.TintTextView
+        android:id="@+id/tv_default"
+        android:text="少女粉"
+        app:drawableLeftTint="@color/pink"
+        app:drawableRightTint="@color/pink"
+        android:textColor="@color/pink"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/skin_item_height"
+        style="@style/SKinItemText"/>
+
+    <com.bilibili.magicasakura.widgets.TintTextView
+        android:id="@+id/tv_red"
+        android:text="火焰红"
+        app:drawableLeftTint="@color/red"
+        app:drawableRightTint="@color/red"
+        android:textColor="@color/red"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/skin_item_height"
+        style="@style/SKinItemText"/>
+
+    <com.bilibili.magicasakura.widgets.TintTextView
+        android:id="@+id/tv_yellow"
+        android:text="咸蛋黄"
+        app:drawableLeftTint="@color/yellow"
+        app:drawableRightTint="@color/yellow"
+        android:textColor="@color/yellow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/skin_item_height"
+        style="@style/SKinItemText"/>
+
+    <com.bilibili.magicasakura.widgets.TintTextView
+        android:id="@+id/tv_green"
+        android:text="早苗绿"
+        app:drawableLeftTint="@color/green"
+        app:drawableRightTint="@color/green"
+        android:textColor="@color/green"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/skin_item_height"
+        style="@style/SKinItemText"/>
+
+    <com.bilibili.magicasakura.widgets.TintTextView
+        android:id="@+id/tv_blue"
+        android:text="胖次蓝"
+        app:drawableLeftTint="@color/blue"
+        app:drawableRightTint="@color/blue"
+        android:textColor="@color/blue"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/skin_item_height"
+        style="@style/SKinItemText"/>
+
+    <com.bilibili.magicasakura.widgets.TintTextView
+        android:id="@+id/tv_purple"
+        android:text="基佬紫"
+        app:drawableLeftTint="@color/purple"
+        app:drawableRightTint="@color/purple"
+        android:textColor="@color/purple"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/skin_item_height"
+        style="@style/SKinItemText"/>
+
+
+
 
 
 </LinearLayout>
