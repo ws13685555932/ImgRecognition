@@ -20,6 +20,7 @@ import com.momo.imgrecognition.module.changeskin.ChangeSkinActivity;
 import com.momo.imgrecognition.module.main.adapter.ViewPagerAdapter;
 import com.momo.imgrecognition.module.main.view.CategoryFragment;
 import com.momo.imgrecognition.module.main.view.RecommendFragment;
+import com.momo.imgrecognition.module.mymessage.MyMessageActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_change_skin:
                         changeSkin();
                         break;
+                    case R.id.nav_my_message:
+                        toMyMessage();
+                        break;
                 }
                 return true;
             }
@@ -89,6 +93,11 @@ public class MainActivity extends AppCompatActivity {
 //        setSupportActionBar(toolbar);
 //        dynamicAddView(toolbar,"background",R.color.colorPrimary);
 
+    }
+
+    private void toMyMessage() {
+        Intent intent = new Intent(this, MyMessageActivity.class);
+        startActivity(intent);
     }
 
     private void changeSkin() {

@@ -1,6 +1,7 @@
 package com.momo.imgrecognition.module.main.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.module.detail.ImageDetailActivity;
 import com.momo.imgrecognition.module.main.bean.ImageBean;
 import com.momo.imgrecognition.module.main.view.PopupWindowWithAnim;
 
@@ -68,6 +70,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 showPopUpWindow(holder.iv_more);
+            }
+        });
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ImageDetailActivity.class);
+                mContext.startActivity(intent);
             }
         });
     }
