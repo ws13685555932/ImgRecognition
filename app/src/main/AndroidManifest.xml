@@ -23,7 +23,6 @@
         <activity android:name=".module.detail.ImageDetailActivity">
         </activity>
         <activity android:name=".module.mymessage.MyMessageActivity">
-
         </activity>
         <activity android:name=".module.myscore.MyScoreActivity">
             <intent-filter>
@@ -31,6 +30,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".module.taglater.TagLaterActivity">
         </activity>
     </application>
 

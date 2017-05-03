@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context="com.momo.imgrecognition.module.myscore.MyScoreActivity">
 
     <com.bilibili.magicasakura.widgets.TintToolbar
@@ -15,7 +16,9 @@
         android:id="@+id/toolbar"
         android:background="@color/theme_color_primary"
         app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp">
+        app:contentInsetStart="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
 
         <ImageView
@@ -36,18 +39,17 @@
             android:textColor="@color/white"
             android:text="我的积分"/>
 
-        <ImageView
-            android:id="@+id/search"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="8dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="8dp"
-            android:src="@drawable/ic_toolbar_search"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="积分记录"
+            style="@style/ToolbarRightText"/>
+
 
     </com.bilibili.magicasakura.widgets.TintToolbar>
 
     <LinearLayout
+        android:background="#eaeaea"
         android:layout_below="@id/toolbar"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -59,13 +61,16 @@
             android:background="@color/theme_color_primary"
             android:textColor="@color/white"
             android:text="320"
-            android:gravity="center_horizontal|bottom"
+            android:gravity="center"
             android:textSize="34sp"
             android:paddingBottom="20dp"/>
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -88,9 +93,9 @@
                     android:text="昨日积分"
                     android:gravity="center"/>
             </LinearLayout>
-
-            <view
-                android:layout_width="2dp"
+            <View
+                android:background="@color/gray_dark"
+                android:layout_width="0.8dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"/>
 
@@ -114,9 +119,23 @@
                     android:text="今日积分"
                     android:gravity="center"/>
             </LinearLayout>
-
-
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="@color/gray_dark"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+        <TextView
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="如何获得积分？"
+            android:textSize="16sp"/>
 
     </LinearLayout>
 

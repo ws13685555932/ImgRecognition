@@ -48,4 +48,12 @@
         <item name="android:drawableRight">@drawable/ic_tick</item>
     </style>
 
+    <!--toolbar右边的小字-->
+    <style name="ToolbarRightText">
+        <item name="android:layout_marginRight">@dimen/toolbar_right_text_margin_right</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_gravity">right</item>
+    </style>
 </resources>
