@@ -7,15 +7,23 @@ import java.io.Serializable;
  */
 
 public class User implements Serializable{
-    private String username;
     private String password;
+    private String name;
 
-    public String getUsername() {
-        return username;
+    public User(String password, String name) {
+        this.password = password;
+        this.name = name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public User() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
@@ -29,7 +37,7 @@ public class User implements Serializable{
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
+                "name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }
