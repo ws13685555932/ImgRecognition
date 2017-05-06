@@ -9,14 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.module.detail.ImageDetailActivity;
 import com.momo.imgrecognition.module.main.bean.ImageBean;
-import com.momo.imgrecognition.module.main.view.PopupWindowWithAnim;
+import com.momo.imgrecognition.customedview.PopupWindowWithAnim;
 
 import java.util.List;
 

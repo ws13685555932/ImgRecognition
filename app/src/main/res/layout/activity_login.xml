@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp" />
 
-    <com.momo.imgrecognition.module.login.view.ClearEditText
+    <com.momo.imgrecognition.customedview.ClearEditText
         android:id="@+id/et_username"
         android:hint="@string/username_hint"
 
@@ -37,7 +37,7 @@
         android:layout_height="50dp"
         android:layout_below="@+id/iv_logo"/>
 
-    <com.momo.imgrecognition.module.login.view.ClearEditText
+    <com.momo.imgrecognition.customedview.ClearEditText
         android:id="@+id/et_password"
         android:hint="@string/password_hint"
 

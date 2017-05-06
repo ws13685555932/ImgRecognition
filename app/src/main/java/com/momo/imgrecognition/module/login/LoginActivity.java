@@ -10,17 +10,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bilibili.magicasakura.utils.ThemeUtils;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.customedview.ClearEditText;
+import com.momo.imgrecognition.customedview.LoadDialog;
 import com.momo.imgrecognition.module.login.presenter.LoginPresenter;
-import com.momo.imgrecognition.module.login.view.ClearEditText;
 import com.momo.imgrecognition.module.login.view.ILoginView;
 import com.momo.imgrecognition.module.main.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
-public class LoginActivity extends AppCompatActivity implements ILoginView{
+public class LoginActivity extends AppCompatActivity implements ILoginView {
 
     @BindView(R.id.iv_logo)
     ImageView ivLogo;
@@ -36,6 +40,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
     TextView tvForgetPassword;
 
     LoginPresenter mLoginPresenter = new LoginPresenter(this);
+
+    LoadDialog mLoadDialog;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -57,25 +63,18 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
 //                    }
 //                });
 //
-//        RxTextView.textChanges(etPassword)
-//                .subscribe(new Consumer<CharSequence>() {
-//                    @Override
-//                    public void accept(@NonNull CharSequence charSequence) throws Exception {
-//                        String username = etUsername.getText().toString();
-//                        if(charSequence.toString().equals("") || username.equals("")){
-//                            btnLogin.setEnabled(false);
-//                        }else{
-//                            btnLogin.setEnabled(true);
-//                        }
-//                    }
-//                });
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mLoginPresenter.login();
-            }
-        });
+        RxTextView.textChanges(etPassword)
+                .subscribe(new Consumer<CharSequence>() {
+                    @Override
+                    public void accept(@NonNull CharSequence charSequence) throws Exception {
+                        String username = etUsername.getText().toString();
+                        if(charSequence.toString().equals("") || username.equals("")){
+                            btnLogin.setEnabled(false);
+                        }else{
+                            btnLogin.setEnabled(true);
+                        }
+                    }
+                });
     }
 
     @Override
@@ -100,8 +99,18 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        ThemeUtils.refreshUI(this);
+    public void showLoadDialog() {
+        mLoadDialog = new LoadDialog(this);
+        mLoadDialog.show();
+    }
+
+    @Override
+    public void dismissLoadDialog() {
+        mLoadDialog.dismiss();
+    }
+
+    @OnClick(R.id.btn_login)
+    public void onBtnLoginClicked() {
+        mLoginPresenter.login();
     }
 }

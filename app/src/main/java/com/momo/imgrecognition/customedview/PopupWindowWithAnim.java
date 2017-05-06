@@ -1,4 +1,4 @@
-package com.momo.imgrecognition.module.main.view;
+package com.momo.imgrecognition.customedview;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;

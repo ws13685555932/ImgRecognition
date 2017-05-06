@@ -25,17 +25,21 @@ public class LoginPresenter {
 
     public void login() {
 //        mLoginView.toMainActivity();
+//        mLoginView.showLoadDialog();
         String name = mLoginView.getUsername();
         String password = mLoginView.getPassword();
         User user = new User(password,name);
         mLoginBiz.login(user, new OnLoginListener() {
             @Override
             public void loginSuccess(User user) {
+//                mLoginView.dismissLoadDialog();
                 Toast.makeText(MyApplication.getContext(), "login sucess!", Toast.LENGTH_SHORT).show();
+                mLoginView.toMainActivity();
             }
 
             @Override
             public void loginFailed(String message) {
+//                mLoginView.dismissLoadDialog();
                 Toast.makeText(MyApplication.getContext(), message, Toast.LENGTH_SHORT).show();
             }
         });

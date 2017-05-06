@@ -1,4 +1,4 @@
-package com.momo.imgrecognition.module.login.view;
+package com.momo.imgrecognition.customedview;
 
 import android.content.Context;
 import android.content.res.ColorStateList;

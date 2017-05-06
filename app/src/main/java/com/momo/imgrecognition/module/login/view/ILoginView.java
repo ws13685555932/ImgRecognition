@@ -10,4 +10,6 @@ public interface ILoginView {
 
     void toMainActivity();
     void toRegisterActivity();
+    void showLoadDialog();
+    void dismissLoadDialog();
 }
