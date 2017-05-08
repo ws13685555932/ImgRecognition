@@ -5,18 +5,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.apiservice.LoginService;
 import com.momo.imgrecognition.customedview.ClearEditText;
 import com.momo.imgrecognition.customedview.LoadDialog;
 import com.momo.imgrecognition.module.login.presenter.LoginPresenter;
 import com.momo.imgrecognition.module.login.view.ILoginView;
 import com.momo.imgrecognition.module.main.MainActivity;
+import com.momo.imgrecognition.module.register.RegisterActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,9 +69,9 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
                     @Override
                     public void accept(@NonNull CharSequence charSequence) throws Exception {
                         String username = etUsername.getText().toString();
-                        if(charSequence.toString().equals("") || username.equals("")){
+                        if (charSequence.toString().equals("") || username.equals("")) {
                             btnLogin.setEnabled(false);
-                        }else{
+                        } else {
                             btnLogin.setEnabled(true);
                         }
                     }
@@ -110,7 +111,13 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     }
 
     @OnClick(R.id.btn_login)
-    public void onBtnLoginClicked() {
+    public void onLogin() {
         mLoginPresenter.login();
+    }
+
+    @OnClick(R.id.tv_register_account)
+    public void onRegister() {
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(intent);
     }
 }

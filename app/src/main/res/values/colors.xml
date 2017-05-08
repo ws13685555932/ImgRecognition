@@ -7,6 +7,8 @@
     <color name="theme_color_primary_trans">#99f0486c</color>
     <color name="colorPrimaryLight">#FBC7D4</color>
 
+    <color name="background_color">#EAEAEA</color>
+
     <color name="buttonTextColor">#fff</color>
     <color name="editTextUnderline">#aabbcc</color>
     <color name="transparent">#00000000</color>

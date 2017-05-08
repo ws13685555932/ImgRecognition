@@ -57,14 +57,15 @@
     <Button
         android:id="@+id/btn_login"
         android:enabled="true"
-        android:layout_below="@id/et_password"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="13dp"
         android:background="@drawable/selector_button_login"
         android:textColor="@color/buttonTextColor"
         android:textSize="17sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login"/>
+        android:text="@string/login"
+        android:layout_below="@+id/et_password"
+        android:layout_alignParentStart="true"/>
 
     <RelativeLayout
         android:id="@+id/rl_options"
