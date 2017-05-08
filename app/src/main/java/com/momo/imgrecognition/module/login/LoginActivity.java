@@ -11,13 +11,12 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.momo.imgrecognition.R;
-import com.momo.imgrecognition.apiservice.LoginService;
 import com.momo.imgrecognition.customedview.ClearEditText;
 import com.momo.imgrecognition.customedview.LoadDialog;
 import com.momo.imgrecognition.module.login.presenter.LoginPresenter;
 import com.momo.imgrecognition.module.login.view.ILoginView;
 import com.momo.imgrecognition.module.main.MainActivity;
-import com.momo.imgrecognition.module.register.RegisterActivity;
+import com.momo.imgrecognition.module.register.VarifyActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -117,7 +116,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
     @OnClick(R.id.tv_register_account)
     public void onRegister() {
-        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        Intent intent = new Intent(LoginActivity.this, VarifyActivity.class);
         startActivity(intent);
     }
 }

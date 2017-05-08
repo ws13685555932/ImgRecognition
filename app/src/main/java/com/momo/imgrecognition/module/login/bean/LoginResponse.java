@@ -1,4 +1,4 @@
-package com.momo.imgrecognition.apiservice;
+package com.momo.imgrecognition.module.login.bean;
 
 /**
  {

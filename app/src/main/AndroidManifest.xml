@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".module.register.RegisterActivity"/>
+        <activity android:name=".module.register.VarifyActivity"/>
         <activity android:name=".module.main.MainActivity"/>
         <activity android:name=".module.changeskin.ChangeSkinActivity"/>
         <activity android:name=".module.detail.ImageDetailActivity">
@@ -31,9 +31,11 @@
         <activity android:name=".module.mymessage.MyMessageActivity">
         </activity>
         <activity android:name=".module.myscore.MyScoreActivity">
-
         </activity>
         <activity android:name=".module.taglater.TagLaterActivity">
+        </activity>
+        <activity android:name=".module.register.RegisterActivity">
+
         </activity>
     </application>
 

@@ -1,178 +1,98 @@
 package com.momo.imgrecognition.module.register;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.apiservice.ResponseInfo;
+import com.momo.imgrecognition.apiservice.UserService;
 import com.momo.imgrecognition.customedview.ClearEditText;
-
-import org.json.JSONObject;
+import com.momo.imgrecognition.module.login.presenter.LoginPresenter;
+import com.momo.imgrecognition.utils.HttpManager;
+import com.momo.imgrecognition.utils.HttpObserver;
+import com.momo.imgrecognition.utils.RxSchedulersHelper;
+import com.momo.imgrecognition.utils.ShowUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.smssdk.EventHandler;
-import cn.smssdk.SMSSDK;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
+import butterknife.OnClick;
+import io.reactivex.Observable;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegisterActivity extends AppCompatActivity implements IRegisterView{
 
-    @BindView(R.id.et_phone_number)
-    ClearEditText etPhoneNumber;
-    @BindView(R.id.et_code)
-    ClearEditText etCode;
-    @BindView(R.id.btn_get_code)
-    Button btnGetCode;
-    @BindView(R.id.btn_next)
-    Button btnNext;
+    String phoneNumber;
+    @BindView(R.id.et_username)
+    ClearEditText etUsername;
+    @BindView(R.id.et_password)
+    ClearEditText etPassword;
+    @BindView(R.id.tv_warning)
+    TextView tvWarning;
+    @BindView(R.id.btn_register)
+    Button btnRegister;
 
-    private static final int CODE_ING = 1;   //已发送，倒计时
-    private static final int CODE_ING_END = 2;  //重新发送
-    private static final int SMSDDK_HANDLER = 3;  //短信回调
-
-    EventHandler eh;
+    RegisterPresenter mRegisterPresenter = new RegisterPresenter(this);
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
 
-        initSmsSdk();
-
-        RxTextView.textChanges(etPhoneNumber)
-                .subscribe(new Consumer<CharSequence>() {
-                    @Override
-                    public void accept(@NonNull CharSequence charSequence) throws Exception {
-                        if(etPhoneNumber.getText().toString().equals("") || charSequence.equals("")){
-                            btnGetCode.setEnabled(false);
-                            btnNext.setEnabled(false);
-                        }else{
-                            btnGetCode.setEnabled(true);
-                        }
-                    }
-                });
-
-        RxTextView.textChanges(etCode)
-                .subscribe(new Consumer<CharSequence>() {
-                    @Override
-                    public void accept(@NonNull CharSequence charSequence) throws Exception {
-                        if(etCode.getText().toString().equals("") || charSequence.equals("")){
-                            btnNext.setEnabled(false);
-                        }else{
-                            btnNext.setEnabled(true);
-                        }
-                    }
-                });
-
-        btnGetCode.setOnClickListener(this);
-        btnNext.setOnClickListener(this);
+        getData();
     }
 
-    private void initSmsSdk() {
-        SMSSDK.initSDK(this, "1da26b3dcc298", "60acd6a20194d6a06e638bfa41370f6d");
-        eh = new EventHandler() {
-            @Override
-            public void afterEvent(int event, int result, Object data) {
-
-                Message msg = new Message();
-                msg.arg1 = event;
-                msg.arg2 = result;
-                msg.obj = data;
-                msg.what = SMSDDK_HANDLER;
-                handler.sendMessage(msg);
-            }
-        };
-        SMSSDK.registerEventHandler(eh); //注册短信回调
+    private void getData() {
+        phoneNumber = getIntent().getStringExtra("phone_number");
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case SMSDDK_HANDLER:
-                    int event = msg.arg1;
-                    int result = msg.arg2;
-                    Object data = msg.obj;
-                    //回调完成
-                    if (result == SMSSDK.RESULT_COMPLETE) {
-                        //验证码验证成功
-                        if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-                            Toast.makeText(RegisterActivity.this, "验证成功！", Toast.LENGTH_SHORT).show();
-//                            Intent intent = new Intent(RegisterActivity.this, SuccessActivity.class);
-//                            startActivity(intent);
-                        } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-                            Toast.makeText(RegisterActivity.this, "验证码发送成功！", Toast.LENGTH_SHORT).show();
-                        }
-                    } else if (result == SMSSDK.RESULT_ERROR) {
-                        try {
-                            Throwable throwable = (Throwable) data;
-                            throwable.printStackTrace();
-                            JSONObject object = new JSONObject(throwable.getMessage());
-                            String des = object.optString("detail");//错误描述
-                            int status = object.optInt("status");//错误代码
-                            if (status > 0 && !TextUtils.isEmpty(des)) {
-                                Toast.makeText(RegisterActivity.this, des, Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                        } catch (Exception e) {
-                            //do something
-                        }
-                    } else {
-                        Toast.makeText(RegisterActivity.this, "验证码输入有误，请重新获取验证码！", Toast.LENGTH_SHORT).show();
+
+    @OnClick(R.id.btn_register)
+    public void onRegister() {
+//        mRegisterPresenter.register();
+        String username  = getUsername();
+        String password = getPassword();
+        String phoneNumber = getPhoneNumber();
+
+        RegisterBean bean = new RegisterBean(password,username);
+        UserService userService = HttpManager.getInstance().createService(UserService.class);
+        Observable<ResponseInfo<RegisterResponse>> call = userService.register(bean);
+        call.compose(RxSchedulersHelper.<ResponseInfo<RegisterResponse>>io_main())
+                .subscribe(new HttpObserver<RegisterResponse>() {
+
+
+                    @Override
+                    public void onSuccess(RegisterResponse registerResponse) {
+                        Toast.makeText(RegisterActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
                     }
-                    break;
-                case CODE_ING:
-                    int seconds = msg.arg1;
-                    btnGetCode.setText("重新获取(" + seconds + "秒)");
-                    break;
-                case CODE_ING_END:
-                    btnGetCode.setEnabled(true);
-                    btnGetCode.setText("重新获取");
-                    break;
-            }
-        }
-    };
+
+                    @Override
+                    public void onFailed(String message) {
+                        Toast.makeText(RegisterActivity.this, "注册失败！", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_get_code:
-                SMSSDK.getVerificationCode("86", etPhoneNumber.getText().toString());
-                btnGetCode.setEnabled(false);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 60; i > 0; i--) {
-                            Message msg = new Message();
-                            msg.arg1 = i;
-                            msg.what = CODE_ING;
-                            handler.sendMessage(msg);
-                            if (i <= 0) {
-                                break;
-                            }
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        handler.sendEmptyMessage(CODE_ING_END);
-                    }
-                }).start();
-                break;
-            case R.id.btn_next:
-                SMSSDK.submitVerificationCode("86", etPhoneNumber.getText().toString()
-                        , etCode.getText().toString());//对验证码进行验证->回调函数
-                break;
-        }
+    public String getUsername() {
+        return etUsername.getText().toString();
+    }
+
+    @Override
+    public String getPassword() {
+        return etPassword.getText().toString();
+    }
+
+    @Override
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    @Override
+    public void showError(String message) {
+        tvWarning.setText(message);
     }
 }
