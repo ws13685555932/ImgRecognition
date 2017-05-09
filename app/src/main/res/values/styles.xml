@@ -74,4 +74,30 @@
         <!--是否模糊-->
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:textSize="18sp"-->
+        <!--android:text="头像"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:layout_marginLeft="8dp"-->
+        <!--android:textColor="#4a4a4a"/>-->
+    <style name="TextViewInfoLeft">
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">#4a4a4a</item>
+        <item name="android:layout_alignParentLeft">true</item>
+    </style>
+
+    <style name="TextViewInfoRight">
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">#bbbbbb</item>
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
 </resources>

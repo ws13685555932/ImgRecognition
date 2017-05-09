@@ -50,7 +50,7 @@ public class VarifyActivity extends AppCompatActivity implements View.OnClickLis
 
         initSmsSdk();
 
-        if(!Config.isTest) {
+        if(!Config.IS_TEST) {
             rxBinding();
         }
 
@@ -86,7 +86,7 @@ public class VarifyActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initSmsSdk() {
-        SMSSDK.initSDK(this, Config.smsSdkKey, Config.smsSdkSecret);
+        SMSSDK.initSDK(this, Config.SMS_SDK_KEY, Config.SMS_SDK_SECRET);
         eh = new EventHandler() {
             @Override
             public void afterEvent(int event, int result, Object data) {
@@ -187,7 +187,7 @@ public class VarifyActivity extends AppCompatActivity implements View.OnClickLis
                 }).start();
                 break;
             case R.id.btn_next:
-                if(Config.isTest){
+                if(Config.IS_TEST){
                     toRegisterActivity();
                 }else {
                     SMSSDK.submitVerificationCode("86", etPhoneNumber.getText().toString()

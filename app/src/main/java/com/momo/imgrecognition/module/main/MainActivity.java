@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -27,6 +26,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     ViewPager viewpager;
     @BindView(R.id.nav_view)
     NavigationView navView;
+    @BindView(R.id.iv_user_icon)
+    CircleImageView ivUserIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,4 +108,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.iv_user_icon)
+    public void onDrawerOpen() {
+        drawer.openDrawer(navView);
+    }
 }
