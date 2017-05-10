@@ -237,25 +237,28 @@
                 android:id="@+id/rl_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fafafa"
-                android:minHeight="60dp">
+                android:background="#fafafa">
 
                 <TextView
                     android:id="@+id/tv_label"
                     style="@style/TextViewInfoLeft"
                     android:layout_width="100dp"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:text="个人介绍"
                     />
 
                 <TextView
                     android:id="@+id/tv_description"
-                    style="@style/TextViewInfoRight"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/tv_label"
-                    android:padding="10dp"
+                    android:layout_below="@id/tv_label"
+                    android:gravity="left"
+                    android:textColor="#bbbbbb"
+                    android:textSize="14sp"
                     android:text="呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！"/>
 
             </RelativeLayout>

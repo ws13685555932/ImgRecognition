@@ -18,7 +18,6 @@ public class Config {
 
     public static final String TYPE_NAME = "name";
     public static final String TYPE_EMAIL = "email";
-    public static final String TYPE_PHONE = "phone";
     public static final String TYPE_DESCRIPTION = "description";
 
 

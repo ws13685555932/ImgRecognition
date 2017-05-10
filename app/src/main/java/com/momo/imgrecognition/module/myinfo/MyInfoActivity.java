@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.kevin.crop.UCrop;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.apiservice.Config;
 import com.momo.imgrecognition.customedview.PickSexDialog;
 import com.momo.imgrecognition.utils.ShowUtil;
 
@@ -33,6 +34,10 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
 
     private static final int CAMERA_REQUEST_CODE = 1;
     private static final int GALLERY_REQUEST_CODE = 2;
+    private static final int CHANGE_NAME_REQUEST_CODE = 3;
+    private static final int CHANGE_EMAIL_REQUEST_CODE = 4;
+    private static final int CHANGE_DESCRIPTION_REQUEST_CODE = 5;
+
 
     @BindView(R.id.rl_user_icon)
     RelativeLayout rlUserIcon;
@@ -155,6 +160,19 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                     ShowUtil.print("error!");
                     handleCropError(data);
                     break;
+
+                case CHANGE_NAME_REQUEST_CODE:
+                    String nickname = data.getExtras().getString("text");
+                    tvNickname.setText(nickname);
+                    break;
+                case CHANGE_EMAIL_REQUEST_CODE:
+                    String email = data.getExtras().getString("text");
+                    tvEmail.setText(email);
+                    break;
+                case CHANGE_DESCRIPTION_REQUEST_CODE:
+                    String desp = data.getExtras().getString("text");
+                    tvDescription.setText(desp);
+                    break;
             }
         }
 
@@ -207,9 +225,56 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                 .start(this);
     }
 
-    @OnClick(R.id.rl_birthday)
-    public void onBirthdayClicked() {
+//    @OnClick(R.id.rl_birthday)
+//    public void onBirthdayClicked() {
+//
+//        DatePickerDialog pickDateDialog = new DatePickerDialog(this, R.style.MyDatePickerDialog, new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+//                mYear = year;
+//                mMonth = month;
+//                mDay = day;
+//                displayBirthday();
+//            }
+//        }, mYear, mMonth, mDay);
+//        pickDateDialog.show();
+//
+//    }
 
+    private void displayBirthday() {
+        String birthdayStr = mYear + "-" + mMonth + "-" + mDay;
+        tvBirthday.setText(birthdayStr);
+    }
+
+    @OnClick({R.id.rl_user_name, R.id.rl_email, R.id.rl_description ,R.id.rl_sex, R.id.rl_birthday})
+    public void onViewClicked(View view) {
+
+        switch (view.getId()) {
+            case R.id.rl_user_name:
+                Intent changeNameIntent = new Intent(this, ChangeInfoActivity.class);
+                changeNameIntent.putExtra("type", Config.TYPE_NAME);
+                startActivityForResult(changeNameIntent,CHANGE_NAME_REQUEST_CODE);
+                break;
+            case R.id.rl_email:
+                Intent changeEmailIntent = new Intent(this, ChangeInfoActivity.class);
+                changeEmailIntent.putExtra("type", Config.TYPE_EMAIL);
+                startActivityForResult(changeEmailIntent,CHANGE_EMAIL_REQUEST_CODE);
+                break;
+            case R.id.rl_description:
+                Intent changeDesIntent = new Intent(this, ChangeInfoActivity.class);
+                changeDesIntent.putExtra("type", Config.TYPE_DESCRIPTION);
+                startActivityForResult(changeDesIntent,CHANGE_DESCRIPTION_REQUEST_CODE);
+                break;
+            case R.id.rl_sex:
+                changeSex();
+                break;
+            case R.id.rl_birthday:
+                changeBirthday();
+                break;
+        }
+    }
+
+    private void changeBirthday() {
         DatePickerDialog pickDateDialog = new DatePickerDialog(this, R.style.MyDatePickerDialog, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -220,45 +285,30 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
             }
         }, mYear, mMonth, mDay);
         pickDateDialog.show();
-
     }
 
-    private void displayBirthday() {
-        String birthdayStr = mYear + "-" + mMonth + "-" + mDay;
-        tvBirthday.setText(birthdayStr);
-    }
-
-    @OnClick({R.id.rl_user_name, R.id.rl_sex, R.id.rl_phone, R.id.rl_email, R.id.rl_description})
-    public void onViewClicked(View view) {
-//        Intent intent = new Intent(this, ChangeInfoActivity.class);
-//        switch (view.getId()) {
-//            case R.id.rl_user_name:
-//                intent.putExtra("type", Config.TYPE_NAME);
-//                break;
-//            case R.id.rl_phone:
-//                intent.putExtra("type", Config.TYPE_PHONE);
-//                break;
-//            case R.id.rl_email:
-//                intent.putExtra("type", Config.TYPE_EMAIL);
-//                break;
-//            case R.id.rl_description:
-//                intent.putExtra("type", Config.TYPE_DESCRIPTION);
-//                break;
-//        }
-//        startActivity(intent);
-    }
-
-    @OnClick(R.id.rl_sex)
-    public void onViewClicked() {
+    private void changeSex() {
         final PickSexDialog pickSexDialog = new PickSexDialog();
-        pickSexDialog.show(getSupportFragmentManager(), "tag");
+        pickSexDialog.show(getSupportFragmentManager(), PickSexDialog.TAG);
         pickSexDialog.setClickListener(new PickSexDialog.ClickListener() {
             @Override
             public void onSexPicked(String sex) {
-                pickSexDialog.dismiss();
                 tvSex.setText(sex);
             }
         });
     }
+
+//    @OnClick(R.id.rl_sex)
+//    public void onViewClicked() {
+//        final PickSexDialog pickSexDialog = new PickSexDialog();
+//        pickSexDialog.show(getSupportFragmentManager(), "tag");
+//        pickSexDialog.setClickListener(new PickSexDialog.ClickListener() {
+//            @Override
+//            public void onSexPicked(String sex) {
+//                pickSexDialog.dismiss();
+//                tvSex.setText(sex);
+//            }
+//        });
+//    }
 
 }
