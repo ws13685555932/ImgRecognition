@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.kevin.crop.UCrop;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.customedview.PickSexDialog;
 import com.momo.imgrecognition.utils.ShowUtil;
 
 import java.io.File;
@@ -39,8 +40,32 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
     CircleImageView ivUserIcon;
     @BindView(R.id.rl_birthday)
     RelativeLayout rlBirthday;
+    @BindView(R.id.rl_user_name)
+    RelativeLayout rlUserName;
+    @BindView(R.id.rl_sex)
+    RelativeLayout rlSex;
+    @BindView(R.id.rl_phone)
+    RelativeLayout rlPhone;
+    @BindView(R.id.rl_email)
+    RelativeLayout rlEmail;
+    @BindView(R.id.tv_label)
+    TextView tvLabel;
+    @BindView(R.id.rl_description)
+    RelativeLayout rlDescription;
+    @BindView(R.id.rl_log_out)
+    RelativeLayout rlLogOut;
+    @BindView(R.id.tv_nickname)
+    TextView tvNickname;
+    @BindView(R.id.tv_sex)
+    TextView tvSex;
     @BindView(R.id.tv_birthday)
     TextView tvBirthday;
+    @BindView(R.id.tv_phone_number)
+    TextView tvPhoneNumber;
+    @BindView(R.id.tv_email)
+    TextView tvEmail;
+    @BindView(R.id.tv_description)
+    TextView tvDescription;
 
     private BottomSheetDialog pickDialog;
     private String mTempPhotoPath;
@@ -185,7 +210,7 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
     @OnClick(R.id.rl_birthday)
     public void onBirthdayClicked() {
 
-        DatePickerDialog pickDateDialog = new DatePickerDialog(this, R.style.MyDatePickerDialog,new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog pickDateDialog = new DatePickerDialog(this, R.style.MyDatePickerDialog, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 mYear = year;
@@ -202,4 +227,38 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
         String birthdayStr = mYear + "-" + mMonth + "-" + mDay;
         tvBirthday.setText(birthdayStr);
     }
+
+    @OnClick({R.id.rl_user_name, R.id.rl_sex, R.id.rl_phone, R.id.rl_email, R.id.rl_description})
+    public void onViewClicked(View view) {
+//        Intent intent = new Intent(this, ChangeInfoActivity.class);
+//        switch (view.getId()) {
+//            case R.id.rl_user_name:
+//                intent.putExtra("type", Config.TYPE_NAME);
+//                break;
+//            case R.id.rl_phone:
+//                intent.putExtra("type", Config.TYPE_PHONE);
+//                break;
+//            case R.id.rl_email:
+//                intent.putExtra("type", Config.TYPE_EMAIL);
+//                break;
+//            case R.id.rl_description:
+//                intent.putExtra("type", Config.TYPE_DESCRIPTION);
+//                break;
+//        }
+//        startActivity(intent);
+    }
+
+    @OnClick(R.id.rl_sex)
+    public void onViewClicked() {
+        final PickSexDialog pickSexDialog = new PickSexDialog();
+        pickSexDialog.show(getSupportFragmentManager(), "tag");
+        pickSexDialog.setClickListener(new PickSexDialog.ClickListener() {
+            @Override
+            public void onSexPicked(String sex) {
+                pickSexDialog.dismiss();
+                tvSex.setText(sex);
+            }
+        });
+    }
+
 }

@@ -16,4 +16,11 @@ public class Config {
     public static final String SMS_SDK_KEY = "1da26b3dcc298";
     public static final String SMS_SDK_SECRET = "60acd6a20194d6a06e638bfa41370f6d";
 
+    public static final String TYPE_NAME = "name";
+    public static final String TYPE_EMAIL = "email";
+    public static final String TYPE_PHONE = "phone";
+    public static final String TYPE_DESCRIPTION = "description";
+
+
+
 }

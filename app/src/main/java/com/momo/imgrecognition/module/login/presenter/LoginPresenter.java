@@ -3,6 +3,7 @@ package com.momo.imgrecognition.module.login.presenter;
 import android.widget.Toast;
 
 import com.momo.imgrecognition.MyApplication;
+import com.momo.imgrecognition.apiservice.Config;
 import com.momo.imgrecognition.module.login.bean.User;
 import com.momo.imgrecognition.module.login.biz.ILoginBiz;
 import com.momo.imgrecognition.module.login.biz.LoginBiz;
@@ -26,22 +27,26 @@ public class LoginPresenter {
     public void login() {
 //        mLoginView.toMainActivity();
 //        mLoginView.showLoadDialog();
-        String name = mLoginView.getUsername();
-        String password = mLoginView.getPassword();
-        User user = new User(password,name);
-        mLoginBiz.login(user, new OnLoginListener() {
-            @Override
-            public void loginSuccess(User user) {
+        if(Config.IS_TEST){
+            mLoginView.toMainActivity();
+        }else {
+            String name = mLoginView.getUsername();
+            String password = mLoginView.getPassword();
+            User user = new User(password, name);
+            mLoginBiz.login(user, new OnLoginListener() {
+                @Override
+                public void loginSuccess(User user) {
 //                mLoginView.dismissLoadDialog();
-                Toast.makeText(MyApplication.getContext(), "login sucess!", Toast.LENGTH_SHORT).show();
-                mLoginView.toMainActivity();
-            }
+                    Toast.makeText(MyApplication.getContext(), "login sucess!", Toast.LENGTH_SHORT).show();
+                    mLoginView.toMainActivity();
+                }
 
-            @Override
-            public void loginFailed(String message) {
+                @Override
+                public void loginFailed(String message) {
 //                mLoginView.dismissLoadDialog();
-                Toast.makeText(MyApplication.getContext(), message, Toast.LENGTH_SHORT).show();
-            }
-        });
+                    Toast.makeText(MyApplication.getContext(), message, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

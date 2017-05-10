@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.apiservice.Config;
 import com.momo.imgrecognition.customedview.ClearEditText;
 import com.momo.imgrecognition.customedview.LoadDialog;
 import com.momo.imgrecognition.module.login.presenter.LoginPresenter;
@@ -50,6 +51,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+
 //        RxTextView.textChanges(etUsername)
 //                .subscribe(new Consumer<CharSequence>() {
 //                    @Override
@@ -62,7 +64,14 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 //                        }
 //                    }
 //                });
+        if (!Config.IS_TEST) {
+            rxBinding();
+        }
 //
+
+    }
+
+    private void rxBinding() {
         RxTextView.textChanges(etPassword)
                 .subscribe(new Consumer<CharSequence>() {
                     @Override

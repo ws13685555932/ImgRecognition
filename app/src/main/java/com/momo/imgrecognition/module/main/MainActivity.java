@@ -13,12 +13,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.module.changeskin.ChangeSkinActivity;
 import com.momo.imgrecognition.module.main.adapter.ViewPagerAdapter;
 import com.momo.imgrecognition.module.main.view.CategoryFragment;
 import com.momo.imgrecognition.module.main.view.RecommendFragment;
+import com.momo.imgrecognition.module.myinfo.MyInfoActivity;
 import com.momo.imgrecognition.module.mymessage.MyMessageActivity;
 
 import java.util.ArrayList;
@@ -89,6 +91,17 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 return true;
+            }
+        });
+
+        View header = navView.getHeaderView(0);
+        CircleImageView ivUserIconNav = (CircleImageView) header.findViewById(R.id.civ_user_icon);
+        ivUserIconNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MyInfoActivity.class);
+                startActivity(intent);
+
             }
         });
 

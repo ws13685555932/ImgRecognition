@@ -98,6 +98,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/rl_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="#fafafa">
@@ -110,6 +111,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/tv_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
@@ -126,6 +128,7 @@
                 android:background="#d4d4d4"/>
 
             <RelativeLayout
+                android:id="@+id/rl_sex"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="#fafafa">
@@ -138,6 +141,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/tv_sex"
                     style="@style/TextViewInfoRight"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -176,6 +180,7 @@
                 android:background="#d4d4d4"/>
 
             <RelativeLayout
+                android:id="@+id/rl_phone"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="#fafafa">
@@ -188,6 +193,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/tv_phone_number"
                     style="@style/TextViewInfoRight"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -201,6 +207,7 @@
                 android:background="#d4d4d4"/>
 
             <RelativeLayout
+                android:id="@+id/rl_email"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="#fafafa">
@@ -213,6 +220,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/tv_email"
                     style="@style/TextViewInfoRight"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -226,6 +234,7 @@
                 android:background="#d4d4d4"/>
 
             <RelativeLayout
+                android:id="@+id/rl_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#fafafa"
@@ -240,6 +249,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/tv_description"
                     style="@style/TextViewInfoRight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

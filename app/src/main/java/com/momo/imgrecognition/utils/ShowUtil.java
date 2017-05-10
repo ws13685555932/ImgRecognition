@@ -16,11 +16,15 @@ public class ShowUtil {
     }
 
     public static void print(String text){
-        Log.d(TAG, text);
+        if(text != null) {
+            Log.d(TAG, text);
+        }
     }
 
     public static void print(String key,String text){
-        Log.d(TAG, key +":------ " + text);
+        if(text != null && key != null) {
+            Log.d(TAG, key + ":------ " + text);
+        }
     }
 
 }
