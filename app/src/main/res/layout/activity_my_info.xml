@@ -5,20 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background_color"
+    android:orientation="vertical"
     tools:context="com.momo.imgrecognition.module.myinfo.MyInfoActivity">
 
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:id="@+id/toolbar"
         android:background="@color/theme_color_primary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        app:contentInsetStart="0dp">
 
 
         <ImageView
@@ -34,18 +34,18 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
             android:paddingLeft="8dp"
+            android:text="个人资料"
             android:textColor="@color/white"
-            android:text="个人资料"/>
+            android:textSize="18sp"/>
 
         <ImageView
             android:id="@+id/search"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:padding="8dp"
             android:layout_gravity="right"
             android:layout_marginRight="8dp"
+            android:padding="8dp"
             android:src="@drawable/ic_toolbar_search"/>
 
     </android.support.v7.widget.Toolbar>
@@ -53,203 +53,225 @@
     <include
         layout="@layout/include_toolbar_shadow"/>
 
-    <RelativeLayout
-        android:id="@+id/rl_user_icon"
-        android:layout_marginTop="10dp"
-        android:background="#fafafa"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="match_parent"
+        >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:textSize="14sp"
-            android:text="头像"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="8dp"
-            android:textColor="#4a4a4a"/>
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_user_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp"
-            android:src="@drawable/ic_user"/>
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:background="#d4d4d4"/>
-
-    <RelativeLayout
-        android:background="#fafafa"
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/TextViewInfoLeft"
-            android:text="昵称"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="陌上疏影凉"
-            android:gravity="center_vertical"
-            android:textSize="14sp"
-            android:textColor="#bbbbbb"
-            android:layout_marginRight="8dp"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:background="#d4d4d4"/>
-
-    <RelativeLayout
-        android:background="#fafafa"
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/TextViewInfoLeft"
-            android:text="性别"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/TextViewInfoRight"
-            android:text="男"/>
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:background="#d4d4d4"/>
-
-    <RelativeLayout
-        android:background="#fafafa"
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/TextViewInfoLeft"
-            android:text="生日"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/TextViewInfoRight"
-            android:text="1996-10-5"/>
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:background="#d4d4d4"/>
-
-    <RelativeLayout
-        android:background="#fafafa"
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/TextViewInfoLeft"
-            android:text="手机号"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/TextViewInfoRight"
-            android:text="13685555932"/>
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:background="#d4d4d4"/>
-
-    <RelativeLayout
-        android:background="#fafafa"
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/TextViewInfoLeft"
-            android:text="邮箱"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/TextViewInfoRight"
-            android:text="1748532294@qq.com"/>
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:background="#d4d4d4"/>
-
-    <RelativeLayout
-        android:background="#fafafa"
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/TextViewInfoLeft"
-            android:text="个人介绍"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/TextViewInfoRight"
-            android:text="呀哈喽！"/>
-
-    </RelativeLayout>
-
-    <include layout="@layout/include_toolbar_shadow"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="#fafafa">
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="退出登录"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textColor="#bbbbbb"
-            android:layout_marginRight="8dp"
-            />
+            android:paddingBottom="10dp"
+            android:orientation="vertical">
 
-    </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_user_icon"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:background="#fafafa">
 
-    <include layout="@layout/include_toolbar_shadow"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="8dp"
+                    android:gravity="center_vertical"
+                    android:text="头像"
+                    android:textColor="#4a4a4a"
+                    android:textSize="14sp"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_user_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/ic_user"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="#d4d4d4"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#fafafa">
+
+                <TextView
+                    style="@style/TextViewInfoLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="昵称"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="8dp"
+                    android:gravity="center_vertical"
+                    android:text="陌上疏影凉"
+                    android:textColor="#bbbbbb"
+                    android:textSize="14sp"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="#d4d4d4"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#fafafa">
+
+                <TextView
+                    style="@style/TextViewInfoLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="性别"
+                    />
+
+                <TextView
+                    style="@style/TextViewInfoRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="男"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="#d4d4d4"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_birthday"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#fafafa">
+
+                <TextView
+                    style="@style/TextViewInfoLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="生日"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_birthday"
+                    style="@style/TextViewInfoRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="1996-10-5"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="#d4d4d4"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#fafafa">
+
+                <TextView
+                    style="@style/TextViewInfoLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="手机号"
+                    />
+
+                <TextView
+                    style="@style/TextViewInfoRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="13685555932"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="#d4d4d4"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#fafafa">
+
+                <TextView
+                    style="@style/TextViewInfoLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="邮箱"
+                    />
+
+                <TextView
+                    style="@style/TextViewInfoRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="1748532294@qq.com"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="#d4d4d4"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fafafa"
+                android:minHeight="60dp">
+
+                <TextView
+                    android:id="@+id/tv_label"
+                    style="@style/TextViewInfoLeft"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:text="个人介绍"
+                    />
+
+                <TextView
+                    style="@style/TextViewInfoRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/tv_label"
+                    android:padding="10dp"
+                    android:text="呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！"/>
+
+            </RelativeLayout>
+
+            <include layout="@layout/include_toolbar_shadow"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_log_out"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#fafafa">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="8dp"
+                    android:gravity="center"
+                    android:text="退出登录"
+                    android:textColor="#bbbbbb"
+                    android:textSize="16sp"
+                    />
+
+            </RelativeLayout>
+
+            <include layout="@layout/include_toolbar_shadow"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

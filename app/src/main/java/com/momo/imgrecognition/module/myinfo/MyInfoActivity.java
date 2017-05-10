@@ -1,5 +1,6 @@
 package com.momo.imgrecognition.module.myinfo;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -8,12 +9,11 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kevin.crop.UCrop;
 import com.momo.imgrecognition.R;
@@ -37,10 +37,16 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
     RelativeLayout rlUserIcon;
     @BindView(R.id.iv_user_icon)
     CircleImageView ivUserIcon;
+    @BindView(R.id.rl_birthday)
+    RelativeLayout rlBirthday;
+    @BindView(R.id.tv_birthday)
+    TextView tvBirthday;
 
     private BottomSheetDialog pickDialog;
     private String mTempPhotoPath;
     private Uri mDestinationUri;
+
+    int mYear, mMonth, mDay;
 
 
     @Override
@@ -54,7 +60,7 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @OnClick(R.id.rl_user_icon)
-    public void onViewClicked() {
+    public void onUserIconClicked() {
         pickDialog = new BottomSheetDialog(this);
         View contentView = LayoutInflater.from(this).inflate(R.layout.dialog_pick, null);
         pickDialog.setContentView(contentView);
@@ -176,4 +182,24 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                 .start(this);
     }
 
+    @OnClick(R.id.rl_birthday)
+    public void onBirthdayClicked() {
+
+        DatePickerDialog pickDateDialog = new DatePickerDialog(this, R.style.MyDatePickerDialog,new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                mYear = year;
+                mMonth = month;
+                mDay = day;
+                displayBirthday();
+            }
+        }, mYear, mMonth, mDay);
+        pickDateDialog.show();
+
+    }
+
+    private void displayBirthday() {
+        String birthdayStr = mYear + "-" + mMonth + "-" + mDay;
+        tvBirthday.setText(birthdayStr);
+    }
 }

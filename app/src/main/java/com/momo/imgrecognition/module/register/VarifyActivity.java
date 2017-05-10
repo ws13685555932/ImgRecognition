@@ -196,4 +196,11 @@ public class VarifyActivity extends AppCompatActivity implements View.OnClickLis
                 break;
         }
     }
+
+    //todo:unregister event, prevent from out of memory
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SMSSDK.unregisterAllEventHandler();
+    }
 }

@@ -100,4 +100,6 @@
         <item name="android:textColor">#bbbbbb</item>
         <item name="android:layout_alignParentRight">true</item>
     </style>
+
+
 </resources>
