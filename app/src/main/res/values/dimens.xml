@@ -2,4 +2,8 @@
 <resources>
     <dimen name="skin_item_height">60dp</dimen>
     <dimen name="toolbar_right_text_margin_right">16dp</dimen>
+
+    <dimen name="settings_item_height">70dp</dimen>
+    <dimen name="settings_item_margin">16dp</dimen>
+    <dimen name="settings_background_padding">16dp</dimen>
 </resources>

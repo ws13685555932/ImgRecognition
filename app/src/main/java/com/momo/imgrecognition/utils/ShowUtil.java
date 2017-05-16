@@ -27,4 +27,10 @@ public class ShowUtil {
         }
     }
 
+    public static void print(String key,int text){
+        if(key != null) {
+            Log.d(TAG, key + ":------ " + text);
+        }
+    }
+
 }

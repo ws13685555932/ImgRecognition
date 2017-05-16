@@ -5,17 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:id="@+id/root"
     tools:context="com.momo.imgrecognition.module.detail.ImageDetailActivity">
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:id="@+id/toolbar"
         android:background="@color/theme_color_primary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        app:contentInsetStart="0dp">
 
 
         <ImageView
@@ -31,54 +32,138 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
             android:paddingLeft="8dp"
+            android:text="图片详情"
             android:textColor="@color/white"
-            android:text="图片详情"/>
+            android:textSize="18sp"/>
 
         <ImageView
             android:id="@+id/search"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:padding="8dp"
             android:layout_gravity="right"
             android:layout_marginRight="8dp"
+            android:padding="8dp"
             android:src="@drawable/ic_toolbar_search"/>
 
     </android.support.v7.widget.Toolbar>
 
-    <ImageView
-        android:layout_below="@id/toolbar"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/bg_nav"
-        android:scaleType="center"
-        android:id="@+id/iv_image"
+    <View
+        android:id="@+id/toolbar_shadow"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="5dp"
+        android:layout_below="@id/toolbar"
+        android:background="@drawable/toolbar_shadow"/>
+
 
     <LinearLayout
-        android:id="@+id/ll_labels"
-        android:layout_below="@id/iv_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_shadow"
+        android:background="@color/white"
         android:orientation="vertical">
 
-        <TextView
+        <ImageView
+            android:id="@+id/iv_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="选择你认为合适的标签"
-            android:textSize="18sp"
-            android:padding="10dp"/>
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_nav"/>
 
-        <com.zhy.view.flowlayout.TagFlowLayout
-            android:id="@+id/tfl_labels"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:max_select="-1">
+            android:layout_height="match_parent"
+            android:layout_below="@id/iv_image"
+            android:background="#eef2f7">
 
-        </com.zhy.view.flowlayout.TagFlowLayout>
+            <LinearLayout
+                android:id="@+id/ll_labels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="100dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="选择你认为合适的标签"
+                    android:textColor="@color/default_text_color"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+                <com.zhy.view.flowlayout.TagFlowLayout
+                    android:id="@+id/tfl_labels"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.zhy.view.flowlayout.TagFlowLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="您可能想添加的标签"
+                    android:textColor="@color/default_text_color"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+                <com.zhy.view.flowlayout.TagFlowLayout
+                    android:id="@+id/tfl_history_labels"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.zhy.view.flowlayout.TagFlowLayout>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_customed_tag"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:background="#eef2f7"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/et_customed_tag"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:hint="请输入自定义标签"
+            android:textColorHint="@color/gray_dark"
+            android:textColor="@color/default_text_color"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/bg_customed_tag"/>
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:textColor="@color/white"
+            android:text="确定"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/selector_button_login"/>
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fltbtn_confirm"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_above="@id/ll_customed_tag"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/ic_confirm_bigger"
+        android:layout_marginBottom="16dp"/>
 
 </RelativeLayout>
