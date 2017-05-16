@@ -5,6 +5,6 @@ package com.momo.imgrecognition.module.register;
  */
 
 public interface RegisterListener {
-    void regiseteSuccess(RegisterBean registerBean);
+    void regiseteSuccess(RegisterResponse response);
     void registerFailed(String message);
 }

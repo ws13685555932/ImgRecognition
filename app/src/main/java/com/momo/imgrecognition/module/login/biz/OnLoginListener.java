@@ -1,5 +1,6 @@
 package com.momo.imgrecognition.module.login.biz;
 
+import com.momo.imgrecognition.module.login.bean.LoginResponse;
 import com.momo.imgrecognition.module.login.bean.User;
 
 /**
@@ -7,6 +8,6 @@ import com.momo.imgrecognition.module.login.bean.User;
  */
 
 public interface OnLoginListener {
-    void loginSuccess(User user);
+    void loginSuccess(LoginResponse response);
     void loginFailed(String msg);
 }

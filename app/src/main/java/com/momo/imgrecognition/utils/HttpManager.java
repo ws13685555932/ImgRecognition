@@ -1,16 +1,9 @@
 package com.momo.imgrecognition.utils;
 
-import android.view.GestureDetector;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.momo.imgrecognition.apiservice.Config;
+import com.momo.imgrecognition.config.Config;
 
-import java.io.File;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Filter;
-
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;

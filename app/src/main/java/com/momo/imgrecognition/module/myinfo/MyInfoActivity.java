@@ -17,8 +17,10 @@ import android.widget.TextView;
 
 import com.kevin.crop.UCrop;
 import com.momo.imgrecognition.R;
-import com.momo.imgrecognition.apiservice.Config;
+import com.momo.imgrecognition.config.Config;
+import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.customedview.PickSexDialog;
+import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
 
 import java.io.File;
@@ -147,17 +149,14 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                 case CAMERA_REQUEST_CODE:
                     File tempFile = new File(mTempPhotoPath);
                     startCropActivity(Uri.fromFile(tempFile));
-                    ShowUtil.print("camera success!");
                     break;
                 case GALLERY_REQUEST_CODE:
                     startCropActivity(data.getData());
                     break;
                 case UCrop.REQUEST_CROP:
-                    ShowUtil.print("crop!");
                     handleCropResult(data);
                     break;
                 case UCrop.RESULT_ERROR:
-                    ShowUtil.print("error!");
                     handleCropError(data);
                     break;
 
@@ -251,19 +250,13 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
 
         switch (view.getId()) {
             case R.id.rl_user_name:
-                Intent changeNameIntent = new Intent(this, ChangeInfoActivity.class);
-                changeNameIntent.putExtra("type", Config.TYPE_NAME);
-                startActivityForResult(changeNameIntent,CHANGE_NAME_REQUEST_CODE);
+                changeInfo(Config.TYPE_NAME);
                 break;
             case R.id.rl_email:
-                Intent changeEmailIntent = new Intent(this, ChangeInfoActivity.class);
-                changeEmailIntent.putExtra("type", Config.TYPE_EMAIL);
-                startActivityForResult(changeEmailIntent,CHANGE_EMAIL_REQUEST_CODE);
+               changeInfo(Config.TYPE_EMAIL);
                 break;
             case R.id.rl_description:
-                Intent changeDesIntent = new Intent(this, ChangeInfoActivity.class);
-                changeDesIntent.putExtra("type", Config.TYPE_DESCRIPTION);
-                startActivityForResult(changeDesIntent,CHANGE_DESCRIPTION_REQUEST_CODE);
+               changeInfo(Config.TYPE_DESCRIPTION);
                 break;
             case R.id.rl_sex:
                 changeSex();
@@ -274,6 +267,34 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    private void changeInfo(String type){
+        Intent intent = new Intent(this,ChangeInfoActivity.class);
+        MyInfoBean myInfo = new MyInfoBean();
+        initMyInfoBean(myInfo);
+        intent.putExtra("type",type);
+        intent.putExtra("myinfo",myInfo);
+        if(type!= null){
+            if(type .equals(Config.TYPE_NAME)){
+                startActivityForResult(intent,CHANGE_NAME_REQUEST_CODE);
+            }else if(type.equals(Config.TYPE_EMAIL)){
+                startActivityForResult(intent,CHANGE_EMAIL_REQUEST_CODE);
+            }else{
+                startActivityForResult(intent,CHANGE_DESCRIPTION_REQUEST_CODE);
+            }
+        }
+    }
+
+    private void initMyInfoBean(MyInfoBean myInfo) {
+        myInfo.setName(tvNickname.getText().toString());
+        myInfo.setBirthday(tvBirthday.getText().toString());
+        myInfo.setEmail(tvEmail.getText().toString());
+        myInfo.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
+        myInfo.setIntroduction(tvDescription.getText().toString());
+        myInfo.setSex(tvSex.getText().toString());
+        myInfo.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
+    }
+
+    // TODO: 2017/5/11 set default calendar date 
     private void changeBirthday() {
         DatePickerDialog pickDateDialog = new DatePickerDialog(this, R.style.MyDatePickerDialog, new DatePickerDialog.OnDateSetListener() {
             @Override

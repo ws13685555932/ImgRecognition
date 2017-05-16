@@ -52,28 +52,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterView
 
     @OnClick(R.id.btn_register)
     public void onRegister() {
-//        mRegisterPresenter.register();
-        String username  = getUsername();
-        String password = getPassword();
-        String phoneNumber = getPhoneNumber();
-
-        RegisterBean bean = new RegisterBean(password,username);
-        UserService userService = HttpManager.getInstance().createService(UserService.class);
-        Observable<ResponseInfo<RegisterResponse>> call = userService.register(bean);
-        call.compose(RxSchedulersHelper.<ResponseInfo<RegisterResponse>>io_main())
-                .subscribe(new HttpObserver<RegisterResponse>() {
-
-
-                    @Override
-                    public void onSuccess(RegisterResponse registerResponse) {
-                        Toast.makeText(RegisterActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailed(String message) {
-                        Toast.makeText(RegisterActivity.this, "注册失败！", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        mRegisterPresenter.register();
     }
 
     @Override

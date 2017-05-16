@@ -2,6 +2,7 @@ package com.momo.imgrecognition.apiservice;
 
 import com.momo.imgrecognition.module.login.bean.LoginResponse;
 import com.momo.imgrecognition.module.login.bean.User;
+import com.momo.imgrecognition.module.myinfo.MyInfoBean;
 import com.momo.imgrecognition.module.register.RegisterBean;
 import com.momo.imgrecognition.module.register.RegisterResponse;
 
@@ -21,6 +22,8 @@ public interface UserService {
     @POST("user/signUp")
     Observable<ResponseInfo<RegisterResponse>> register(@Body RegisterBean registerBean);
 
+    @POST("user/update")
+    Observable<ResponseInfo<MyInfoBean>> updateInfo(@Body MyInfoBean myInfoBean);
 }
 
 

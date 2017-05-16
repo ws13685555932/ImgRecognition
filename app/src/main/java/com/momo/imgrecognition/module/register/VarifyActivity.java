@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.momo.imgrecognition.R;
-import com.momo.imgrecognition.apiservice.Config;
+import com.momo.imgrecognition.config.Config;
 import com.momo.imgrecognition.customedview.ClearEditText;
 import com.momo.imgrecognition.utils.ShowUtil;
 

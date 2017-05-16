@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.momo.imgrecognition.R;
-import com.momo.imgrecognition.apiservice.Config;
+import com.momo.imgrecognition.config.Config;
 import com.momo.imgrecognition.customedview.ClearEditText;
 
 import butterknife.BindView;
@@ -73,7 +73,7 @@ public class ChangeNameFragment extends Fragment {
                 break;
             case R.id.tv_save:
                 if (!etChangeName.getText().toString().equals("")) {
-                    mToolbarListener.onSave(etChangeName.getText().toString());
+                    mToolbarListener.onSave(mType,etChangeName.getText().toString());
                 } else {
                     tvError.setVisibility(View.VISIBLE);
                     if (mType.equals(Config.TYPE_NAME)) {
@@ -89,7 +89,7 @@ public class ChangeNameFragment extends Fragment {
     interface ToolbarListener {
         void onBack();
 
-        void onSave(String text);
+        void onSave(String type ,String text);
     }
 
     private ToolbarListener mToolbarListener;

@@ -22,7 +22,7 @@ public class RegisterBiz implements IRegisterBiz{
                 .subscribe(new HttpObserver<RegisterResponse>() {
                     @Override
                     public void onSuccess(RegisterResponse registerResponse) {
-                        listener.regiseteSuccess(registerBean);
+                        listener.regiseteSuccess(registerResponse);
                     }
 
                     @Override

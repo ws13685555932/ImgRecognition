@@ -25,7 +25,7 @@ public class LoginBiz implements ILoginBiz {
                 .subscribe(new HttpObserver<LoginResponse>() {
                     @Override
                     public void onSuccess(LoginResponse loginResponse) {
-                        loginListener.loginSuccess(user);
+                        loginListener.loginSuccess(loginResponse);
                     }
 
                     @Override

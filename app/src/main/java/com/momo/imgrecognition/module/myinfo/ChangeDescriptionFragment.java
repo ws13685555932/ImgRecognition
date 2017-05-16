@@ -74,9 +74,9 @@ public class ChangeDescriptionFragment extends Fragment {
         void onSave(String text);
     }
 
-    private ChangeNameFragment.ToolbarListener mToolbarListener;
+    private ChangeDescriptionFragment.ToolbarListener mToolbarListener;
 
-    public void setToolbarListener(ChangeNameFragment.ToolbarListener listener) {
+    public void setToolbarListener(ChangeDescriptionFragment.ToolbarListener listener) {
         this.mToolbarListener = listener;
     }
 }

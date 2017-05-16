@@ -13,15 +13,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.module.changeskin.ChangeSkinActivity;
 import com.momo.imgrecognition.module.main.adapter.ViewPagerAdapter;
 import com.momo.imgrecognition.module.main.view.CategoryFragment;
 import com.momo.imgrecognition.module.main.view.RecommendFragment;
 import com.momo.imgrecognition.module.myinfo.MyInfoActivity;
 import com.momo.imgrecognition.module.mymessage.MyMessageActivity;
+import com.momo.imgrecognition.module.myscore.MyScoreActivity;
+import com.momo.imgrecognition.utils.SharedUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     NavigationView navView;
     @BindView(R.id.iv_user_icon)
     CircleImageView ivUserIcon;
+    @BindView(R.id.tv_user_name)
+    TextView tvUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        initData();
 
 
         List<Fragment> fragments = new ArrayList<>();
@@ -89,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_my_message:
                         toMyMessage();
                         break;
+                    case R.id.nav_my_score:
+                        toMyScore();
+                        break;
                 }
                 return true;
             }
@@ -108,6 +118,17 @@ public class MainActivity extends AppCompatActivity {
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 //        dynamicAddView(toolbar,"background",R.color.colorPrimary);
+
+    }
+
+    private void toMyScore() {
+        Intent intent = new Intent(this, MyScoreActivity.class);
+        startActivity(intent);
+    }
+
+    private void initData() {
+        String username = (String) SharedUtil.getParam(UserConfig.USER_NAME,"");
+        tvUserName.setText(username);
 
     }
 

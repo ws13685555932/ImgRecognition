@@ -60,7 +60,6 @@ public class RecommendFragment extends Fragment {
         recycle.setLayoutManager(staggeredGridLayoutManager);
         recycle.setAdapter(new ImageAdapter(imageBeanList,getContext()));
 
-
         return view;
     }
 
