@@ -23,7 +23,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/iv_more"
+                android:id="@+id/ib_more"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_alignParentRight="true"
@@ -32,7 +32,7 @@
                 android:background="@drawable/ic_more"/>
             <TextView
                 android:id="@+id/tv_image"
-                android:layout_toLeftOf="@id/iv_more"
+                android:layout_toLeftOf="@id/ib_more"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"

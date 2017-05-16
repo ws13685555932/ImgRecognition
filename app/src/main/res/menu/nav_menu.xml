@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/group1">
         <item
+            android:id="@+id/nav_home"
             android:icon="@mipmap/ic_launcher"
             android:title="首页" />
         <item
@@ -16,12 +17,15 @@
     </group>
     <group android:id="@+id/group2">
         <item
+            android:id="@+id/nav_tag_later"
             android:icon="@mipmap/ic_launcher"
             android:title="稍后再评" />
         <item
+            android:id="@+id/nav_history"
             android:icon="@mipmap/ic_launcher"
             android:title="历史记录" />
         <item
+            android:id="@+id/nav_my_task"
             android:icon="@mipmap/ic_launcher"
             android:title="我的任务" />
     </group>
@@ -31,6 +35,7 @@
             android:icon="@mipmap/ic_launcher"
             android:title="主题选择" />
         <item
+            android:id="@+id/nav_settings"
             android:icon="@mipmap/ic_launcher"
             android:title="设置" />
     </group>

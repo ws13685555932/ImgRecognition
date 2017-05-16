@@ -18,12 +18,15 @@ import android.widget.TextView;
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.module.changeskin.ChangeSkinActivity;
+import com.momo.imgrecognition.module.history.HistoryActivity;
+import com.momo.imgrecognition.module.history.HistoryBean;
 import com.momo.imgrecognition.module.main.adapter.ViewPagerAdapter;
 import com.momo.imgrecognition.module.main.view.CategoryFragment;
 import com.momo.imgrecognition.module.main.view.RecommendFragment;
 import com.momo.imgrecognition.module.myinfo.MyInfoActivity;
 import com.momo.imgrecognition.module.mymessage.MyMessageActivity;
 import com.momo.imgrecognition.module.myscore.MyScoreActivity;
+import com.momo.imgrecognition.module.taglater.TagLaterActivity;
 import com.momo.imgrecognition.utils.SharedUtil;
 
 import java.util.ArrayList;
@@ -90,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
+                    case R.id.nav_home:
+                        drawer.closeDrawer(navView);
+                        break;
                     case R.id.nav_change_skin:
                         changeSkin();
                         break;
@@ -98,6 +104,18 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_my_score:
                         toMyScore();
+                        break;
+                    case R.id.nav_history:
+                        toHistory();
+                        break;
+                    case R.id.nav_my_task:
+                        toMyTask();
+                        break;
+                    case R.id.nav_settings:
+                        toSettings();
+                        break;
+                    case R.id.nav_tag_later:
+                        toTaglatter();
                         break;
                 }
                 return true;
@@ -119,6 +137,21 @@ public class MainActivity extends AppCompatActivity {
 //        setSupportActionBar(toolbar);
 //        dynamicAddView(toolbar,"background",R.color.colorPrimary);
 
+    }
+    private void toTaglatter() {
+        Intent intent = new Intent(this, TagLaterActivity.class);
+        startActivity(intent);
+    }
+
+    private void toSettings() {
+    }
+
+    private void toMyTask() {
+    }
+
+    private void toHistory() {
+        Intent intent = new Intent(this, HistoryActivity.class);
+        startActivity(intent);
     }
 
     private void toMyScore() {

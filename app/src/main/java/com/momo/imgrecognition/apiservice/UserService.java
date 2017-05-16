@@ -2,7 +2,12 @@ package com.momo.imgrecognition.apiservice;
 
 import com.momo.imgrecognition.module.login.bean.LoginResponse;
 import com.momo.imgrecognition.module.login.bean.User;
+import com.momo.imgrecognition.module.myinfo.BirthdayBean;
+import com.momo.imgrecognition.module.myinfo.DescriptionBean;
+import com.momo.imgrecognition.module.myinfo.EmailBean;
 import com.momo.imgrecognition.module.myinfo.MyInfoBean;
+import com.momo.imgrecognition.module.myinfo.NameBean;
+import com.momo.imgrecognition.module.myinfo.SexBean;
 import com.momo.imgrecognition.module.register.RegisterBean;
 import com.momo.imgrecognition.module.register.RegisterResponse;
 
@@ -23,7 +28,19 @@ public interface UserService {
     Observable<ResponseInfo<RegisterResponse>> register(@Body RegisterBean registerBean);
 
     @POST("user/update")
-    Observable<ResponseInfo<MyInfoBean>> updateInfo(@Body MyInfoBean myInfoBean);
+    Observable<ResponseInfo<MyInfoBean>> updateName(@Body NameBean myInfoBean);
+
+    @POST("user/update")
+    Observable<ResponseInfo<MyInfoBean>> updateEmail(@Body EmailBean myInfoBean);
+
+    @POST("user/update")
+    Observable<ResponseInfo<MyInfoBean>> updateDescription(@Body DescriptionBean myInfoBean);
+
+    @POST("user/update")
+    Observable<ResponseInfo<MyInfoBean>> updateBirthday(@Body BirthdayBean birthdayBean);
+
+    @POST("user/update")
+    Observable<ResponseInfo<MyInfoBean>> updateSex(@Body SexBean sexBean);
 }
 
 

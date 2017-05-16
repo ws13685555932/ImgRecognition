@@ -24,6 +24,8 @@
         android:id="@+id/et_username"
         android:hint="@string/username_hint"
 
+        android:text="wangsheng"
+
         style="@style/AppEditText"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -40,6 +42,8 @@
     <com.momo.imgrecognition.customedview.ClearEditText
         android:id="@+id/et_password"
         android:hint="@string/password_hint"
+
+        android:text="961005"
 
         style="@style/AppEditText"
         android:drawableLeft="@drawable/ic_password"

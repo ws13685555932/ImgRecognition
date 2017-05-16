@@ -40,7 +40,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             cardView = (CardView) itemView;
             textView = (TextView) itemView.findViewById(R.id.tv_image);
             imageView = (ImageView) itemView.findViewById(R.id.iv_image);
-            iv_more = (ImageView) itemView.findViewById(R.id.iv_more);
+            iv_more = (ImageView) itemView.findViewById(R.id.ib_more);
         }
     }
 

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:paddingBottom="6dp"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:paddingTop="6dp">
+
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="130dp"
+        android:layout_height="90dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_cover"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp">
+
+
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/tfl_tags"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            app:max_select="0">
+
+        </com.zhy.view.flowlayout.TagFlowLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true">
+
+            <ImageButton
+                android:id="@+id/ib_more"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_more"/>
+
+            <TextView
+                android:id="@+id/tv_admin_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toLeftOf="@id/ib_more"
+                android:text="管理员：momo1005"
+                android:textSize="12sp"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

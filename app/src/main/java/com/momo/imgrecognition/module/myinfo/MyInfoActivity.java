@@ -1,6 +1,7 @@
 package com.momo.imgrecognition.module.myinfo;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -17,20 +18,29 @@ import android.widget.TextView;
 
 import com.kevin.crop.UCrop;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.apiservice.ResponseInfo;
+import com.momo.imgrecognition.apiservice.UserService;
 import com.momo.imgrecognition.config.Config;
 import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.customedview.PickSexDialog;
+import com.momo.imgrecognition.utils.BitmapUtil;
+import com.momo.imgrecognition.utils.HttpManager;
+import com.momo.imgrecognition.utils.HttpObserver;
+import com.momo.imgrecognition.utils.RxSchedulersHelper;
 import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.Observable;
 
 public class MyInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -87,8 +97,16 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_my_info);
         ButterKnife.bind(this);
 
+
+
+        initData();
+    }
+
+    private void initData() {
         mTempPhotoPath = Environment.getExternalStorageDirectory() + File.separator + "photo.jpeg";
         mDestinationUri = Uri.fromFile(new File(getCacheDir(), "cropImage.jpeg"));
+
+
     }
 
     @OnClick(R.id.rl_user_icon)
@@ -240,11 +258,6 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
 //
 //    }
 
-    private void displayBirthday() {
-        String birthdayStr = mYear + "-" + mMonth + "-" + mDay;
-        tvBirthday.setText(birthdayStr);
-    }
-
     @OnClick({R.id.rl_user_name, R.id.rl_email, R.id.rl_description ,R.id.rl_sex, R.id.rl_birthday})
     public void onViewClicked(View view) {
 
@@ -269,10 +282,7 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
 
     private void changeInfo(String type){
         Intent intent = new Intent(this,ChangeInfoActivity.class);
-        MyInfoBean myInfo = new MyInfoBean();
-        initMyInfoBean(myInfo);
         intent.putExtra("type",type);
-        intent.putExtra("myinfo",myInfo);
         if(type!= null){
             if(type .equals(Config.TYPE_NAME)){
                 startActivityForResult(intent,CHANGE_NAME_REQUEST_CODE);
@@ -284,28 +294,42 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void initMyInfoBean(MyInfoBean myInfo) {
-        myInfo.setName(tvNickname.getText().toString());
-        myInfo.setBirthday(tvBirthday.getText().toString());
-        myInfo.setEmail(tvEmail.getText().toString());
-        myInfo.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
-        myInfo.setIntroduction(tvDescription.getText().toString());
-        myInfo.setSex(tvSex.getText().toString());
-        myInfo.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
-    }
-
-    // TODO: 2017/5/11 set default calendar date 
     private void changeBirthday() {
+        Calendar c = Calendar.getInstance(Locale.CHINA);
+        mYear = c.get(Calendar.YEAR);
         DatePickerDialog pickDateDialog = new DatePickerDialog(this, R.style.MyDatePickerDialog, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 mYear = year;
-                mMonth = month;
+                mMonth = month+1;
                 mDay = day;
-                displayBirthday();
+                updateBirthday();
             }
         }, mYear, mMonth, mDay);
         pickDateDialog.show();
+    }
+
+    private void updateBirthday() {
+        String birthdayStr = mYear + "-" + mMonth + "-" + mDay;
+        ShowUtil.print(birthdayStr);
+        UserService userService = HttpManager.getInstance().createService(UserService.class);
+        BirthdayBean birthday = new BirthdayBean(birthdayStr);
+        birthday.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
+        birthday.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
+        Observable<ResponseInfo<MyInfoBean>> call =  userService.updateBirthday(birthday);
+        call.compose(RxSchedulersHelper.<ResponseInfo<MyInfoBean>>io_main())
+                .subscribe(new HttpObserver<MyInfoBean>() {
+                    @Override
+                    public void onSuccess(MyInfoBean myInfoBean) {
+                        String birthdayString = mYear + "-" + mMonth + "-" + mDay;
+                        tvBirthday.setText(birthdayString);
+                    }
+
+                    @Override
+                    public void onFailed(String message) {
+                        ShowUtil.toast(message);
+                    }
+                });
     }
 
     private void changeSex() {
@@ -314,22 +338,30 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
         pickSexDialog.setClickListener(new PickSexDialog.ClickListener() {
             @Override
             public void onSexPicked(String sex) {
-                tvSex.setText(sex);
+                updateSex(sex);
+
             }
         });
     }
 
-//    @OnClick(R.id.rl_sex)
-//    public void onViewClicked() {
-//        final PickSexDialog pickSexDialog = new PickSexDialog();
-//        pickSexDialog.show(getSupportFragmentManager(), "tag");
-//        pickSexDialog.setClickListener(new PickSexDialog.ClickListener() {
-//            @Override
-//            public void onSexPicked(String sex) {
-//                pickSexDialog.dismiss();
-//                tvSex.setText(sex);
-//            }
-//        });
-//    }
+    private void updateSex(final String text) {
+        UserService userService = HttpManager.getInstance().createService(UserService.class);
+        SexBean sex = new SexBean(text);
+        sex.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
+        sex.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
+        Observable<ResponseInfo<MyInfoBean>> call =  userService.updateSex(sex);
+        call.compose(RxSchedulersHelper.<ResponseInfo<MyInfoBean>>io_main())
+                .subscribe(new HttpObserver<MyInfoBean>() {
+                    @Override
+                    public void onSuccess(MyInfoBean myInfoBean) {
+                        tvSex.setText(text);
+                    }
+
+                    @Override
+                    public void onFailed(String message) {
+                        ShowUtil.toast(message);
+                    }
+                });
+    }
 
 }

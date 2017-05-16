@@ -16,6 +16,8 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+
+// TODO: 2017/5/16 添加历史输入标签
 public class ImageDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.tfl_labels)

@@ -9,9 +9,11 @@ import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.apiservice.ResponseInfo;
 import com.momo.imgrecognition.apiservice.UserService;
 import com.momo.imgrecognition.config.Config;
+import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.utils.HttpManager;
 import com.momo.imgrecognition.utils.HttpObserver;
 import com.momo.imgrecognition.utils.RxSchedulersHelper;
+import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
 
 import butterknife.ButterKnife;
@@ -19,7 +21,6 @@ import io.reactivex.Observable;
 
 public class ChangeInfoActivity extends AppCompatActivity {
     private String type;
-    private MyInfoBean myInfo;
     FragmentTransaction mTransaction;
 
     @Override
@@ -29,9 +30,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         type = getIntent().getStringExtra("type");
-        myInfo = (MyInfoBean) getIntent().getSerializableExtra("myinfo");
         initFragment(type);
-
     }
 
     public void initFragment(String type) {
@@ -58,17 +57,12 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
             @Override
             public void onSave(String text) {
-//                setResult(RESULT_OK, new Intent()
-//                        .putExtra("text", text));
-                changeinfo(text);
+                updateDescription(text);
                 ShowUtil.print(text);
-//                finish();
             }
         });
         mTransaction.replace(R.id.container, descriptionFragment);
     }
-
-
 
     private void initNameFragment(Bundle bundle) {
         ChangeNameFragment nameFragment = new ChangeNameFragment();
@@ -81,54 +75,30 @@ public class ChangeInfoActivity extends AppCompatActivity {
 
             @Override
             public void onSave(String type ,String text) {
-//                setResult(RESULT_OK, new Intent()
-//                        .putExtra("text", text));
-                changeInfo(type,text);
+                if(type.equals(Config.TYPE_NAME)){
+                    updateName(text);
+                }else{
+                    updateEmail(text);
+                }
                 ShowUtil.print(text);
-//                finish();
             }
         });
         mTransaction.replace(R.id.container, nameFragment);
     }
-    private void changeinfo(String text) {
-        if(type != null){
-            myInfo.setIntroduction(text);
-        }
 
-        updateInfo(myInfo);
-    }
 
-    private void changeInfo(String type, String text) {
-        if(type!=null){
-            if(type.equals(Config.TYPE_NAME)){
-                myInfo.setName(text);
-            }else if(type.equals(Config.TYPE_EMAIL)){
-                myInfo.setEmail(text);
-            }
-        }
-
-        updateInfo(myInfo);
-    }
-
-    private void updateInfo(final MyInfoBean myInfo) {
+    private void updateDescription(final String text) {
         UserService userService = HttpManager.getInstance().createService(UserService.class);
-        Observable<ResponseInfo<MyInfoBean>> call =userService.updateInfo(myInfo);
+        DescriptionBean description = new DescriptionBean(text);
+        description.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
+        description.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
+        Observable<ResponseInfo<MyInfoBean>> call =  userService.updateDescription(description);
         call.compose(RxSchedulersHelper.<ResponseInfo<MyInfoBean>>io_main())
                 .subscribe(new HttpObserver<MyInfoBean>() {
                     @Override
                     public void onSuccess(MyInfoBean myInfoBean) {
-                        if(type != null){
-                            if(type . equals(Config.TYPE_NAME)){
-                                setResult(RESULT_OK, new Intent()
-                                        .putExtra("text", myInfo.getName()));
-                            }else if(type.equals(Config.TYPE_EMAIL)){
-                                setResult(RESULT_OK, new Intent()
-                                        .putExtra("text", myInfo.getEmail()));
-                            }else{
-                                setResult(RESULT_OK, new Intent()
-                                        .putExtra("text", myInfo.getIntroduction()));
-                            }
-                        }
+                        setResult(RESULT_OK, new Intent()
+                                .putExtra("text", text));
                         finish();
                     }
 
@@ -137,7 +107,50 @@ public class ChangeInfoActivity extends AppCompatActivity {
                         ShowUtil.toast(message);
                     }
                 });
+    }
 
+    private void updateName(final String text) {
+        UserService userService = HttpManager.getInstance().createService(UserService.class);
+        NameBean name = new NameBean(text);
+        name.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
+        name.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
+        Observable<ResponseInfo<MyInfoBean>> call =  userService.updateName(name);
+        call.compose(RxSchedulersHelper.<ResponseInfo<MyInfoBean>>io_main())
+                .subscribe(new HttpObserver<MyInfoBean>() {
+                    @Override
+                    public void onSuccess(MyInfoBean myInfoBean) {
+                        setResult(RESULT_OK, new Intent()
+                                .putExtra("text", text));
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailed(String message) {
+                        ShowUtil.toast(message);
+                    }
+                });
+    }
+
+    private void updateEmail(final String text) {
+        UserService userService = HttpManager.getInstance().createService(UserService.class);
+        EmailBean email = new EmailBean(text);
+        email.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
+        email.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
+        Observable<ResponseInfo<MyInfoBean>> call =  userService.updateEmail(email);
+        call.compose(RxSchedulersHelper.<ResponseInfo<MyInfoBean>>io_main())
+                .subscribe(new HttpObserver<MyInfoBean>() {
+                    @Override
+                    public void onSuccess(MyInfoBean myInfoBean) {
+                        setResult(RESULT_OK, new Intent()
+                                .putExtra("text", text));
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailed(String message) {
+                        ShowUtil.toast(message);
+                    }
+                });
     }
 
 

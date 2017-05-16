@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
-    tools:context="com.momo.imgrecognition.module.taglater.TagLaterActivity">
+    android:orientation="vertical"
+    tools:context="com.momo.imgrecognition.module.history.HistoryActivity">
 
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="8dp"
-            android:text="稍后再评"
+            android:text="历史记录"
             android:textColor="@color/white"
             android:textSize="18sp"/>
 
@@ -47,20 +47,14 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <View
-        android:id="@+id/toolbar_shadow"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_below="@id/toolbar"
-        android:background="@drawable/toolbar_shadow"/>
+    <include layout="@layout/include_toolbar_shadow"/>
 
     <ListView
-        android:id="@+id/lv_tag_later"
+        android:id="@+id/lv_history_list"
+        android:divider="@color/transparent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_shadow"
-        android:divider="@color/transparent">
+        android:layout_height="match_parent">
 
     </ListView>
 
-</RelativeLayout>
+</LinearLayout>

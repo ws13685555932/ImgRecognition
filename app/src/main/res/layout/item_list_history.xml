@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:paddingBottom="6dp"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:paddingTop="6dp">
+
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="130dp"
+        android:layout_height="90dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_cover"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="16dp">
+
+        <TextView
+            android:id="@+id/tv_tags"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="标签：科学，景色，学习，动漫，景色，学习，动漫，景色，学习，动漫"/>
+
+        <TextView
+            android:id="@+id/tv_admin_name"
+            android:layout_below="@id/tv_tags"
+            android:textSize="12sp"
+            android:textColor="@color/gray_dark"
+            android:text="管理员：momo1005"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
+        <RelativeLayout
+            android:layout_below="@id/tv_admin_name"
+            android:layout_width="match_parent"
+            android:layout_height="20dp">
+
+            <ImageButton
+                android:id="@+id/ib_more"
+                android:background="@drawable/ic_more"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
+            <TextView
+                android:id="@+id/tv_time"
+                android:textSize="12sp"
+                android:text="2016-9-23 19:34:32"
+                android:textColor="@color/gray_dark"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="4dp"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

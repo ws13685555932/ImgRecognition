@@ -257,6 +257,7 @@
                     android:layout_centerVertical="true"
                     android:layout_below="@id/tv_label"
                     android:gravity="left"
+                    android:autoLink="all"
                     android:textColor="#bbbbbb"
                     android:textSize="14sp"
                     android:text="呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！"/>
