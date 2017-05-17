@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_customed_tag"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:background="#eef2f7"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/et_customed_tag"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:hint="请输入自定义标签"
+            android:textColorHint="@color/gray_dark"
+            android:textColor="@color/default_text_color"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/bg_customed_tag"/>
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:textColor="@color/white"
+            android:text="确定"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/selector_button_login"/>
+    </LinearLayout>
+
+</LinearLayout>

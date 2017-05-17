@@ -17,19 +17,13 @@
         <activity
             android:name=".module.login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBarWithTranslucentStatus">
-
         </activity>
         <activity android:name=".module.register.VarifyActivity"/>
         <activity android:name=".module.main.MainActivity"/>
         <activity android:name=".module.changeskin.ChangeSkinActivity">
-
         </activity>
         <activity android:name=".module.detail.ImageDetailActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".module.mymessage.MyMessageActivity">
         </activity>
@@ -46,10 +40,15 @@
         <activity android:name=".module.myinfo.ChangeInfoActivity">
         </activity>
         <activity android:name=".module.history.HistoryActivity">
-
         </activity>
         <activity android:name=".module.settings.SettingsActivity">
+        </activity>
+        <activity android:name=".module.mytask.MyTaskActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 

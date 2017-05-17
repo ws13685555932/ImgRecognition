@@ -26,6 +26,7 @@ import com.momo.imgrecognition.module.main.view.RecommendFragment;
 import com.momo.imgrecognition.module.myinfo.MyInfoActivity;
 import com.momo.imgrecognition.module.mymessage.MyMessageActivity;
 import com.momo.imgrecognition.module.myscore.MyScoreActivity;
+import com.momo.imgrecognition.module.mytask.MyTaskActivity;
 import com.momo.imgrecognition.module.settings.SettingsActivity;
 import com.momo.imgrecognition.module.taglater.TagLaterActivity;
 import com.momo.imgrecognition.utils.SharedUtil;
@@ -150,6 +151,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void toMyTask() {
+        Intent intent = new Intent(this, MyTaskActivity.class);
+        startActivity(intent);
     }
 
     private void toHistory() {
