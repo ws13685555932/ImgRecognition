@@ -12,4 +12,6 @@ public interface IRegisterView {
     String getPassword();
     String getPhoneNumber();
     void showError(String message);
+
+    void toMainActivity();
 }

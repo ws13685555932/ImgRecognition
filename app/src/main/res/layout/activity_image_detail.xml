@@ -97,6 +97,7 @@
 
                 <com.zhy.view.flowlayout.TagFlowLayout
                     android:id="@+id/tfl_labels"
+                    android:animateLayoutChanges="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -105,7 +106,7 @@
                 <TextView
                     android:padding="8dp"
                     android:id="@+id/tv_add_customed_tag"
-                    android:text="标签不满意？添加自己的标签"
+                    android:text="标签不合适？添加自己的标签mai"
                     android:textColor="@color/theme_color_primary"
                     android:gravity="center"
                     android:textSize="14sp"

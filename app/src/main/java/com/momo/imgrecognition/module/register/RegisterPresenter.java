@@ -30,12 +30,13 @@ public class RegisterPresenter {
         String phoneNumber = mRegisterView.getPhoneNumber();
 
         // TODO: 2017/5/16 phone number is not modified
-        RegisterBean bean = new RegisterBean(password,username);
+        RegisterBean bean = new RegisterBean(password,username,phoneNumber);
         mRegisterBiz.register(bean, new RegisterListener() {
             @Override
             public void regiseteSuccess(RegisterResponse response) {
                 saveData(response);
                 ShowUtil.toast("注册成功！");
+                mRegisterView.toMainActivity();
             }
 
             @Override
@@ -46,7 +47,7 @@ public class RegisterPresenter {
 
     }
 
-    private void saveData(RegisterResponse response) {
+    public void saveData(RegisterResponse response) {
         SharedUtil.saveParam(UserConfig.USER_NAME,response.getName());
         SharedUtil.saveParam(UserConfig.USER_ID,response.getId());
         SharedUtil.saveParam(UserConfig.USER_TOKEN,response.getToken());

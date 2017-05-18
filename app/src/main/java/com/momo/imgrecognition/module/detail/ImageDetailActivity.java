@@ -1,9 +1,15 @@
 package com.momo.imgrecognition.module.detail;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.LayoutTransition;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +27,7 @@ import com.momo.imgrecognition.R;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
+import com.zhy.view.flowlayout.TagView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,6 +99,31 @@ public class ImageDetailActivity extends AppCompatActivity {
             }
         };
 
+        LayoutTransition transition = new LayoutTransition();
+        AnimatorSet animatorSet = new AnimatorSet();//组合动画
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(null, "scaleX", 0, 1f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(null, "scaleY", 0, 1f);
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(null, "alpha", 0f,1f);
+        animatorSet.setDuration(500);
+        animatorSet.play(scaleX).with(scaleY).with(fadeIn);//两个动画同时开始
+        transition.setAnimator(LayoutTransition.APPEARING, animatorSet);
+
+//        //使用滑动动画代替默认布局改变的动画
+//        //这个动画会让视图滑动进入并短暂地缩小一半，具有平滑和缩放的效果
+//        PropertyValuesHolder pvhFade = PropertyValuesHolder.ofFloat("alpha", 1, 0.1f, 1);
+//        PropertyValuesHolder pvhScaleY = PropertyValuesHolder.ofFloat("scaleY", 1, 0.5f, 1f);
+//        PropertyValuesHolder pvhScaleX = PropertyValuesHolder.ofFloat("scaleX", 1,0.5f, 1f);
+//
+//        //这里将上面三个动画综合
+//        Animator changingDisappearAnim = ObjectAnimator.ofPropertyValuesHolder(
+//                tflLabels, pvhFade, pvhScaleY, pvhScaleX);
+//        changingDisappearAnim.setDuration(500);
+//        transition.setAnimator(LayoutTransition.CHANGE_APPEARING, changingDisappearAnim);
+//        transition.setStagger(LayoutTransition.CHANGE_APPEARING,50);
+//        transition.setStagger(LayoutTransition.APPEARING,50);
+
+        tflLabels.setLayoutTransition(transition);
+
         tflLabels.setAdapter(tagAdapter);
 
         tvAddCustomedTag.setOnClickListener(new View.OnClickListener() {
@@ -113,10 +145,15 @@ public class ImageDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 llCustomedTag.setVisibility(View.INVISIBLE);
                 String tag = etCustomedTag.getText().toString();
+//                TagView tagView = new TagView(ImageDetailActivity.this);
+//                TextView tv = (TextView) tagView.getTagView();
+//                tv.setText(tag);
                 tagList.add(tag);
                 tagAdapter.notifyDataChanged();
                 InputMethodManager m=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
+                etCustomedTag.setText("");
 
 //                WindowManager.LayoutParams lp= getWindow().getAttributes();
 //                lp.alpha = 1;

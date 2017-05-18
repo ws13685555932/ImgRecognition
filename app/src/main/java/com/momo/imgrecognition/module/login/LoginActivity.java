@@ -14,6 +14,7 @@ import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.config.Config;
 import com.momo.imgrecognition.customedview.ClearEditText;
 import com.momo.imgrecognition.customedview.LoadDialog;
+import com.momo.imgrecognition.customedview.PickSexDialog;
 import com.momo.imgrecognition.module.login.presenter.LoginPresenter;
 import com.momo.imgrecognition.module.login.view.ILoginView;
 import com.momo.imgrecognition.module.main.MainActivity;
@@ -109,8 +110,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
     @Override
     public void showLoadDialog() {
-        mLoadDialog = new LoadDialog(this);
-        mLoadDialog.show();
+        mLoadDialog = new LoadDialog();
+        mLoadDialog.show(getSupportFragmentManager(), LoadDialog.TAG);
     }
 
     @Override
@@ -128,4 +129,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         Intent intent = new Intent(LoginActivity.this, VarifyActivity.class);
         startActivity(intent);
     }
+
+
 }

@@ -161,12 +161,12 @@ public class PickSexDialog extends DialogFragment {
     @Override
     public void dismiss() {
         super.dismiss();
-        dismissAnimator();
+        dismissAnimator().start();
     }
 
     @Override
     public void show(FragmentManager manager, String tag) {
         super.show(manager, tag);
-        showAnimator();
+        showAnimator().start();
     }
 }

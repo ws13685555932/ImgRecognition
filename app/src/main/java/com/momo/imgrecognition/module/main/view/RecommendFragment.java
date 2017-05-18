@@ -2,8 +2,10 @@ package com.momo.imgrecognition.module.main.view;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -31,16 +33,18 @@ public class RecommendFragment extends Fragment {
     @BindView(R.id.recycle)
     RecyclerView recycle;
     Unbinder unbinder;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefresh;
     private List<ImageBean> imageBeanList = new ArrayList<>();
     private int[] resId = new int[]{R.drawable.bg_sample_one, R.drawable.bg_sample_two, R.drawable.bg_sample_three, R.drawable.bg_sample_four
-                , R.drawable.bg_sample_five, R.drawable.bg_sample_six, R.drawable.bg_sample_seven};
+            , R.drawable.bg_sample_five, R.drawable.bg_sample_six, R.drawable.bg_sample_seven};
     private String[] resName = new String[]{"onedfhgsdf",
             "twozcbzsgadgadasdhfvdsvdsfeahfaiunfadsngs",
             "threegafdsfasdfa",
             "fouradgafdfasdfasdfasdfasgs",
             "fivaeasgdafdfasfas",
             "sixasdf"
-            ,"bg_sample_seven"};
+            , "bg_sample_seven"};
 
     @Nullable
     @Override
@@ -49,18 +53,48 @@ public class RecommendFragment extends Fragment {
 
         unbinder = ButterKnife.bind(this, view);
 
-        for(int i=0;i<20;i++) {
+        for (int i = 0; i < 20; i++) {
             ImageBean bean = new ImageBean();
-            bean.setImgId(resId[i%7]);
-            bean.setName(resName[i%7]);
+            bean.setImgId(resId[i % 7]);
+            bean.setName(resName[i % 7]);
             imageBeanList.add(bean);
         }
         StaggeredGridLayoutManager staggeredGridLayoutManager =
-                new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recycle.setLayoutManager(staggeredGridLayoutManager);
-        recycle.setAdapter(new ImageAdapter(imageBeanList,getContext()));
+        recycle.setAdapter(new ImageAdapter(imageBeanList, getContext()));
+
+        swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.theme_color_primary));
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshData();
+            }
+        });
 
         return view;
+    }
+
+
+
+    private void refreshData() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefresh.setRefreshing(false);
+                    }
+                });
+
+            }
+        }).start();
     }
 
     @Override

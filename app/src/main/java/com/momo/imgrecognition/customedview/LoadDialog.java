@@ -6,48 +6,51 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.momo.imgrecognition.R;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by Administrator on 2017/5/6.
  */
 
-public class LoadDialog extends Dialog {
+public class LoadDialog extends DialogFragment {
 
+    public static final String TAG = "LoadDialog";
     private float mShowAlpha = 0.8f;
 
-    public LoadDialog(@NonNull Context context) {
-        super(context);
-    }
-
-    public LoadDialog(@NonNull Context context, @StyleRes int themeResId) {
-        super(context, R.style.MyDialog);
-    }
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_load);
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AppTheme_AppCompat_Dialog_Alert);
+    }
 
-        //按空白处不能取消动画
-        setCanceledOnTouchOutside(false);
-
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.dialog_load, container, false);
+        return view;
     }
 
     @Override
-    public void show() {
-        super.show();
-        showAnimator();
+    public void show(FragmentManager manager, String tag) {
+        super.show(manager, tag);
     }
+    
 
     @Override
     public void dismiss() {
         super.dismiss();
-        dismissAnimator();
     }
 
     /**

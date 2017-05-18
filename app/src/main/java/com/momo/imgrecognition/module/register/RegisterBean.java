@@ -8,15 +8,14 @@ public class RegisterBean {
     private String password;
     private String confirmPassword;
     private String name;
-    private String email;
+    private String phone;
 //    private String phone;
 
-    public RegisterBean(String password, String name) {
+    public RegisterBean(String password, String name , String phone) {
         this.password = password;
         this.confirmPassword = password;
         this.name = name;
-        this.email = "1748532294@qq.com";
-//        this.phone = phone;
+        this.phone = phone;
     }
 
     public String getPassword() {
@@ -43,12 +42,11 @@ public class RegisterBean {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
-
 }

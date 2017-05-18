@@ -185,4 +185,16 @@ public class MainActivity extends AppCompatActivity {
     public void onDrawerOpen() {
         drawer.openDrawer(navView);
     }
+
+    @Override
+    public void finish() {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        drawer.closeDrawer(navView);
+    }
+
 }
