@@ -24,7 +24,7 @@
         android:id="@+id/et_username"
         android:hint="@string/username_hint"
 
-        android:text="wangsheng"
+        android:text="测试9"
 
         style="@style/AppEditText"
         android:paddingLeft="10dp"
@@ -43,7 +43,7 @@
         android:id="@+id/et_password"
         android:hint="@string/password_hint"
 
-        android:text="961005"
+        android:text="123456"
 
         style="@style/AppEditText"
         android:drawableLeft="@drawable/ic_password"

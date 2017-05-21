@@ -3,11 +3,15 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <GridView
+        android:layout_marginTop="16dp"
+        android:id="@+id/grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="20sp"
-        android:text="Hello World!"
-        android:gravity="center"/>
+        android:verticalSpacing="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="center"
+        android:numColumns="3"></GridView>
 
 </LinearLayout>

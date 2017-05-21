@@ -9,4 +9,21 @@
         <item>胖次蓝</item>
         <item>淡雅紫</item>
     </string-array>
+
+    <string-array name="categorys">
+        <item>动物</item>
+        <item>风景</item>
+        <item>建筑</item>
+        <item>医疗</item>
+
+        <item>生活</item>
+        <item>体育</item>
+        <item>人物</item>
+        <item>文化</item>
+
+        <item>学术</item>
+        <item>娱乐</item>
+        <item>植物</item>
+        <item>其他</item>
+    </string-array>
 </resources>

@@ -1,24 +1,21 @@
 package com.momo.imgrecognition.module.detail;
 
-import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,7 +24,6 @@ import com.momo.imgrecognition.R;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
-import com.zhy.view.flowlayout.TagView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 // TODO: 2017/5/16 添加历史输入标签
@@ -60,6 +57,8 @@ public class ImageDetailActivity extends AppCompatActivity {
     RelativeLayout mRoot;
     List<String> tagList;
     TagAdapter tagAdapter;
+    @BindView(R.id.iv_image)
+    ImageView ivImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +102,7 @@ public class ImageDetailActivity extends AppCompatActivity {
         AnimatorSet animatorSet = new AnimatorSet();//组合动画
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(null, "scaleX", 0, 1f);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(null, "scaleY", 0, 1f);
-        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(null, "alpha", 0f,1f);
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(null, "alpha", 0f, 1f);
         animatorSet.setDuration(500);
         animatorSet.play(scaleX).with(scaleY).with(fadeIn);//两个动画同时开始
         transition.setAnimator(LayoutTransition.APPEARING, animatorSet);
@@ -130,7 +129,7 @@ public class ImageDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 llCustomedTag.setVisibility(View.VISIBLE);
-                InputMethodManager m=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 
 //                WindowManager.LayoutParams lp= getWindow().getAttributes();
@@ -150,7 +149,7 @@ public class ImageDetailActivity extends AppCompatActivity {
 //                tv.setText(tag);
                 tagList.add(tag);
                 tagAdapter.notifyDataChanged();
-                InputMethodManager m=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 
                 etCustomedTag.setText("");
@@ -172,4 +171,9 @@ public class ImageDetailActivity extends AppCompatActivity {
         });
     }
 
+    @OnClick(R.id.iv_image)
+    public void onViewClicked() {
+        Intent intent = new Intent(this,PreviewActivity.class);
+        startActivity(intent);
+    }
 }
