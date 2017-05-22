@@ -141,24 +141,47 @@
     <include layout="@layout/include_divider"/>
 
 
-    <LinearLayout
-        android:id="@+id/ll_only_wifi_down"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/settings_item_height"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/settings_item_margin"
-        android:paddingRight="@dimen/settings_item_margin">
 
-        <TextView
-            style="@style/settingsItemBigText"
-            android:text="仅WiFi下载"
-            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_item_height"
+            android:paddingLeft="@dimen/settings_item_margin"
+            android:paddingRight="@dimen/settings_item_margin">
 
-        <TextView
-            style="@style/SettingsItemSmallText"
-            android:text="图片仅会在wifi环境下下载"/>
-    </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/rl_only_wifi_down"
+                android:layout_width="@dimen/settings_item_height"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true">
+
+                <CheckBox
+                    android:id="@+id/cb_only_wifi_down"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_only_wifi_down"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_item_height"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/settingsItemBigText"
+                    android:text="仅WiFi下载"
+                    />
+
+                <TextView
+                    style="@style/SettingsItemSmallText"
+                    android:text="图片仅会在wifi环境下下载"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+
+
 
 
     <include layout="@layout/include_divider"/>
