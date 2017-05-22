@@ -65,76 +65,18 @@
             android:textSize="34sp"
             android:paddingBottom="20dp"/>
 
-        <LinearLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:text="15"
-                    android:textColor="@color/theme_color_primary"
-                    android:textSize="24sp"
-                    android:gravity="center"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="昨日积分"
-                    android:gravity="center"/>
-            </LinearLayout>
-            <View
-                android:background="@color/gray_dark"
-                android:layout_width="0.8dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:text="10"
-                    android:textColor="@color/theme_color_primary"
-                    android:textSize="24sp"
-                    android:gravity="center"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="今日积分"
-                    android:gravity="center"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.8dp"
-            android:background="@color/gray_dark"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            />
         <TextView
+            android:id="@+id/tv_how_to_get_score"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="如何获得积分？"
+            android:text="如何获得积分？\n
+    • 每日签到可获得1积分\n
+    • 连续签到可获得更多积分\n
+    • 每日贴15个图片可获得15积分\n
+    • 标签被采纳可获得巨额积分\n"
             android:textSize="16sp"/>
 
     </LinearLayout>
