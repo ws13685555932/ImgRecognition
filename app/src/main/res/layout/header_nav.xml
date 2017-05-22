@@ -6,6 +6,8 @@
     android:background="@color/theme_color_primary"
     android:padding="10dp">
 
+
+
     <TextView
         android:id="@+id/tv_user_name"
         android:layout_width="wrap_content"
@@ -61,9 +63,9 @@
         <TextView
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_alignBottom="@id/tv_user_name"
             android:layout_alignTop="@id/tv_user_name"
+            android:layout_gravity="center_vertical"
             android:background="@drawable/bg_btn_check_in"
             android:gravity="center"
             android:padding="4dp"
@@ -74,6 +76,8 @@
             />
 
     </LinearLayout>
+
+
 
 
 </RelativeLayout>

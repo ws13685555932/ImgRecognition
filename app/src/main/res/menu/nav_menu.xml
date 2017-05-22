@@ -3,40 +3,40 @@
     <group android:id="@+id/group1">
         <item
             android:id="@+id/nav_home"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/menu_home"
             android:title="首页" />
         <item
             android:id="@+id/nav_my_message"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/menu_my_msg"
             android:title="我的消息" />
         <item
             android:id="@+id/nav_my_score"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/menu_my_score"
             android:title="我的积分" />
 
     </group>
     <group android:id="@+id/group2">
         <item
             android:id="@+id/nav_tag_later"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/menu_tag_later"
             android:title="稍后再评" />
         <item
             android:id="@+id/nav_history"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/menu_history"
             android:title="历史记录" />
         <item
             android:id="@+id/nav_my_task"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/menu_my_task"
             android:title="我的任务" />
     </group>
     <group android:id="@+id/group3">
         <item
             android:id="@+id/nav_change_skin"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/menu_change_skin"
             android:title="主题选择" />
         <item
             android:id="@+id/nav_settings"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/menu_settings"
             android:title="设置" />
     </group>
 </menu>

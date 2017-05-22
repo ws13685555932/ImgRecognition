@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        navView.setCheckedItem(R.id.nav_home);
 
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
