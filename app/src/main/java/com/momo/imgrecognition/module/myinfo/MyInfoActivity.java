@@ -103,9 +103,14 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initData() {
-        mTempPhotoPath = Environment.getExternalStorageDirectory() + File.separator + "photo.jpeg";
-        mDestinationUri = Uri.fromFile(new File(getCacheDir(), "cropImage.jpeg"));
-
+//        mTempPhotoPath = Environment.getExternalStorageDirectory() + File.separator + "photo.jpeg";
+        String tempFilePath = Config.TEMP_FILE_PATH;
+        File file = new File(tempFilePath);
+        if(!file .exists()){
+            file.mkdirs();
+        }
+        mTempPhotoPath = tempFilePath + File.separator + "photo.jpeg";
+        mDestinationUri = Uri.fromFile(new File(tempFilePath, "usericon.jpeg"));
 
     }
 

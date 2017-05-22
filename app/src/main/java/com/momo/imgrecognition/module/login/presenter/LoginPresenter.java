@@ -42,8 +42,8 @@ public class LoginPresenter {
                 public void loginSuccess(LoginResponse response) {
                     mLoginView.dismissLoadDialog();
                     saveData(response);
-                    ShowUtil.toast("登录成功!");
                     mLoginView.toMainActivity();
+                    ShowUtil.toast("登录成功!");
                 }
 
                 @Override

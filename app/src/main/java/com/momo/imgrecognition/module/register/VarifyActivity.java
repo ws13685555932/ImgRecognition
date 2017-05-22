@@ -8,12 +8,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.apiservice.ResponseInfo;
+import com.momo.imgrecognition.apiservice.UserService;
 import com.momo.imgrecognition.config.Config;
 import com.momo.imgrecognition.customedview.ClearEditText;
+import com.momo.imgrecognition.utils.HttpManager;
+import com.momo.imgrecognition.utils.HttpObserver;
+import com.momo.imgrecognition.utils.RxSchedulersHelper;
 import com.momo.imgrecognition.utils.ShowUtil;
 
 import org.json.JSONObject;
@@ -22,6 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
+import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
@@ -39,6 +46,10 @@ public class VarifyActivity extends AppCompatActivity implements View.OnClickLis
     private static final int CODE_ING = 1;   //已发送，倒计时
     private static final int CODE_ING_END = 2;  //重新发送
     private static final int SMSDDK_HANDLER = 3;  //短信回调
+    @BindView(R.id.tv_error)
+    TextView tvError;
+
+    private boolean phoneExist = false;
 
     EventHandler eh;
 
@@ -50,7 +61,7 @@ public class VarifyActivity extends AppCompatActivity implements View.OnClickLis
 
         initSmsSdk();
 
-        if(!Config.IS_TEST) {
+        if (!Config.IS_TEST) {
             rxBinding();
         }
 
@@ -63,10 +74,10 @@ public class VarifyActivity extends AppCompatActivity implements View.OnClickLis
                 .subscribe(new Consumer<CharSequence>() {
                     @Override
                     public void accept(@NonNull CharSequence charSequence) throws Exception {
-                        if(etPhoneNumber.getText().toString().equals("") || charSequence.equals("")){
+                        if (etPhoneNumber.getText().toString().equals("") || charSequence.equals("")) {
                             btnGetCode.setEnabled(false);
                             btnNext.setEnabled(false);
-                        }else{
+                        } else {
                             btnGetCode.setEnabled(true);
                         }
                     }
@@ -76,9 +87,9 @@ public class VarifyActivity extends AppCompatActivity implements View.OnClickLis
                 .subscribe(new Consumer<CharSequence>() {
                     @Override
                     public void accept(@NonNull CharSequence charSequence) throws Exception {
-                        if(etCode.getText().toString().equals("") || charSequence.equals("")){
+                        if (etCode.getText().toString().equals("") || charSequence.equals("")) {
                             btnNext.setEnabled(false);
-                        }else{
+                        } else {
                             btnNext.setEnabled(true);
                         }
                     }
@@ -155,7 +166,7 @@ public class VarifyActivity extends AppCompatActivity implements View.OnClickLis
 
     private void toRegisterActivity() {
         Intent intent = new Intent(VarifyActivity.this, RegisterActivity.class);
-        intent.putExtra("phone_number" , etPhoneNumber.getText().toString());
+        intent.putExtra("phone_number", etPhoneNumber.getText().toString());
         startActivity(intent);
     }
 
@@ -187,14 +198,38 @@ public class VarifyActivity extends AppCompatActivity implements View.OnClickLis
                 }).start();
                 break;
             case R.id.btn_next:
-                if(Config.IS_TEST){
+                if (Config.IS_TEST) {
                     toRegisterActivity();
-                }else {
-                    SMSSDK.submitVerificationCode("86", etPhoneNumber.getText().toString()
-                            , etCode.getText().toString());//对验证码进行验证->回调函数
+                } else {
+                    isPhoneExist();
+
                 }
                 break;
+
         }
+    }
+
+    private void isPhoneExist() {
+//        phoneExist
+        UserService userService = HttpManager.getInstance().createService(UserService.class);
+        PhoneBean phone = new PhoneBean(etPhoneNumber.getText().toString());
+        Observable<ResponseInfo<Object>> call = userService.isPhoneExist(phone);
+        call.compose(RxSchedulersHelper.<ResponseInfo<Object>>io_main())
+                .subscribe(new HttpObserver<Object>() {
+                    @Override
+                    public void onSuccess(Object o) {
+                        SMSSDK.submitVerificationCode("86", etPhoneNumber.getText().toString()
+                                , etCode.getText().toString());//对验证码进行验证->回调函数
+                    }
+
+                    @Override
+                    public void onFailed(String message) {
+                        tvError.setVisibility(View.VISIBLE);
+                        tvError.setTextColor(getResources().getColor(R.color.red));
+                        tvError.setText("手机号不可用或已被注册！");
+
+                    }
+                });
     }
 
     //todo:unregister event, prevent from out of memory

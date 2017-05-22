@@ -101,6 +101,16 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_error"
+            android:visibility="gone"
+            android:textColor="@color/red"
+            android:textSize="14sp"
+            android:text="用户名不正确"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <Button
             android:id="@+id/btn_next"
             android:layout_width="match_parent"

@@ -8,8 +8,14 @@ import com.momo.imgrecognition.module.myinfo.EmailBean;
 import com.momo.imgrecognition.module.myinfo.MyInfoBean;
 import com.momo.imgrecognition.module.myinfo.NameBean;
 import com.momo.imgrecognition.module.myinfo.SexBean;
+import com.momo.imgrecognition.module.mymessage.MessageRequest;
+import com.momo.imgrecognition.module.mymessage.MessageResponse;
+import com.momo.imgrecognition.module.register.PhoneBean;
 import com.momo.imgrecognition.module.register.RegisterBean;
 import com.momo.imgrecognition.module.register.RegisterResponse;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
@@ -41,6 +47,17 @@ public interface UserService {
 
     @POST("user/update")
     Observable<ResponseInfo<MyInfoBean>> updateSex(@Body SexBean sexBean);
+
+    @POST("/user/exitPhone")
+    Observable<ResponseInfo<Object>> isPhoneExist(@Body PhoneBean sexBean);
+
+
+    // TODO: 2017/5/22 this interface has some questions
+    @POST("/user/getUserMessage")
+    Observable<ResponseInfo<MessageResponse>> getUserMessage(@Body MessageRequest request);
+
+
+
 }
 
 

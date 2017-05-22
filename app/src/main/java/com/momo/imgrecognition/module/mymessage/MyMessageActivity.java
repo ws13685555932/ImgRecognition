@@ -1,17 +1,30 @@
 package com.momo.imgrecognition.module.mymessage;
 
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.apiservice.ResponseInfo;
+import com.momo.imgrecognition.apiservice.UserService;
+import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.module.mymessage.adapter.MessageAdapter;
+import com.momo.imgrecognition.utils.HttpManager;
+import com.momo.imgrecognition.utils.HttpObserver;
+import com.momo.imgrecognition.utils.RxSchedulersHelper;
+import com.momo.imgrecognition.utils.SharedUtil;
+import com.momo.imgrecognition.utils.ShowUtil;
+import com.momo.imgrecognition.utils.TimeUtil;
 
+import java.lang.reflect.Array;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
 
 public class MyMessageActivity extends AppCompatActivity {
 
@@ -45,15 +58,55 @@ public class MyMessageActivity extends AppCompatActivity {
                 , "2017-03-14 11:00:00"
         };
 
+        UserService userService = HttpManager.getInstance().createService(UserService.class);
+        MessageRequest request = new MessageRequest();
+        int id = (Integer) SharedUtil.getParam(UserConfig.USER_ID,0);
+        String token = (String) SharedUtil.getParam(UserConfig.USER_TOKEN,"");
+
+        ShowUtil.print(id + ":" + token);
+        request.setId(3);
+        request.setToken("c38fff51-90ad-46c6-9fde-182020c4f2e5");
+
+        Observable<ResponseInfo<MessageResponse>> call = userService.getUserMessage(request);
+
+        call.compose(RxSchedulersHelper.<ResponseInfo<MessageResponse>>io_main())
+                .subscribe(new HttpObserver<MessageResponse>() {
+                    @Override
+                    public void onSuccess(MessageResponse messageResponses) {
+
+//                        initMessageList(messageResponses);
+                        ShowUtil.print(messageResponses.toString());
+
+                    }
+
+                    @Override
+                    public void onFailed(String message) {
+                        ShowUtil.toast(message);
+                    }
+                });
+
+
+
+//        List<MessageBean> messageList = new ArrayList<>();
+//        for (int i = 0; i < 4; i++) {
+//            MessageBean message = new MessageBean();
+//            message.setTitle(titles[i]);
+//            message.setContent(contents[i]);
+//            message.setDate(dates[i]);
+//            messageList.add(message);
+//        }
+    }
+
+    private void initMessageList(ArrayList<MessageResponse> messageResponses) {
         List<MessageBean> messageList = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             MessageBean message = new MessageBean();
-            message.setTitle(titles[i]);
-            message.setContent(contents[i]);
-            message.setDate(dates[i]);
+            message.setTitle(messageResponses.get(i).getTitle());
+            message.setContent(messageResponses.get(i).getMessage());
+            String date = TimeUtil.timeStamp2Date(messageResponses.get(i).getCreated_time());
+            message.setDate(date);
             messageList.add(message);
+            lvMyMessage.setAdapter(new MessageAdapter(MyMessageActivity.this,messageList));
         }
-
-        lvMyMessage.setAdapter(new MessageAdapter(this,messageList));
     }
 }

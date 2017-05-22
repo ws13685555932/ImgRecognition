@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setText("分类");
 
 
+
         drawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
