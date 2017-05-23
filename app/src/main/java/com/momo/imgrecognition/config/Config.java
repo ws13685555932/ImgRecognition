@@ -32,7 +32,6 @@ public class Config {
     public static final String DOWNLOAD_IMG_PATH = SD_CARD + PACKAGE_NAME + "/downloadImg";
 
     // TODO: 2017/5/22  在哪用到的？
-    public static final String CACHE_PICTURE = "com.momo.imgrecognition/img/";
     public static final String TEMP_FILE_PATH = SD_CARD + PACKAGE_NAME + "/tempFile";
 
 

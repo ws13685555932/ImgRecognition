@@ -110,7 +110,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
             file.mkdirs();
         }
         mTempPhotoPath = tempFilePath + File.separator + "photo.jpeg";
-        mDestinationUri = Uri.fromFile(new File(tempFilePath, "usericon.jpeg"));
+        mDestinationUri = Uri.fromFile(new File(tempFilePath, "userIcon.jpeg"));
 
     }
 
@@ -296,7 +296,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onConfirm() {
                 Intent intent = new Intent(MyInfoActivity.this, LoginActivity.class);
-                intent.putExtra(UserConfig.USER_LOGIN,"login");
+                intent.putExtra(UserConfig.USER_LOGIN,"login_password");
                 startActivity(intent);
             }
         });

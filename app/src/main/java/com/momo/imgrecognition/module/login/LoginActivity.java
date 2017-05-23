@@ -4,8 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.MenuPresenter;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,14 +15,12 @@ import com.momo.imgrecognition.config.Config;
 import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.customedview.ClearEditText;
 import com.momo.imgrecognition.customedview.LoadDialog;
-import com.momo.imgrecognition.customedview.PickSexDialog;
 import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.login.presenter.LoginPresenter;
 import com.momo.imgrecognition.module.login.view.ILoginView;
 import com.momo.imgrecognition.module.main.MainActivity;
 import com.momo.imgrecognition.module.register.VarifyActivity;
 import com.momo.imgrecognition.utils.SharedUtil;
-import com.momo.imgrecognition.utils.ShowUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +46,8 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     LoginPresenter mLoginPresenter = new LoginPresenter(this);
 
     LoadDialog mLoadDialog;
+    @BindView(R.id.iv_pet)
+    ImageView ivPet;
 
     private boolean isBackFlag = false;
 
@@ -80,6 +79,25 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         if (!Config.IS_TEST) {
             rxBinding();
         }
+
+
+        etUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    ivPet.setBackground(getResources().getDrawable(R.drawable.login_username));
+                }
+            }
+        });
+
+        etPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    ivPet.setBackground(getResources().getDrawable(R.drawable.login_password));
+                }
+            }
+        });
     }
 
     private void rxBinding() {

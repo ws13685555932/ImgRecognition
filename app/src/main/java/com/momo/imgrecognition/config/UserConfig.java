@@ -10,8 +10,9 @@ public class UserConfig {
     public static final String USER_TOKEN = "token";
     public static final String USER_LEVEL = "level";
     public static final String USER_PASSWORD = "password";
+    public static final String USER_ICON_URL = "userIConUrl";
 
 
-    public static final String USER_LOGIN = "login";
+    public static final String USER_LOGIN = "login_password";
 
 }

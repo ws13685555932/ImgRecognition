@@ -1,5 +1,6 @@
 package com.momo.imgrecognition.module.login.presenter;
 
+import android.graphics.Bitmap;
 import android.widget.Toast;
 
 import com.momo.imgrecognition.MyApplication;
@@ -11,6 +12,7 @@ import com.momo.imgrecognition.module.login.biz.ILoginBiz;
 import com.momo.imgrecognition.module.login.biz.LoginBiz;
 import com.momo.imgrecognition.module.login.biz.OnLoginListener;
 import com.momo.imgrecognition.module.login.view.ILoginView;
+import com.momo.imgrecognition.utils.BitmapUtil;
 import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
 
@@ -32,7 +34,7 @@ public class LoginPresenter {
 //        mLoginView.toMainActivity();
         mLoginView.showLoadDialog();
         if (Config.IS_TEST) {
-            mLoginView.toMainActivity();
+//            mLoginView.toMainActivity();
         } else {
             String name = mLoginView.getUsername();
             final String password = mLoginView.getPassword();
@@ -76,5 +78,11 @@ public class LoginPresenter {
         SharedUtil.saveParam(UserConfig.USER_NAME, response.getName());
         SharedUtil.saveParam(UserConfig.USER_TOKEN, response.getToken());
         SharedUtil.saveParam(UserConfig.USER_PASSWORD,password);
+        String userIconUrl = response.getAvatarUrl();
+        if(userIconUrl!= null) {
+            Bitmap userIcon = BitmapUtil.getHttpPicture(userIconUrl);
+            BitmapUtil.savePicture(userIcon, "userIcon.jpg");
+        }
+
     }
 }

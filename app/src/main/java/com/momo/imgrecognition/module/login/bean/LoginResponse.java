@@ -24,6 +24,9 @@ public class LoginResponse{
     int id;
     String email;
     String name;
+    String avatarUrl;
+    String sex;
+
     String major;
     String marked;
     long create_time;
@@ -37,6 +40,8 @@ public class LoginResponse{
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", sex='" + sex + '\'' +
                 ", major='" + major + '\'' +
                 ", marked='" + marked + '\'' +
                 ", create_time=" + create_time +
@@ -44,6 +49,22 @@ public class LoginResponse{
                 ", level=" + level +
                 ", token='" + token + '\'' +
                 '}';
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public int getId() {

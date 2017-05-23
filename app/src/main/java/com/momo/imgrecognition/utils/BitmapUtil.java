@@ -37,7 +37,7 @@ public class BitmapUtil {
     }
 
     public static void savePicture(Bitmap bitmap ,String name){
-        String path = Environment.getExternalStorageDirectory().toString() + Config.CACHE_PICTURE;
+        String path = Config.TEMP_FILE_PATH;
         File file = new File(path,name);
         FileOutputStream outputStream;
         try {
