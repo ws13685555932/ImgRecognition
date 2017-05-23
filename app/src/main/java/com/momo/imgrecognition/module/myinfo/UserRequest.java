@@ -32,4 +32,13 @@ public class UserRequest {
     public void setToken(String token) {
         this.token = token;
     }
+
+    @Override
+    public String toString() {
+        return "UserRequest{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", token='" + token + '\'' +
+                '}';
+    }
 }

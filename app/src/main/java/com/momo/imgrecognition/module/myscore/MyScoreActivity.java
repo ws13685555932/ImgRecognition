@@ -1,7 +1,6 @@
 package com.momo.imgrecognition.module.myscore;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,6 +9,7 @@ import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.apiservice.ResponseInfo;
 import com.momo.imgrecognition.apiservice.UserService;
 import com.momo.imgrecognition.config.UserConfig;
+import com.momo.imgrecognition.customedview.ScoreView;
 import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.myinfo.UserInfo;
 import com.momo.imgrecognition.module.myinfo.UserRequest;
@@ -31,10 +31,10 @@ public class MyScoreActivity extends BaseActivity {
     TextView title;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.tv_score)
-    TextView tvScore;
     @BindView(R.id.tv_next_level)
     TextView tvNextLevel;
+    @BindView(R.id.score_view)
+    ScoreView scoreView;
 
     private int[] scores = new int[]{
             25, 50, 150, 300, 600, 1500, 3000, 8000, 18000, 40000
@@ -47,7 +47,6 @@ public class MyScoreActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         getUserInfo();
-
     }
 
     private void getUserInfo() {
@@ -56,27 +55,46 @@ public class MyScoreActivity extends BaseActivity {
         request.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN, ""));
         request.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID, 0));
         request.setName((String) SharedUtil.getParam(UserConfig.USER_NAME, ""));
+        ShowUtil.print(request.toString());
         Observable<ResponseInfo<UserInfo>> call = userService.getUserInfo(request);
         call.compose(RxSchedulersHelper.<ResponseInfo<UserInfo>>io_main())
                 .subscribe(new HttpObserver<UserInfo>() {
                     @Override
                     public void onSuccess(UserInfo userInfo) {
-                        int level = userInfo.getLevel();
-                        int currScore = userInfo.getScore();
-                        tvScore.setText(currScore+"");
-                        if(level == 10){
-                            tvNextLevel.setText("恭喜您已满级！");
-                        }else {
-                            int lastScore = scores[level] - currScore;
-                            tvNextLevel.setText("距离下一级还差"+lastScore+"分");
-                        }
+                        showScore(userInfo);
                     }
 
                     @Override
                     public void onFailed(String message) {
                         ShowUtil.print(message);
+                        showErrorScore();
                     }
                 });
+    }
+
+    private void showErrorScore() {
+        scoreView.setTotal(0);
+        scoreView.setProgress(0);
+        scoreView.isError(true);
+        tvNextLevel.setText("距离下一级还差??分");
+
+    }
+
+    private void showScore(UserInfo userInfo) {
+        int level = userInfo.getLevel();
+        int currScore = userInfo.getScore();
+
+        scoreView.setTotal(scores[level-1]);
+        scoreView.setProgress(currScore);
+        scoreView.setLevel(level);
+        scoreView.startAnim();
+
+        if (level == 10) {
+            tvNextLevel.setText("恭喜您已满级！");
+        } else {
+            int lastScore = scores[level-1] - currScore;
+            tvNextLevel.setText("距离下一级还差" + lastScore + "分");
+        }
     }
 
 

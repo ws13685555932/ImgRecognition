@@ -54,18 +54,12 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/tv_score"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
+        
+        <com.momo.imgrecognition.customedview.ScoreView
+            android:id="@+id/score_view"
             android:background="@color/theme_color_primary"
-            android:textColor="@color/white"
-            android:text="320"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textSize="34sp"
-            android:paddingBottom="20dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="180dp"/>
 
         <TextView
             android:id="@+id/tv_next_level"
@@ -74,9 +68,11 @@
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:background="@color/theme_color_primary"
             android:padding="16dp"
+            android:background="@color/theme_color_primary"
             android:text="距离下一级还差0分"/>
+
+        <include layout="@layout/include_toolbar_shadow"/>
 
         <TextView
             android:id="@+id/tv_how_to_get_score"
