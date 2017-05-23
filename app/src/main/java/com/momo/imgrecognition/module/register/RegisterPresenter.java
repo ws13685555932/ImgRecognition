@@ -26,7 +26,7 @@ public class RegisterPresenter {
 
     public void register(){
         String username  = mRegisterView.getUsername();
-        String password = mRegisterView.getPassword();
+        final String password = mRegisterView.getPassword();
         String phoneNumber = mRegisterView.getPhoneNumber();
 
         // TODO: 2017/5/16 phone number is not modified
@@ -34,7 +34,7 @@ public class RegisterPresenter {
         mRegisterBiz.register(bean, new RegisterListener() {
             @Override
             public void regiseteSuccess(RegisterResponse response) {
-                saveData(response);
+                saveData(response , password);
                 ShowUtil.toast("注册成功！");
                 mRegisterView.toMainActivity();
             }
@@ -47,10 +47,11 @@ public class RegisterPresenter {
 
     }
 
-    public void saveData(RegisterResponse response) {
+    public void saveData(RegisterResponse response ,String password) {
         SharedUtil.saveParam(UserConfig.USER_NAME,response.getName());
         SharedUtil.saveParam(UserConfig.USER_ID,response.getId());
         SharedUtil.saveParam(UserConfig.USER_TOKEN,response.getToken());
+        SharedUtil.saveParam(UserConfig.USER_PASSWORD,password);
         String userIconUrl = response.getAvatarUrl();
         if(userIconUrl!= null) {
             Bitmap userIcon = BitmapUtil.getHttpPicture(userIconUrl);

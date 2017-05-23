@@ -20,8 +20,10 @@ import com.momo.imgrecognition.apiservice.ResponseInfo;
 import com.momo.imgrecognition.apiservice.UserService;
 import com.momo.imgrecognition.config.Config;
 import com.momo.imgrecognition.config.UserConfig;
+import com.momo.imgrecognition.customedview.InfoDialog;
 import com.momo.imgrecognition.customedview.PickSexDialog;
 import com.momo.imgrecognition.module.BaseActivity;
+import com.momo.imgrecognition.module.login.LoginActivity;
 import com.momo.imgrecognition.utils.HttpManager;
 import com.momo.imgrecognition.utils.HttpObserver;
 import com.momo.imgrecognition.utils.RxSchedulersHelper;
@@ -262,7 +264,8 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
 //
 //    }
 
-    @OnClick({R.id.rl_user_name, R.id.rl_email, R.id.rl_description ,R.id.rl_sex, R.id.rl_birthday})
+    @OnClick({R.id.rl_user_name, R.id.rl_email, R.id.rl_description
+            ,R.id.rl_sex, R.id.rl_birthday , R.id.rl_log_out})
     public void onViewClicked(View view) {
 
         switch (view.getId()) {
@@ -281,7 +284,24 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
             case R.id.rl_birthday:
                 changeBirthday();
                 break;
+            case R.id.rl_log_out:
+                logOut();
+                break;
         }
+    }
+
+    private void logOut() {
+        final InfoDialog dialog = new InfoDialog();
+        dialog.setOnConfirmListener(new InfoDialog.OnConfirmListener() {
+            @Override
+            public void onConfirm() {
+                Intent intent = new Intent(MyInfoActivity.this, LoginActivity.class);
+                intent.putExtra(UserConfig.USER_LOGIN,"login");
+                startActivity(intent);
+            }
+        });
+        dialog.show(getSupportFragmentManager(),dialog.TAG);
+
     }
 
     private void changeInfo(String type){

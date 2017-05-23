@@ -11,4 +11,7 @@ public class UserConfig {
     public static final String USER_LEVEL = "level";
     public static final String USER_PASSWORD = "password";
 
+
+    public static final String USER_LOGIN = "login";
+
 }

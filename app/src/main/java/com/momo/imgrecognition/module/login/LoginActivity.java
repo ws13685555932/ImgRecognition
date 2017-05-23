@@ -50,6 +50,8 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 
     LoadDialog mLoadDialog;
 
+    private boolean isBackFlag = false;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +59,22 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        String name = (String) SharedUtil.getParam(UserConfig.USER_NAME,"");
-        String password = (String) SharedUtil.getParam(UserConfig.USER_PASSWORD,"");
+        if (getIntent() != null) {
+            String flag = getIntent().getStringExtra(UserConfig.USER_LOGIN);
+            if (flag != null) {
+                isBackFlag = true;
+            }
+        }
 
-        ShowUtil.print(name + ":" + password);
+        //自动登录
+        if (!isBackFlag) {
+            String name = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
+            String password = (String) SharedUtil.getParam(UserConfig.USER_PASSWORD, "");
 
-        if(!name.equals("") && !password.equals("")){
-            mLoginPresenter.autoLogin(name,password);
+//            ShowUtil.print(name + ":" + password);
+            if (!name.equals("") && !password.equals("")) {
+                mLoginPresenter.autoLogin(name, password);
+            }
         }
 
         if (!Config.IS_TEST) {
