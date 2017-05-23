@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.bilibili.magicasakura.widgets.TintTextView;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.module.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChangeSkinActivity extends AppCompatActivity {
+public class ChangeSkinActivity extends BaseActivity {
 
 
     List<TintTextView> skinList;

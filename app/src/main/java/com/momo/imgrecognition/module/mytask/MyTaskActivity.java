@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.main.adapter.ViewPagerAdapter;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyTaskActivity extends AppCompatActivity {
+public class MyTaskActivity extends BaseActivity {
 
 
     @BindView(R.id.tab_layout)

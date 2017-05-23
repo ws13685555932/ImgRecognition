@@ -21,6 +21,7 @@ import com.momo.imgrecognition.apiservice.UserService;
 import com.momo.imgrecognition.config.Config;
 import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.customedview.PickSexDialog;
+import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.utils.HttpManager;
 import com.momo.imgrecognition.utils.HttpObserver;
 import com.momo.imgrecognition.utils.RxSchedulersHelper;
@@ -39,7 +40,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.Observable;
 
-public class MyInfoActivity extends AppCompatActivity implements View.OnClickListener {
+public class MyInfoActivity extends BaseActivity implements View.OnClickListener {
 
     private static final int CAMERA_REQUEST_CODE = 1;
     private static final int GALLERY_REQUEST_CODE = 2;
@@ -182,6 +183,7 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
 
                 case CHANGE_NAME_REQUEST_CODE:
                     String nickname = data.getExtras().getString("text");
+                    SharedUtil.saveParam(UserConfig.USER_NAME, nickname);
                     tvNickname.setText(nickname);
                     break;
                 case CHANGE_EMAIL_REQUEST_CODE:

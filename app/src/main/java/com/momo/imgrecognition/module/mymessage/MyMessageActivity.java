@@ -12,6 +12,7 @@ import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.apiservice.ResponseInfo;
 import com.momo.imgrecognition.apiservice.UserService;
 import com.momo.imgrecognition.config.UserConfig;
+import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.mymessage.adapter.MessageAdapter;
 import com.momo.imgrecognition.utils.HttpManager;
 import com.momo.imgrecognition.utils.HttpObserver;
@@ -27,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 
-public class MyMessageActivity extends AppCompatActivity {
+public class MyMessageActivity extends BaseActivity {
 
     @BindView(R.id.lv_my_message)
     ListView lvMyMessage;

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.taglater.adapter.TagListAdapter;
 import com.momo.imgrecognition.module.taglater.bean.TagLaterBean;
 
@@ -14,7 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TagLaterActivity extends AppCompatActivity {
+public class TagLaterActivity extends BaseActivity {
 
     @BindView(R.id.lv_tag_later)
     ListView lvTagLater;

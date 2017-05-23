@@ -35,13 +35,13 @@ public class LoginPresenter {
             mLoginView.toMainActivity();
         } else {
             String name = mLoginView.getUsername();
-            String password = mLoginView.getPassword();
+            final String password = mLoginView.getPassword();
             User user = new User(password, name);
             mLoginBiz.login(user, new OnLoginListener() {
                 @Override
                 public void loginSuccess(LoginResponse response) {
                     mLoginView.dismissLoadDialog();
-                    saveData(response);
+                    saveData(response,password);
                     mLoginView.toMainActivity();
                     ShowUtil.toast("登录成功!");
                 }
@@ -56,9 +56,25 @@ public class LoginPresenter {
         }
     }
 
-    private void saveData(LoginResponse response) {
+    public void autoLogin(String username , String password){
+        User user = new User(password, username);
+        mLoginBiz.login(user, new OnLoginListener() {
+            @Override
+            public void loginSuccess(LoginResponse response) {
+                mLoginView.toMainActivity();
+            }
+
+            @Override
+            public void loginFailed(String message) {
+                ShowUtil.toast(message);
+            }
+        });
+    }
+
+    private void saveData(LoginResponse response,String password) {
         SharedUtil.saveParam(UserConfig.USER_ID, response.getId());
         SharedUtil.saveParam(UserConfig.USER_NAME, response.getName());
         SharedUtil.saveParam(UserConfig.USER_TOKEN, response.getToken());
+        SharedUtil.saveParam(UserConfig.USER_PASSWORD,password);
     }
 }

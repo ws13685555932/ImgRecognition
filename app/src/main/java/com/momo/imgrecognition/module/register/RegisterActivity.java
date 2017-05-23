@@ -13,6 +13,7 @@ import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.apiservice.ResponseInfo;
 import com.momo.imgrecognition.apiservice.UserService;
 import com.momo.imgrecognition.customedview.ClearEditText;
+import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.login.presenter.LoginPresenter;
 import com.momo.imgrecognition.module.main.MainActivity;
 import com.momo.imgrecognition.utils.HttpManager;
@@ -25,7 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 
-public class RegisterActivity extends AppCompatActivity implements IRegisterView{
+public class RegisterActivity extends BaseActivity implements IRegisterView{
 
     String phoneNumber;
     @BindView(R.id.et_username)

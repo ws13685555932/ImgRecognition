@@ -8,12 +8,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.module.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
 
     @BindView(R.id.cb_not_rcv_msg)
     CheckBox cbNotRcvMsg;

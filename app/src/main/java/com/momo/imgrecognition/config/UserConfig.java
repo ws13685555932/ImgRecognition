@@ -9,5 +9,6 @@ public class UserConfig {
     public static final String USER_NAME = "name";
     public static final String USER_TOKEN = "token";
     public static final String USER_LEVEL = "level";
+    public static final String USER_PASSWORD = "password";
 
 }

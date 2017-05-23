@@ -17,6 +17,7 @@ import com.momo.imgrecognition.apiservice.ResponseInfo;
 import com.momo.imgrecognition.apiservice.UserService;
 import com.momo.imgrecognition.config.Config;
 import com.momo.imgrecognition.customedview.ClearEditText;
+import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.utils.HttpManager;
 import com.momo.imgrecognition.utils.HttpObserver;
 import com.momo.imgrecognition.utils.RxSchedulersHelper;
@@ -32,7 +33,7 @@ import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
-public class VarifyActivity extends AppCompatActivity implements View.OnClickListener {
+public class VarifyActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.et_phone_number)
     ClearEditText etPhoneNumber;

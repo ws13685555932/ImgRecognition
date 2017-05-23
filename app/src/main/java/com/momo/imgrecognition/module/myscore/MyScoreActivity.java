@@ -10,6 +10,7 @@ import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.apiservice.ResponseInfo;
 import com.momo.imgrecognition.apiservice.UserService;
 import com.momo.imgrecognition.config.UserConfig;
+import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.myinfo.UserInfo;
 import com.momo.imgrecognition.module.myinfo.UserRequest;
 import com.momo.imgrecognition.utils.HttpManager;
@@ -22,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 
-public class MyScoreActivity extends AppCompatActivity {
+public class MyScoreActivity extends BaseActivity {
 
     @BindView(R.id.back)
     ImageView back;

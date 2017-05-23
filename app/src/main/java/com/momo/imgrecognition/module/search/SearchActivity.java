@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.module.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends BaseActivity {
 
     @BindView(R.id.lv_search)
     ListView lvSearch;

@@ -10,6 +10,7 @@ import com.momo.imgrecognition.apiservice.ResponseInfo;
 import com.momo.imgrecognition.apiservice.UserService;
 import com.momo.imgrecognition.config.Config;
 import com.momo.imgrecognition.config.UserConfig;
+import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.utils.HttpManager;
 import com.momo.imgrecognition.utils.HttpObserver;
 import com.momo.imgrecognition.utils.RxSchedulersHelper;
@@ -19,7 +20,7 @@ import com.momo.imgrecognition.utils.ShowUtil;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 
-public class ChangeInfoActivity extends AppCompatActivity {
+public class ChangeInfoActivity extends BaseActivity {
     private String type;
     FragmentTransaction mTransaction;
 

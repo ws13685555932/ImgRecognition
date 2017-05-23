@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.module.BaseActivity;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -37,7 +38,7 @@ import butterknife.OnClick;
 
 
 // TODO: 2017/5/16 添加历史输入标签
-public class ImageDetailActivity extends AppCompatActivity {
+public class ImageDetailActivity extends BaseActivity {
 
     @BindView(R.id.tfl_labels)
     TagFlowLayout tflLabels;

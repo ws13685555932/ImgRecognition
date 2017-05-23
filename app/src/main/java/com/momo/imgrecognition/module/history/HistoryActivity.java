@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.taglater.bean.TagLaterBean;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HistoryActivity extends AppCompatActivity {
+public class HistoryActivity extends BaseActivity {
 
     @BindView(R.id.lv_history_list)
     ListView lvHistoryList;

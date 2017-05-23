@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.config.UserConfig;
+import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.changeskin.ChangeSkinActivity;
 import com.momo.imgrecognition.module.history.HistoryActivity;
 import com.momo.imgrecognition.module.history.HistoryBean;
@@ -29,6 +30,7 @@ import com.momo.imgrecognition.module.myscore.MyScoreActivity;
 import com.momo.imgrecognition.module.mytask.MyTaskActivity;
 import com.momo.imgrecognition.module.settings.SettingsActivity;
 import com.momo.imgrecognition.module.taglater.TagLaterActivity;
+import com.momo.imgrecognition.utils.ActivityManager;
 import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
 
@@ -42,7 +44,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.drawer)
     DrawerLayout drawer;
@@ -212,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
             }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
 
         } else {
-            System.exit(0);
+            ActivityManager.finishAll();
         }
     }
 
