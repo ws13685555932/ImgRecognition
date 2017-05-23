@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -24,6 +25,7 @@ import com.momo.imgrecognition.R;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
+import com.zhy.view.flowlayout.TagView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,14 +100,14 @@ public class ImageDetailActivity extends AppCompatActivity {
             }
         };
 
-        LayoutTransition transition = new LayoutTransition();
-        AnimatorSet animatorSet = new AnimatorSet();//组合动画
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(null, "scaleX", 0, 1f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(null, "scaleY", 0, 1f);
-        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(null, "alpha", 0f, 1f);
-        animatorSet.setDuration(500);
-        animatorSet.play(scaleX).with(scaleY).with(fadeIn);//两个动画同时开始
-        transition.setAnimator(LayoutTransition.APPEARING, animatorSet);
+//        LayoutTransition transition = new LayoutTransition();
+//        AnimatorSet animatorSet = new AnimatorSet();//组合动画
+//        ObjectAnimator scaleX = ObjectAnimator.ofFloat(null, "scaleX", 0, 1f);
+//        ObjectAnimator scaleY = ObjectAnimator.ofFloat(null, "scaleY", 0, 1f);
+//        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(null, "alpha", 0f, 1f);
+//        animatorSet.setDuration(500);
+//        animatorSet.play(scaleX).with(scaleY).with(fadeIn);//两个动画同时开始
+//        transition.setAnimator(LayoutTransition.APPEARING, animatorSet);
 
 //        //使用滑动动画代替默认布局改变的动画
 //        //这个动画会让视图滑动进入并短暂地缩小一半，具有平滑和缩放的效果
@@ -121,7 +123,7 @@ public class ImageDetailActivity extends AppCompatActivity {
 //        transition.setStagger(LayoutTransition.CHANGE_APPEARING,50);
 //        transition.setStagger(LayoutTransition.APPEARING,50);
 
-        tflLabels.setLayoutTransition(transition);
+//        tflLabels.setLayoutTransition(transition);
 
         tflLabels.setAdapter(tagAdapter);
 
@@ -149,6 +151,7 @@ public class ImageDetailActivity extends AppCompatActivity {
 //                tv.setText(tag);
                 tagList.add(tag);
                 tagAdapter.notifyDataChanged();
+//                selectLastOne();
                 InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 
@@ -164,11 +167,34 @@ public class ImageDetailActivity extends AppCompatActivity {
 
             @Override
             public View getView(FlowLayout parent, int position, String s) {
-                TextView tvLabel = (TextView) LayoutInflater.from(ImageDetailActivity.this).inflate(R.layout.layout_labels, parent, false);
+                TextView tvLabel = (TextView) LayoutInflater.from(ImageDetailActivity.this)
+                        .inflate(R.layout.layout_normal_label, parent, false);
                 tvLabel.setText(s);
                 return tvLabel;
             }
         });
+
+        tflHistoryLabels.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+            @Override
+            public boolean onTagClick(View view, int position, FlowLayout parent) {
+                String tag = labels[position];
+                tagList.add(tag);
+                tagAdapter.notifyDataChanged();
+//                selectLastOne();
+                return true;
+            }
+        });
+    }
+
+    private void selectLastOne() {
+        int lastIndex = tagAdapter.getCount()-1;
+        TagView tagView = (TagView) tflLabels.getChildAt(lastIndex);
+        TextView tvLast = (TextView) tagView.getTagView();
+        tagView.removeAllViews();
+        tagView.addView(tvLast);
+        tvLast.setSelected(true);
+        tflLabels.removeView(tflHistoryLabels.getChildAt(lastIndex));
+        tflLabels.addView(tagView);
     }
 
     @OnClick(R.id.iv_image)

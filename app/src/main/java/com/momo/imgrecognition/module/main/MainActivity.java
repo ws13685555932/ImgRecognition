@@ -30,9 +30,12 @@ import com.momo.imgrecognition.module.mytask.MyTaskActivity;
 import com.momo.imgrecognition.module.settings.SettingsActivity;
 import com.momo.imgrecognition.module.taglater.TagLaterActivity;
 import com.momo.imgrecognition.utils.SharedUtil;
+import com.momo.imgrecognition.utils.ShowUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewpager);
         tabLayout.getTabAt(0).setText("推荐");
         tabLayout.getTabAt(1).setText("分类");
-
 
 
         drawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
@@ -142,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
 //        dynamicAddView(toolbar,"background",R.color.colorPrimary);
 
     }
+
     private void toTaglatter() {
         Intent intent = new Intent(this, TagLaterActivity.class);
         startActivity(intent);
@@ -168,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        String username = (String) SharedUtil.getParam(UserConfig.USER_NAME,"");
+        String username = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
         tvUserName.setText(username);
 
     }
@@ -190,7 +193,27 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
+        exitBy2Click();
+    }
 
+    private boolean isExit = false;
+
+    private void exitBy2Click() {
+        Timer tExit = null;
+        if (isExit == false) {
+            isExit = true; // 准备退出
+            ShowUtil.toast("再按一次退出程序");
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false; // 取消退出
+                }
+            }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+
+        } else {
+            System.exit(0);
+        }
     }
 
     @Override
