@@ -92,11 +92,11 @@ public class ChangeInfoActivity extends AppCompatActivity {
         DescriptionBean description = new DescriptionBean(text);
         description.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
         description.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
-        Observable<ResponseInfo<MyInfoBean>> call =  userService.updateDescription(description);
-        call.compose(RxSchedulersHelper.<ResponseInfo<MyInfoBean>>io_main())
-                .subscribe(new HttpObserver<MyInfoBean>() {
+        Observable<ResponseInfo<UpdateResponse>> call =  userService.updateDescription(description);
+        call.compose(RxSchedulersHelper.<ResponseInfo<UpdateResponse>>io_main())
+                .subscribe(new HttpObserver<UpdateResponse>() {
                     @Override
-                    public void onSuccess(MyInfoBean myInfoBean) {
+                    public void onSuccess(UpdateResponse updateResponse) {
                         setResult(RESULT_OK, new Intent()
                                 .putExtra("text", text));
                         finish();
@@ -114,11 +114,11 @@ public class ChangeInfoActivity extends AppCompatActivity {
         NameBean name = new NameBean(text);
         name.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
         name.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
-        Observable<ResponseInfo<MyInfoBean>> call =  userService.updateName(name);
-        call.compose(RxSchedulersHelper.<ResponseInfo<MyInfoBean>>io_main())
-                .subscribe(new HttpObserver<MyInfoBean>() {
+        Observable<ResponseInfo<UpdateResponse>> call =  userService.updateName(name);
+        call.compose(RxSchedulersHelper.<ResponseInfo<UpdateResponse>>io_main())
+                .subscribe(new HttpObserver<UpdateResponse>() {
                     @Override
-                    public void onSuccess(MyInfoBean myInfoBean) {
+                    public void onSuccess(UpdateResponse updateResponse) {
                         setResult(RESULT_OK, new Intent()
                                 .putExtra("text", text));
                         finish();
@@ -136,11 +136,11 @@ public class ChangeInfoActivity extends AppCompatActivity {
         EmailBean email = new EmailBean(text);
         email.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
         email.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
-        Observable<ResponseInfo<MyInfoBean>> call =  userService.updateEmail(email);
-        call.compose(RxSchedulersHelper.<ResponseInfo<MyInfoBean>>io_main())
-                .subscribe(new HttpObserver<MyInfoBean>() {
+        Observable<ResponseInfo<UpdateResponse>> call =  userService.updateEmail(email);
+        call.compose(RxSchedulersHelper.<ResponseInfo<UpdateResponse>>io_main())
+                .subscribe(new HttpObserver<UpdateResponse>() {
                     @Override
-                    public void onSuccess(MyInfoBean myInfoBean) {
+                    public void onSuccess(UpdateResponse updateResponse) {
                         setResult(RESULT_OK, new Intent()
                                 .putExtra("text", text));
                         finish();

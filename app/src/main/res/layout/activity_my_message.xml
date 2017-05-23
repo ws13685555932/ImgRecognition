@@ -46,6 +46,13 @@
         android:layout_below="@id/toolbar"
         android:background="@drawable/toolbar_shadow"/>
 
+    <TextView
+        android:id="@+id/tv_show_msg"
+        android:layout_below="@id/toolbar"
+        style="@style/ShowMsgTextView"
+        android:visibility="gone"
+        android:text="您当前还没有消息哦┑(￣Д ￣)┍"/>
+
     <ListView
 
         android:id="@+id/lv_my_message"

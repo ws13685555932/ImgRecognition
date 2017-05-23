@@ -56,14 +56,27 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/tv_score"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:background="@color/theme_color_primary"
             android:textColor="@color/white"
             android:text="320"
+            android:textStyle="bold"
             android:gravity="center"
             android:textSize="34sp"
             android:paddingBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/tv_next_level"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:background="@color/theme_color_primary"
+            android:padding="16dp"
+            android:text="距离下一级还差0分"/>
 
         <TextView
             android:id="@+id/tv_how_to_get_score"
@@ -72,10 +85,10 @@
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="如何获得积分？\n
-    • 每日签到可获得1积分\n
-    • 连续签到可获得更多积分\n
-    • 每日贴15个图片可获得15积分\n
+            android:text="如何获得积分？\n\n
+    • 每日签到可获得1积分\n\n
+    • 连续签到可获得更多积分\n\n
+    • 每日贴15个图片可获得15积分\n\n
     • 标签被采纳可获得巨额积分\n"
             android:textSize="16sp"/>
 

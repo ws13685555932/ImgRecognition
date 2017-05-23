@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Administrator on 2017/5/16.
  */
 
-public class MyInfoBean implements Serializable{
+public class InfoBean implements Serializable{
     int id;
     String name;
     String email;

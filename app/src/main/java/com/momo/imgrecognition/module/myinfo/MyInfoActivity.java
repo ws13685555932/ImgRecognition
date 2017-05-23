@@ -1,12 +1,10 @@
 package com.momo.imgrecognition.module.myinfo;
 
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +21,6 @@ import com.momo.imgrecognition.apiservice.UserService;
 import com.momo.imgrecognition.config.Config;
 import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.customedview.PickSexDialog;
-import com.momo.imgrecognition.utils.BitmapUtil;
 import com.momo.imgrecognition.utils.HttpManager;
 import com.momo.imgrecognition.utils.HttpObserver;
 import com.momo.imgrecognition.utils.RxSchedulersHelper;
@@ -321,11 +318,11 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
         BirthdayBean birthday = new BirthdayBean(birthdayStr);
         birthday.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
         birthday.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
-        Observable<ResponseInfo<MyInfoBean>> call =  userService.updateBirthday(birthday);
-        call.compose(RxSchedulersHelper.<ResponseInfo<MyInfoBean>>io_main())
-                .subscribe(new HttpObserver<MyInfoBean>() {
+        Observable<ResponseInfo<UpdateResponse>> call =  userService.updateBirthday(birthday);
+        call.compose(RxSchedulersHelper.<ResponseInfo<UpdateResponse>>io_main())
+                .subscribe(new HttpObserver<UpdateResponse>() {
                     @Override
-                    public void onSuccess(MyInfoBean myInfoBean) {
+                    public void onSuccess(UpdateResponse updateResponse) {
                         String birthdayString = mYear + "-" + mMonth + "-" + mDay;
                         tvBirthday.setText(birthdayString);
                     }
@@ -354,11 +351,11 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
         SexBean sex = new SexBean(text);
         sex.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
         sex.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
-        Observable<ResponseInfo<MyInfoBean>> call =  userService.updateSex(sex);
-        call.compose(RxSchedulersHelper.<ResponseInfo<MyInfoBean>>io_main())
-                .subscribe(new HttpObserver<MyInfoBean>() {
+        Observable<ResponseInfo<UpdateResponse>> call =  userService.updateSex(sex);
+        call.compose(RxSchedulersHelper.<ResponseInfo<UpdateResponse>>io_main())
+                .subscribe(new HttpObserver<UpdateResponse>() {
                     @Override
-                    public void onSuccess(MyInfoBean myInfoBean) {
+                    public void onSuccess(UpdateResponse updateResponse) {
                         tvSex.setText(text);
                     }
 

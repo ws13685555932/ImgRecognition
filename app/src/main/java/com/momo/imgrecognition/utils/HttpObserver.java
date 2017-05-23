@@ -52,7 +52,7 @@ public abstract class HttpObserver<T> implements Observer<ResponseInfo<T>> {
             // 超时
             msg = "请求超时";
         }else{
-            msg = "请求失败，请稍后重试";
+            msg = e.getMessage();
         }
         onFailed(msg);
 

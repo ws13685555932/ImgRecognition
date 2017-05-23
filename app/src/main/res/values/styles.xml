@@ -123,4 +123,23 @@
         <item name="android:textColor">@color/gray_dark</item>
         <item name="android:textSize">12sp</item>
     </style>
+
+
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:padding="8dp"-->
+        <!--android:textSize="14sp"-->
+        <!--android:text="对不起，啥都没搜到！╮(╯▽╰)╭"-->
+        <!--android:gravity="center"/>-->
+
+    <style name="ShowMsgTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

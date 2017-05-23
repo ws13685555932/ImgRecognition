@@ -4,7 +4,9 @@ package com.momo.imgrecognition.module.myinfo;
  * Created by Administrator on 2017/5/16.
  */
 
-public class MyInfoResponse {
+public class UpdateResponse {
+
+    
 
 //     "fieldCount": 0,
 //             "affectedRows": 1,
