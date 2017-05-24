@@ -1,15 +1,15 @@
 package com.momo.imgrecognition.module.detail;
 
 import android.animation.AnimatorSet;
-import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.module.BaseActivity;
+import com.momo.imgrecognition.utils.ShowUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -45,7 +46,7 @@ public class ImageDetailActivity extends BaseActivity {
     @BindView(R.id.tfl_history_labels)
     TagFlowLayout tflHistoryLabels;
     @BindView(R.id.fltbtn_confirm)
-    FloatingActionButton fltbtnConfirm;
+    FloatingActionButton fabConfirm;
     @BindView(R.id.et_customed_tag)
     EditText etCustomedTag;
 
@@ -62,12 +63,23 @@ public class ImageDetailActivity extends BaseActivity {
     TagAdapter tagAdapter;
     @BindView(R.id.iv_image)
     ImageView ivImage;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detail);
         ButterKnife.bind(this);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+
 
         llCustomedTag.setVisibility(View.INVISIBLE);
 
@@ -80,10 +92,21 @@ public class ImageDetailActivity extends BaseActivity {
                 //r.top 是状态栏高度
                 int screenHeight = mRoot.getRootView().getHeight();
                 int softHeight = screenHeight - r.bottom;
+
                 if (softHeight > 100) {//当输入法高度大于100判定为输入法打开了
-                    fltbtnConfirm.setVisibility(View.INVISIBLE);
+                    llCustomedTag.setTranslationY(-softHeight);
+                    fadeOut(fabConfirm);
+//                    fadeIn(llCustomedTag);
+                    llCustomedTag.setVisibility(View.VISIBLE);
+                    llCustomedTag.setTranslationY(-softHeight);
+                    fadeIn(llCustomedTag);
+//                    tranlateUp(-softHeight);
+
+
                 } else {//否则判断为输入法隐藏了
-                    fltbtnConfirm.setVisibility(View.VISIBLE);
+                    llCustomedTag.setVisibility(View.GONE);
+                    llCustomedTag.setTranslationY(softHeight);
+                    fadeIn(fabConfirm);
                 }
             }
         });
@@ -95,43 +118,20 @@ public class ImageDetailActivity extends BaseActivity {
         tagAdapter = new TagAdapter<String>(tagList) {
             @Override
             public View getView(FlowLayout parent, int position, String s) {
-                TextView tvLabel = (TextView) LayoutInflater.from(ImageDetailActivity.this).inflate(R.layout.layout_labels, parent, false);
+                TextView tvLabel = (TextView) LayoutInflater.from(ImageDetailActivity.this)
+                        .inflate(R.layout.layout_labels, parent, false);
                 tvLabel.setText(s);
                 return tvLabel;
             }
         };
 
-//        LayoutTransition transition = new LayoutTransition();
-//        AnimatorSet animatorSet = new AnimatorSet();//组合动画
-//        ObjectAnimator scaleX = ObjectAnimator.ofFloat(null, "scaleX", 0, 1f);
-//        ObjectAnimator scaleY = ObjectAnimator.ofFloat(null, "scaleY", 0, 1f);
-//        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(null, "alpha", 0f, 1f);
-//        animatorSet.setDuration(500);
-//        animatorSet.play(scaleX).with(scaleY).with(fadeIn);//两个动画同时开始
-//        transition.setAnimator(LayoutTransition.APPEARING, animatorSet);
-
-//        //使用滑动动画代替默认布局改变的动画
-//        //这个动画会让视图滑动进入并短暂地缩小一半，具有平滑和缩放的效果
-//        PropertyValuesHolder pvhFade = PropertyValuesHolder.ofFloat("alpha", 1, 0.1f, 1);
-//        PropertyValuesHolder pvhScaleY = PropertyValuesHolder.ofFloat("scaleY", 1, 0.5f, 1f);
-//        PropertyValuesHolder pvhScaleX = PropertyValuesHolder.ofFloat("scaleX", 1,0.5f, 1f);
 //
-//        //这里将上面三个动画综合
-//        Animator changingDisappearAnim = ObjectAnimator.ofPropertyValuesHolder(
-//                tflLabels, pvhFade, pvhScaleY, pvhScaleX);
-//        changingDisappearAnim.setDuration(500);
-//        transition.setAnimator(LayoutTransition.CHANGE_APPEARING, changingDisappearAnim);
-//        transition.setStagger(LayoutTransition.CHANGE_APPEARING,50);
-//        transition.setStagger(LayoutTransition.APPEARING,50);
-
-//        tflLabels.setLayoutTransition(transition);
 
         tflLabels.setAdapter(tagAdapter);
 
         tvAddCustomedTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                llCustomedTag.setVisibility(View.VISIBLE);
                 InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 
@@ -147,20 +147,20 @@ public class ImageDetailActivity extends BaseActivity {
             public void onClick(View view) {
                 llCustomedTag.setVisibility(View.INVISIBLE);
                 String tag = etCustomedTag.getText().toString();
-//                TagView tagView = new TagView(ImageDetailActivity.this);
-//                TextView tv = (TextView) tagView.getTagView();
-//                tv.setText(tag);
                 tagList.add(tag);
                 tagAdapter.notifyDataChanged();
-//                selectLastOne();
+
                 InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 
                 etCustomedTag.setText("");
+            }
+        });
 
-//                WindowManager.LayoutParams lp= getWindow().getAttributes();
-//                lp.alpha = 1;
-//                getWindow().setAttributes(lp);
+        fabConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowUtil.toast("提交！");
             }
         });
 
@@ -188,7 +188,7 @@ public class ImageDetailActivity extends BaseActivity {
     }
 
     private void selectLastOne() {
-        int lastIndex = tagAdapter.getCount()-1;
+        int lastIndex = tagAdapter.getCount() - 1;
         TagView tagView = (TagView) tflLabels.getChildAt(lastIndex);
         TextView tvLast = (TextView) tagView.getTagView();
         tagView.removeAllViews();
@@ -200,7 +200,55 @@ public class ImageDetailActivity extends BaseActivity {
 
     @OnClick(R.id.iv_image)
     public void onViewClicked() {
-        Intent intent = new Intent(this,PreviewActivity.class);
+        Intent intent = new Intent(this, PreviewActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        int height = getStatusBarHeight();
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+        params.topMargin = height;
+        toolbar.setLayoutParams(params);
+    }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    public void fadeIn(View view){
+        AnimatorSet animatorSet = new AnimatorSet();//组合动画
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0, 1);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0, 1);
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(view, "alpha", 0, 1);
+        animatorSet.setDuration(300);
+        animatorSet.play(scaleX).with(scaleY).with(fadeIn);
+        animatorSet.start();
+    }
+
+    public void fadeOut(View view){
+        AnimatorSet animatorSet = new AnimatorSet();//组合动画
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1, 0);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1, 0);
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(view, "alpha", 1, 0);
+        animatorSet.setDuration(300);
+        animatorSet.play(scaleX).with(scaleY).with(fadeOut);
+        animatorSet.start();
+    }
+
+    private void tranlateUp(int height){
+        ObjectAnimator tranlateUp = ObjectAnimator.ofFloat(llCustomedTag, "translationY", 0, height);
+        tranlateUp.setDuration(350);
+        tranlateUp.start();
+    }
+
+
+
+
 }
