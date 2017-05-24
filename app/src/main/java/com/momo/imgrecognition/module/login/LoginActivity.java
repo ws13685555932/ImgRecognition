@@ -67,18 +67,19 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 
         //自动登录
         if (!isBackFlag) {
-            String name = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
-            String password = (String) SharedUtil.getParam(UserConfig.USER_PASSWORD, "");
-
-//            ShowUtil.print(name + ":" + password);
-            if (!name.equals("") && !password.equals("")) {
-                mLoginPresenter.autoLogin(name, password);
-            }
+            autoToMainActivity();
+//            String name = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
+//            String password = (String) SharedUtil.getParam(UserConfig.USER_PASSWORD, "");
+//
+////            ShowUtil.print(name + ":" + password);
+//            if (!name.equals("") && !password.equals("")) {
+//                mLoginPresenter.autoLogin(name, password);
+//            }
         }
 
-        if (!Config.IS_TEST) {
-            rxBinding();
-        }
+//        if (!Config.IS_TEST) {
+//            rxBinding();
+//        }
 
 
         etUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -128,6 +129,14 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     @Override
     public void toMainActivity() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    public void autoToMainActivity(){
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("type","auto");
         startActivity(intent);
     }
 

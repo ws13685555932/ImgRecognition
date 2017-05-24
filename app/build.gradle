@@ -81,6 +81,7 @@ dependencies {
 //                }
 //    compile 'com.bm.photoview:library:1.4.1'
 //    compile 'com.github.arimorty:floatingsearchview:2.0.4'
+    //compile 'com.qiniu:qiniu-android-sdk:7.3.2'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -136,4 +137,5 @@ dependencies {
     }
     compile 'com.bm.photoview:library:1.4.1'
     compile 'com.github.arimorty:floatingsearchview:2.0.4'
+    compile 'com.qiniu:qiniu-android-sdk:7.3.2'
 }

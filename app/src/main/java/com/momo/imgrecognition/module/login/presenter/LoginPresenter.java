@@ -58,11 +58,13 @@ public class LoginPresenter {
         }
     }
 
-    public void autoLogin(String username , String password){
+    public void autoLogin(String username , final String password){
+//        mLoginView.toMainActivity();
         User user = new User(password, username);
         mLoginBiz.login(user, new OnLoginListener() {
             @Override
             public void loginSuccess(LoginResponse response) {
+                saveData(response , password);
                 mLoginView.toMainActivity();
             }
 
@@ -78,11 +80,11 @@ public class LoginPresenter {
         SharedUtil.saveParam(UserConfig.USER_NAME, response.getName());
         SharedUtil.saveParam(UserConfig.USER_TOKEN, response.getToken());
         SharedUtil.saveParam(UserConfig.USER_PASSWORD,password);
-        String userIconUrl = response.getAvatarUrl();
-        if(userIconUrl!= null) {
-            Bitmap userIcon = BitmapUtil.getHttpPicture(userIconUrl);
-            BitmapUtil.savePicture(userIcon, "userIcon.jpg");
-        }
+        SharedUtil.saveParam(UserConfig.USER_ICON_URL, response.getAvatarUrl());
+//        if(userIconUrl!= null) {
+//            Bitmap userIcon = BitmapUtil.getHttpPicture(userIconUrl);
+//            BitmapUtil.savePicture(userIcon, Config.TEMP_FILE_PATH ,"userIcon.jpeg");
+//        }
 
     }
 }

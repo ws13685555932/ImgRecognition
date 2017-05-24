@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.kevin.crop.UCrop;
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.apiservice.ResponseInfo;
@@ -24,8 +25,10 @@ import com.momo.imgrecognition.customedview.InfoDialog;
 import com.momo.imgrecognition.customedview.PickSexDialog;
 import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.login.LoginActivity;
+import com.momo.imgrecognition.module.login.bean.User;
 import com.momo.imgrecognition.utils.HttpManager;
 import com.momo.imgrecognition.utils.HttpObserver;
+import com.momo.imgrecognition.utils.QiniuUtil;
 import com.momo.imgrecognition.utils.RxSchedulersHelper;
 import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
@@ -49,7 +52,6 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
     private static final int CHANGE_NAME_REQUEST_CODE = 3;
     private static final int CHANGE_EMAIL_REQUEST_CODE = 4;
     private static final int CHANGE_DESCRIPTION_REQUEST_CODE = 5;
-
 
     @BindView(R.id.rl_user_icon)
     RelativeLayout rlUserIcon;
@@ -218,19 +220,53 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
         deleteTempPhotoFile();
         final Uri resultUri = UCrop.getOutput(result);
         if (null != resultUri) {
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), resultUri);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            ivUserIcon.setImageBitmap(bitmap);
-            ShowUtil.toast("更换成功");
+            uploadIcon(resultUri);
         } else {
             ShowUtil.toast("无法剪切选择图片");
         }
+    }
+
+    private void uploadIcon(Uri resultUri) {
+        String filePath = resultUri.toString();
+        filePath = filePath.substring(7,filePath.length());
+        ShowUtil.print(filePath);
+        QiniuUtil.uploadFile(filePath, new QiniuUtil.UploadListener() {
+            @Override
+            public void onUploadSuccess(String url) {
+                SharedUtil.saveParam(UserConfig.USER_ICON_URL,url);
+                updateIcon(url);
+            }
+
+            @Override
+            public void onUploadFail(Error error) {
+
+            }
+        });
+    }
+
+    private void updateIcon(final String url) {
+        UserService userService = HttpManager.getInstance()
+                .createService(UserService.class);
+        UrlBean urlBean = new UrlBean();
+        urlBean.setAvatarUrl(url);
+        urlBean.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
+        urlBean.setId((int) SharedUtil.getParam(UserConfig.USER_ID,0));
+        Observable<ResponseInfo<UpdateResponse>> call = userService.updateUserAvatar(urlBean);
+        call.compose(RxSchedulersHelper.<ResponseInfo<UpdateResponse>>io_main())
+                .subscribe(new HttpObserver<UpdateResponse>() {
+                    @Override
+                    public void onSuccess(UpdateResponse updateResponse) {
+                        Glide.with(MyInfoActivity.this)
+                                .load(url)
+                                .into(ivUserIcon);
+                        ShowUtil.toast("更换成功");
+                    }
+
+                    @Override
+                    public void onFailed(String message) {
+                        ShowUtil.toast("头像上传失败");
+                    }
+                });
     }
 
     private void deleteTempPhotoFile() {
@@ -297,6 +333,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
             public void onConfirm() {
                 Intent intent = new Intent(MyInfoActivity.this, LoginActivity.class);
                 intent.putExtra(UserConfig.USER_LOGIN,"login_password");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
@@ -388,4 +425,11 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
                 });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent();
+        setResult(RESULT_OK , intent);
+        finish();
+    }
 }

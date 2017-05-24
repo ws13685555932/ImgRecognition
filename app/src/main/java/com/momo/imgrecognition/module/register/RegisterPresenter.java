@@ -52,10 +52,10 @@ public class RegisterPresenter {
         SharedUtil.saveParam(UserConfig.USER_ID,response.getId());
         SharedUtil.saveParam(UserConfig.USER_TOKEN,response.getToken());
         SharedUtil.saveParam(UserConfig.USER_PASSWORD,password);
-        String userIconUrl = response.getAvatarUrl();
-        if(userIconUrl!= null) {
-            Bitmap userIcon = BitmapUtil.getHttpPicture(userIconUrl);
-            BitmapUtil.savePicture(userIcon, "userIcon.jpg");
-        }
+//        String userIconUrl = response.getAvatarUrl();
+//        if(userIconUrl!= null) {
+//            Bitmap userIcon = BitmapUtil.getHttpPicture(userIconUrl);
+//            BitmapUtil.savePicture(userIcon, Config.TEMP_FILE_PATH,"userIcon.jpeg");
+//        }
     }
 }

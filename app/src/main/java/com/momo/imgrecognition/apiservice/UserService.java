@@ -9,6 +9,7 @@ import com.momo.imgrecognition.module.myinfo.InfoBean;
 import com.momo.imgrecognition.module.myinfo.UpdateResponse;
 import com.momo.imgrecognition.module.myinfo.NameBean;
 import com.momo.imgrecognition.module.myinfo.SexBean;
+import com.momo.imgrecognition.module.myinfo.UrlBean;
 import com.momo.imgrecognition.module.myinfo.UserInfo;
 import com.momo.imgrecognition.module.myinfo.UserRequest;
 import com.momo.imgrecognition.module.mymessage.MessageList;
@@ -56,6 +57,9 @@ public interface UserService {
 
     @POST("user/getUserInfo")
     Observable<ResponseInfo<UserInfo>> getUserInfo(@Body UserRequest request);
+
+    @POST("user/updateUserAvatar")
+    Observable<ResponseInfo<UpdateResponse>> updateUserAvatar(@Body UrlBean urlBean);
 
 
 

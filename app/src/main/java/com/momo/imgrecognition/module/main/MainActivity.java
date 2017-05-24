@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -15,12 +16,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.config.Config;
 import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.changeskin.ChangeSkinActivity;
 import com.momo.imgrecognition.module.history.HistoryActivity;
 import com.momo.imgrecognition.module.history.HistoryBean;
+import com.momo.imgrecognition.module.login.bean.LoginResponse;
+import com.momo.imgrecognition.module.login.bean.User;
+import com.momo.imgrecognition.module.login.biz.LoginBiz;
+import com.momo.imgrecognition.module.login.biz.OnLoginListener;
 import com.momo.imgrecognition.module.main.adapter.ViewPagerAdapter;
 import com.momo.imgrecognition.module.main.view.CategoryFragment;
 import com.momo.imgrecognition.module.main.view.RecommendFragment;
@@ -31,9 +38,11 @@ import com.momo.imgrecognition.module.mytask.MyTaskActivity;
 import com.momo.imgrecognition.module.settings.SettingsActivity;
 import com.momo.imgrecognition.module.taglater.TagLaterActivity;
 import com.momo.imgrecognition.utils.ActivityManager;
+import com.momo.imgrecognition.utils.BitmapUtil;
 import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -45,6 +54,16 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity {
+
+    private static final int REQUEST_MY_INFO = 1001;
+    private static final int REQUEST_MY_MESSAGE = 1002;
+    private static final int REQUEST_MY_SCORE = 1003;
+    private static final int REQUEST_TAG_LATER = 1004;
+    private static final int REQUEST_HISTORY = 1005;
+    private static final int REQUEST_MY_TASK = 1006;
+    private static final int REQUEST_CHANGE_SKIN = 1007;
+    private static final int REQUEST_SETTINGS = 1008;
+
 
     @BindView(R.id.drawer)
     DrawerLayout drawer;
@@ -136,56 +155,96 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, MyInfoActivity.class);
-                startActivity(intent);
-
+                startActivityForResult(intent,REQUEST_MY_INFO);
             }
         });
+    }
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        dynamicAddView(toolbar,"background",R.color.colorPrimary);
+    // TODO: 2017/5/24 等级
+    private void initData() {
+        //自动登录
+        if(getIntent()!=null){
+            String type = getIntent().getStringExtra("type");
+            if(type != null){
+                LoginBiz loginBiz = new LoginBiz();
+                String username = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
+                String password = (String) SharedUtil.getParam(UserConfig.USER_PASSWORD,"");
+                User user = new User(password,username);
+                loginBiz.login(user, new OnLoginListener() {
+                    @Override
+                    public void loginSuccess(LoginResponse response) {
+                        tvUserName.setText(response.getName());
+                        Glide.with(MainActivity.this).load(response.getAvatarUrl()).into(ivUserIcon);
+                        View header = navView.getHeaderView(0);
+                        CircleImageView ivUserIconNav = (CircleImageView) header.findViewById(R.id.civ_user_icon);
+                        Glide.with(MainActivity.this).load(response.getAvatarUrl()).into(ivUserIconNav);
+                    }
+
+                    @Override
+                    public void loginFailed(String msg) {
+
+                    }
+                });
+                return ;
+            }
+        }
+        
+        //正常登录
+        String username = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
+        tvUserName.setText(username);
+        String userIconUrl = (String) SharedUtil.getParam(UserConfig.USER_ICON_URL,"");
+        if(!userIconUrl.equals("")){
+            Glide.with(this).load(userIconUrl).into(ivUserIcon);
+            View header = navView.getHeaderView(0);
+            CircleImageView ivUserIconNav = (CircleImageView) header.findViewById(R.id.civ_user_icon);
+            Glide.with(this).load(userIconUrl).into(ivUserIconNav);
+            BitmapUtil.downloadUserIcon(userIconUrl);
+        }
+
 
     }
 
+
     private void toTaglatter() {
+        drawer.closeDrawer(navView);
         Intent intent = new Intent(this, TagLaterActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,REQUEST_TAG_LATER);
     }
 
     private void toSettings() {
+        drawer.closeDrawer(navView);
         Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,REQUEST_SETTINGS);
     }
 
     private void toMyTask() {
+        drawer.closeDrawer(navView);
         Intent intent = new Intent(this, MyTaskActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,REQUEST_MY_TASK);
     }
 
     private void toHistory() {
+        drawer.closeDrawer(navView);
         Intent intent = new Intent(this, HistoryActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,REQUEST_HISTORY);
     }
 
     private void toMyScore() {
+        drawer.closeDrawer(navView);
         Intent intent = new Intent(this, MyScoreActivity.class);
-        startActivity(intent);
-    }
-
-    private void initData() {
-        String username = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
-        tvUserName.setText(username);
-
+        startActivityForResult(intent,REQUEST_MY_SCORE);
     }
 
     private void toMyMessage() {
+        drawer.closeDrawer(navView);
         Intent intent = new Intent(this, MyMessageActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,REQUEST_MY_MESSAGE);
     }
 
     private void changeSkin() {
+        drawer.closeDrawer(navView);
         Intent intent = new Intent(MainActivity.this, ChangeSkinActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,REQUEST_CHANGE_SKIN);
     }
 
     @OnClick(R.id.iv_user_icon)
@@ -193,8 +252,9 @@ public class MainActivity extends BaseActivity {
         drawer.openDrawer(navView);
     }
 
+
     @Override
-    public void finish() {
+    public void onBackPressed() {
         exitBy2Click();
     }
 
@@ -212,16 +272,25 @@ public class MainActivity extends BaseActivity {
                     isExit = false; // 取消退出
                 }
             }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
-
         } else {
             ActivityManager.finishAll();
+            android.os.Process.killProcess(Process.myPid());
         }
     }
 
+    // TODO: 2017/5/24 更新名字头像和等级 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        drawer.closeDrawer(navView);
+        if(requestCode == REQUEST_MY_INFO){
+            ShowUtil.print("user icon changed ");
+            String userIconUrl = (String) SharedUtil.getParam(UserConfig.USER_ICON_URL,"");
+            Glide.with(this).load(userIconUrl).into(ivUserIcon);
+            View header = navView.getHeaderView(0);
+            CircleImageView ivUserIconNav = (CircleImageView) header.findViewById(R.id.civ_user_icon);
+            Glide.with(this).load(userIconUrl).into(ivUserIconNav);
+        }
+
     }
 
 }
