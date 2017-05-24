@@ -113,7 +113,38 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
         }
         mTempPhotoPath = tempFilePath + File.separator + "photo.jpeg";
         mDestinationUri = Uri.fromFile(new File(tempFilePath, "userIcon.jpeg"));
+        
+        
+        getUserInfo();
 
+    }
+
+    private void getUserInfo() {
+        UserService userService = HttpManager.getInstance().createService(UserService.class);
+        UserRequest request = new UserRequest();
+        request.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN, ""));
+        request.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID, 0));
+        request.setName((String) SharedUtil.getParam(UserConfig.USER_NAME, ""));
+        ShowUtil.print(request.toString());
+        Observable<ResponseInfo<UserInfo>> call = userService.getUserInfo(request);
+        call.compose(RxSchedulersHelper.<ResponseInfo<UserInfo>>io_main())
+                .subscribe(new HttpObserver<UserInfo>() {
+                    @Override
+                    public void onSuccess(UserInfo userInfo) {
+                        tvNickname.setText(userInfo.getName());
+                        tvSex.setText(userInfo.getSex());
+                        tvBirthday.setText(userInfo.getBirthday());
+                        tvPhoneNumber.setText(userInfo.getPhone());
+                        tvEmail.setText(userInfo.getEmail());
+                        tvDescription.setText(userInfo.getIntroduction());
+                    }
+
+                    // TODO: 2017/5/24 默认显示界面 
+                    @Override
+                    public void onFailed(String message) {
+                        ShowUtil.print(message);
+                    }
+                });
     }
 
     @OnClick(R.id.rl_user_icon)

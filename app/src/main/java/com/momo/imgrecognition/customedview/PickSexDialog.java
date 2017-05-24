@@ -57,55 +57,6 @@ public class PickSexDialog extends DialogFragment {
     }
 
 
-    /**
-     * 控制窗口背景的不透明度
-     */
-    private void setWindowBackgroundAlpha(float alpha) {
-        Window window = ((Activity) getContext()).getWindow();
-        WindowManager.LayoutParams layoutParams = window.getAttributes();
-        layoutParams.alpha = alpha;
-        window.setAttributes(layoutParams);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    /**
-     * 窗口显示，窗口背景透明度渐变动画
-     */
-    private ValueAnimator showAnimator() {
-        ValueAnimator animator = ValueAnimator.ofFloat(1.0f, mShowAlpha);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float alpha = (float) animation.getAnimatedValue();
-                setWindowBackgroundAlpha(alpha);
-            }
-        });
-        animator.setDuration(360);
-        return animator;
-    }
-
-    /**
-     * 窗口隐藏，窗口背景透明度渐变动画
-     */
-    private ValueAnimator dismissAnimator() {
-        ValueAnimator animator = ValueAnimator.ofFloat(mShowAlpha, 1.0f);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float alpha = (float) animation.getAnimatedValue();
-                setWindowBackgroundAlpha(alpha);
-            }
-        });
-        animator.setDuration(320);
-        return animator;
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -161,12 +112,10 @@ public class PickSexDialog extends DialogFragment {
     @Override
     public void dismiss() {
         super.dismiss();
-        dismissAnimator().start();
     }
 
     @Override
     public void show(FragmentManager manager, String tag) {
         super.show(manager, tag);
-        showAnimator().start();
     }
 }
