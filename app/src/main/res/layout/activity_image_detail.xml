@@ -5,30 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:id="@+id/root"
     tools:context="com.momo.imgrecognition.module.detail.ImageDetailActivity">
-
-
-
-    
-    
-    <ImageView
-        android:id="@+id/iv_image"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:scaleType="centerCrop"
-        android:transitionName="anim"
-        android:src="@drawable/bg_nav"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="76dp"
-        android:background="@drawable/gradient"
-        android:fitsSystemWindows="true"/>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="@color/theme_color_primary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp">
@@ -47,10 +32,8 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:paddingLeft="8dp"
-            android:text="点击查看完整图片"
-            android:paddingRight="8dp"
+            android:text="图片详情"
             android:textColor="@color/white"
             android:textSize="18sp"/>
 
@@ -69,7 +52,7 @@
         android:id="@+id/toolbar_shadow"
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:layout_below="@id/iv_image"
+        android:layout_below="@id/toolbar"
         android:background="@drawable/toolbar_shadow"/>
 
 
@@ -80,7 +63,12 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_nav"/>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -109,6 +97,7 @@
 
                 <com.zhy.view.flowlayout.TagFlowLayout
                     android:id="@+id/tfl_labels"
+                    android:animateLayoutChanges="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -117,7 +106,7 @@
                 <TextView
                     android:padding="8dp"
                     android:id="@+id/tv_add_customed_tag"
-                    android:text="标签不合适？添加自己的标签"
+                    android:text="标签不合适？添加自己的标签mai"
                     android:textColor="@color/theme_color_primary"
                     android:gravity="center"
                     android:textSize="14sp"
@@ -185,8 +174,8 @@
         android:layout_marginRight="16dp"
         app:backgroundTint="@color/theme_color_primary"
         app:rippleColor="@color/theme_color_primary_dark"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@id/ll_customed_tag"
         android:src="@drawable/ic_confirm_bigger"
-        android:layout_marginBottom="48dp"/>
+        android:layout_marginBottom="16dp"/>
 
 </RelativeLayout>
