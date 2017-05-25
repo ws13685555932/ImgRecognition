@@ -1,7 +1,8 @@
 package com.momo.imgrecognition.module.search;
 
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,6 +48,8 @@ public class SearchActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.fl_content)
     FrameLayout flContent;
+    @BindView(R.id.ll_search)
+    LinearLayout llSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +114,7 @@ public class SearchActivity extends BaseActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @OnClick({R.id.iv_back, R.id.et_search, R.id.iv_search})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -119,6 +123,11 @@ public class SearchActivity extends BaseActivity {
                 break;
             case R.id.et_search:
                 llExtend.setVisibility(View.VISIBLE);
+//                llSearch.setBackgroundColor(getResources().getColor(R.color.white));
+//                ivSearch.setBackgroundTintList(getResources().getColorStateList(R.color.gray_dark));
+//                ivBack.setBackgroundTintList(getResources().getColorStateList(R.color.gray_dark));
+//                etSearch.setHintTextColor(getResources().getColorStateList(R.color.gray_dark));
+
                 break;
             case R.id.iv_search:
                 llExtend.setVisibility(View.GONE);

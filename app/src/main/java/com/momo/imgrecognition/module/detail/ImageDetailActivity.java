@@ -9,6 +9,8 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.utils.ShowUtil;
@@ -66,12 +69,17 @@ public class ImageDetailActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    private boolean isInput  =false;
+    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detail);
         ButterKnife.bind(this);
 
+        initData();
+        
         if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
             int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -94,6 +102,7 @@ public class ImageDetailActivity extends BaseActivity {
                 int softHeight = screenHeight - r.bottom;
 
                 if (softHeight > 100) {//当输入法高度大于100判定为输入法打开了
+                    isInput = true;
                     llCustomedTag.setTranslationY(-softHeight);
                     fadeOut(fabConfirm);
 //                    fadeIn(llCustomedTag);
@@ -103,7 +112,8 @@ public class ImageDetailActivity extends BaseActivity {
 //                    tranlateUp(-softHeight);
 
 
-                } else {//否则判断为输入法隐藏了
+                } else if(isInput){//否则判断为输入法隐藏了w
+                    isInput = false;
                     llCustomedTag.setVisibility(View.GONE);
                     llCustomedTag.setTranslationY(softHeight);
                     fadeIn(fabConfirm);
@@ -187,6 +197,12 @@ public class ImageDetailActivity extends BaseActivity {
         });
     }
 
+    int url;
+    private void initData() {
+        url = getIntent().getIntExtra("url",0);
+        Glide.with(this).load(url).into(ivImage);
+    }
+
     private void selectLastOne() {
         int lastIndex = tagAdapter.getCount() - 1;
         TagView tagView = (TagView) tflLabels.getChildAt(lastIndex);
@@ -201,7 +217,13 @@ public class ImageDetailActivity extends BaseActivity {
     @OnClick(R.id.iv_image)
     public void onViewClicked() {
         Intent intent = new Intent(this, PreviewActivity.class);
-        startActivity(intent);
+        intent.putExtra("url",url);
+        ActivityOptionsCompat compat =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+                        ivImage, getString(R.string.transName));
+        ActivityCompat.startActivity(this,intent, compat.toBundle());
+
+//        startActivity(intent);
     }
 
     @Override

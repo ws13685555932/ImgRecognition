@@ -1,12 +1,15 @@
 package com.momo.imgrecognition.module.main.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.module.category.CategoryActivity;
 import com.momo.imgrecognition.module.main.bean.CategoryBean;
 import com.momo.imgrecognition.module.main.view.CategoryFragment;
 import com.momo.imgrecognition.utils.CommonAdapter;
@@ -34,6 +37,14 @@ public class CategoryAdapter extends CommonAdapter<CategoryBean> {
         TextView tvCate = holder.getView(R.id.tv_category);
         ImageView ivIcon = holder.getView(R.id.iv_icon);
 
+        RelativeLayout rlRoot = holder.getView(R.id.rl_category);
+        rlRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, CategoryActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
         CategoryBean bean = (CategoryBean) getItem(position);
         tvCate.setText(bean.getCategory());
         ivIcon.setImageDrawable(mContext.getResources().getDrawable(bean.getResId()));

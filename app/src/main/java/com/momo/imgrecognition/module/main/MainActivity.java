@@ -11,19 +11,17 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
-import com.momo.imgrecognition.config.Config;
 import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.changeskin.ChangeSkinActivity;
 import com.momo.imgrecognition.module.history.HistoryActivity;
-import com.momo.imgrecognition.module.history.HistoryBean;
 import com.momo.imgrecognition.module.login.bean.LoginResponse;
 import com.momo.imgrecognition.module.login.bean.User;
 import com.momo.imgrecognition.module.login.biz.LoginBiz;
@@ -35,6 +33,7 @@ import com.momo.imgrecognition.module.myinfo.MyInfoActivity;
 import com.momo.imgrecognition.module.mymessage.MyMessageActivity;
 import com.momo.imgrecognition.module.myscore.MyScoreActivity;
 import com.momo.imgrecognition.module.mytask.MyTaskActivity;
+import com.momo.imgrecognition.module.search.SearchActivity;
 import com.momo.imgrecognition.module.settings.SettingsActivity;
 import com.momo.imgrecognition.module.taglater.TagLaterActivity;
 import com.momo.imgrecognition.utils.ActivityManager;
@@ -42,7 +41,6 @@ import com.momo.imgrecognition.utils.BitmapUtil;
 import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -77,6 +75,8 @@ public class MainActivity extends BaseActivity {
     CircleImageView ivUserIcon;
     @BindView(R.id.tv_user_name)
     TextView tvUserName;
+    @BindView(R.id.iv_search)
+    ImageView ivSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,7 +155,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, MyInfoActivity.class);
-                startActivityForResult(intent,REQUEST_MY_INFO);
+                startActivityForResult(intent, REQUEST_MY_INFO);
             }
         });
     }
@@ -163,13 +163,13 @@ public class MainActivity extends BaseActivity {
     // TODO: 2017/5/24 等级
     private void initData() {
         //自动登录
-        if(getIntent()!=null){
+        if (getIntent() != null) {
             String type = getIntent().getStringExtra("type");
-            if(type != null){
+            if (type != null) {
                 LoginBiz loginBiz = new LoginBiz();
                 String username = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
-                String password = (String) SharedUtil.getParam(UserConfig.USER_PASSWORD,"");
-                User user = new User(password,username);
+                String password = (String) SharedUtil.getParam(UserConfig.USER_PASSWORD, "");
+                User user = new User(password, username);
                 loginBiz.login(user, new OnLoginListener() {
                     @Override
                     public void loginSuccess(LoginResponse response) {
@@ -185,15 +185,15 @@ public class MainActivity extends BaseActivity {
 
                     }
                 });
-                return ;
+                return;
             }
         }
-        
+
         //正常登录
         String username = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
         tvUserName.setText(username);
-        String userIconUrl = (String) SharedUtil.getParam(UserConfig.USER_ICON_URL,"");
-        if(!userIconUrl.equals("")){
+        String userIconUrl = (String) SharedUtil.getParam(UserConfig.USER_ICON_URL, "");
+        if (!userIconUrl.equals("")) {
             Glide.with(this).load(userIconUrl).into(ivUserIcon);
             View header = navView.getHeaderView(0);
             CircleImageView ivUserIconNav = (CircleImageView) header.findViewById(R.id.civ_user_icon);
@@ -208,48 +208,43 @@ public class MainActivity extends BaseActivity {
     private void toTaglatter() {
         drawer.closeDrawer(navView);
         Intent intent = new Intent(this, TagLaterActivity.class);
-        startActivityForResult(intent,REQUEST_TAG_LATER);
+        startActivityForResult(intent, REQUEST_TAG_LATER);
     }
 
     private void toSettings() {
         drawer.closeDrawer(navView);
         Intent intent = new Intent(this, SettingsActivity.class);
-        startActivityForResult(intent,REQUEST_SETTINGS);
+        startActivityForResult(intent, REQUEST_SETTINGS);
     }
 
     private void toMyTask() {
         drawer.closeDrawer(navView);
         Intent intent = new Intent(this, MyTaskActivity.class);
-        startActivityForResult(intent,REQUEST_MY_TASK);
+        startActivityForResult(intent, REQUEST_MY_TASK);
     }
 
     private void toHistory() {
         drawer.closeDrawer(navView);
         Intent intent = new Intent(this, HistoryActivity.class);
-        startActivityForResult(intent,REQUEST_HISTORY);
+        startActivityForResult(intent, REQUEST_HISTORY);
     }
 
     private void toMyScore() {
         drawer.closeDrawer(navView);
         Intent intent = new Intent(this, MyScoreActivity.class);
-        startActivityForResult(intent,REQUEST_MY_SCORE);
+        startActivityForResult(intent, REQUEST_MY_SCORE);
     }
 
     private void toMyMessage() {
         drawer.closeDrawer(navView);
         Intent intent = new Intent(this, MyMessageActivity.class);
-        startActivityForResult(intent,REQUEST_MY_MESSAGE);
+        startActivityForResult(intent, REQUEST_MY_MESSAGE);
     }
 
     private void changeSkin() {
         drawer.closeDrawer(navView);
         Intent intent = new Intent(MainActivity.this, ChangeSkinActivity.class);
-        startActivityForResult(intent,REQUEST_CHANGE_SKIN);
-    }
-
-    @OnClick(R.id.iv_user_icon)
-    public void onDrawerOpen() {
-        drawer.openDrawer(navView);
+        startActivityForResult(intent, REQUEST_CHANGE_SKIN);
     }
 
 
@@ -274,7 +269,7 @@ public class MainActivity extends BaseActivity {
             }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
         } else {
             ActivityManager.finishAll();
-            android.os.Process.killProcess(Process.myPid());
+            Process.killProcess(Process.myPid());
         }
     }
 
@@ -282,9 +277,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_MY_INFO){
+        if (requestCode == REQUEST_MY_INFO) {
             ShowUtil.print("user icon changed ");
-            String userIconUrl = (String) SharedUtil.getParam(UserConfig.USER_ICON_URL,"");
+            String userIconUrl = (String) SharedUtil.getParam(UserConfig.USER_ICON_URL, "");
             Glide.with(this).load(userIconUrl).into(ivUserIcon);
             View header = navView.getHeaderView(0);
             CircleImageView ivUserIconNav = (CircleImageView) header.findViewById(R.id.civ_user_icon);
@@ -293,4 +288,20 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @OnClick({R.id.iv_user_icon, R.id.iv_search})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_user_icon:
+                drawer.openDrawer(navView);
+                break;
+            case R.id.iv_search:
+                toSearchActivity();
+                break;
+        }
+    }
+
+    private void toSearchActivity() {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+    }
 }

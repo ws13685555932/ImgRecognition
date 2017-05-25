@@ -6,4 +6,5 @@
     <string name="password_hint">请输入密码</string>
     <string name="forget_password">忘记密码</string>
     <string name="other_login_way">社交账号登录</string>
+    <string name="transName">transName</string>
 </resources>

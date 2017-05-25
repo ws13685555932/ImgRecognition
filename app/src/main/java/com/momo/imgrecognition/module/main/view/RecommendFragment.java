@@ -29,12 +29,12 @@ import butterknife.Unbinder;
 
 public class RecommendFragment extends Fragment {
 
-
     @BindView(R.id.recycle)
     RecyclerView recycle;
     Unbinder unbinder;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
+    private ImageAdapter mAdapter;
     private List<ImageBean> imageBeanList = new ArrayList<>();
     private int[] resId = new int[]{R.drawable.bg_sample_one, R.drawable.bg_sample_two, R.drawable.bg_sample_three, R.drawable.bg_sample_four
             , R.drawable.bg_sample_five, R.drawable.bg_sample_six, R.drawable.bg_sample_seven};
@@ -53,16 +53,16 @@ public class RecommendFragment extends Fragment {
 
         unbinder = ButterKnife.bind(this, view);
 
-        for (int i = 0; i < 20; i++) {
-            ImageBean bean = new ImageBean();
-            bean.setImgId(resId[i % 7]);
-            bean.setName(resName[i % 7]);
-            imageBeanList.add(bean);
-        }
+
+
+        initPicture();
         StaggeredGridLayoutManager staggeredGridLayoutManager =
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recycle.setLayoutManager(staggeredGridLayoutManager);
-        recycle.setAdapter(new ImageAdapter(imageBeanList, getContext()));
+        mAdapter = new ImageAdapter(imageBeanList, getContext());
+
+        recycle.setAdapter(mAdapter);
+
 
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.theme_color_primary));
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -89,12 +89,54 @@ public class RecommendFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        initPicture();
+                        mAdapter.notifyDataSetChanged();
                         swipeRefresh.setRefreshing(false);
                     }
                 });
-
             }
         }).start();
+    }
+
+    private void initPicture() {
+        List<ImageBean> imgList = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            ImageBean bean = new ImageBean();
+            bean.setImgUrl(resId[i % 7]);
+            bean.setTags(resName[i % 7]);
+            bean.setTagNum(10);
+            imgList.add(bean);
+        }
+        imageBeanList.addAll(0,imgList);
+
+//        PictureService pictureService = HttpManager.getInstance().createService(PictureService.class);
+//        PictureRequest request = new PictureRequest();
+//        request.setLimit(20);
+//        request.setId((int) SharedUtil.getParam(UserConfig.USER_ID,0));
+//        Observable<ResponseInfo<RecomResponse>> call = pictureService.getPicture(request);
+//        call.compose(RxSchedulersHelper.<ResponseInfo<RecomResponse>>io_main())
+//                .subscribe(new HttpObserver<RecomResponse>() {
+//                    @Override
+//                    public void onSuccess(RecomResponse recomResponse) {
+//                        List<ImageBean> imgList = new ArrayList<>();
+//                        ArrayList<RecomResponse.PictureListBean> pictureList =
+//                                (ArrayList<RecomResponse.PictureListBean>) recomResponse.getPictureList();
+//                        for (int i = 0; i < pictureList.size(); i++) {
+//                            RecomResponse.PictureListBean picture = pictureList.get(i);
+//                            ImageBean bean = new ImageBean();
+//                            bean.setImgUrl(picture.getPath());
+//                            bean.setName(resName[i % 7]);
+//                            imgList.add(bean);
+//                        }
+//                        imageBeanList.addAll(0,imgList);
+//                        ShowUtil.toast("更新了20条内容！");
+//                    }
+//
+//                    @Override
+//                    public void onFailed(String message) {
+//
+//                    }
+//                });
     }
 
     @Override

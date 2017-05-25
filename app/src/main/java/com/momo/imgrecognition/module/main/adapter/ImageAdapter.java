@@ -11,9 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bilibili.magicasakura.widgets.TintTextView;
 import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.module.detail.ImageDetailActivity;
@@ -27,7 +27,7 @@ import java.util.List;
  * Created by Administrator on 2017/4/21.
  */
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> implements View.OnClickListener {
 
     private Context mContext;
     private List<ImageBean> imageList;
@@ -36,15 +36,19 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
         CardView cardView;
         ImageView imageView;
-        TextView textView;
+        TextView tvTagNumber;
+        TextView tvRecomTags;
+        TextView tvTime;
         ImageView iv_more;
 
         public ViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView) itemView;
-            textView = (TextView) itemView.findViewById(R.id.tv_image);
+            tvTagNumber = (TextView) itemView.findViewById(R.id.tv_tag_number);
+            tvRecomTags = (TextView) itemView.findViewById(R.id.tv_recom_tags);
             imageView = (ImageView) itemView.findViewById(R.id.iv_image);
             iv_more = (ImageView) itemView.findViewById(R.id.ib_more);
+            tvTime = (TextView) itemView.findViewById(R.id.tv_time);
         }
     }
 
@@ -65,10 +69,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(final ImageAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final ImageAdapter.ViewHolder holder, final int position) {
         ImageBean bean = imageList.get(position);
-        holder.textView.setText(bean.getName());
-        Glide.with(mContext).load(bean.getImgId()).into(holder.imageView);
+        holder.tvRecomTags.setText(bean.getTags());
+        Glide.with(mContext).load(bean.getImgUrl()).into(holder.imageView);
         holder.iv_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,24 +83,27 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ImageDetailActivity.class);
+                intent.putExtra("url" , imageList.get(position).getImgUrl());
                 mContext.startActivity(intent);
             }
         });
+        holder.tvTagNumber.setText("已有" + bean.getTagNum() + "个标签");
+        holder.tvTime.setText("2016-5-12 5:15");
     }
-
+    PopupWindowWithAnim pop;
     private void showPopUpWindow(View view) {
         View popView = LayoutInflater.from(mContext).inflate(R.layout.layout_pop, null);
-        PopupWindowWithAnim pop;
+
         pop = new PopupWindowWithAnim(mContext,popView);
         pop.setTouchable(true);
         pop.setBackgroundDrawable(new ColorDrawable());
 
         //popupWindows中按钮设置点击事件
-        TextView tv_tag_later = (TextView) popView.findViewById(R.id.tv_tag_later);
-        TextView tv_not_interested = (TextView) popView.findViewById(R.id.tv_not_interested);
+        LinearLayout ll_tag_later = (LinearLayout) popView.findViewById(R.id.ll_tag_later);
+        LinearLayout ll_not_interested = (LinearLayout) popView.findViewById(R.id.ll_not_interested);
 
-        setDrawableBounds(tv_not_interested);
-        setDrawableBounds(tv_tag_later);
+        ll_tag_later.setOnClickListener(this);
+        ll_not_interested.setOnClickListener(this);
 
         pop.getContentView().measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         int height = pop.getContentView().getMeasuredHeight();
@@ -135,6 +142,20 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         Drawable left = textView.getCompoundDrawables()[0];
         left.setBounds(0, 0, 80, 80);
         textView.setCompoundDrawables(left, null, null, null);
+
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.ll_tag_later:
+                pop.dismiss();
+                break;
+            case R.id.ll_not_interested:
+                pop.dismiss();
+                break;
+        }
     }
 
     @Override
