@@ -26,6 +26,7 @@ import com.momo.imgrecognition.customedview.PickSexDialog;
 import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.login.LoginActivity;
 import com.momo.imgrecognition.module.login.bean.User;
+import com.momo.imgrecognition.module.main.MainActivity;
 import com.momo.imgrecognition.utils.HttpManager;
 import com.momo.imgrecognition.utils.HttpObserver;
 import com.momo.imgrecognition.utils.QiniuUtil;
@@ -137,6 +138,16 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
                         tvPhoneNumber.setText(userInfo.getPhone());
                         tvEmail.setText(userInfo.getEmail());
                         tvDescription.setText(userInfo.getIntroduction());
+                        if(!userInfo.getAvatarUrl() .equals("")) {
+                            Glide.with(MyInfoActivity.this)
+                                    .load(userInfo.getAvatarUrl())
+                                    .into(ivUserIcon);
+                        }else{
+                            Glide.with(MyInfoActivity.this)
+                                    .load(R.drawable.default_user)
+                                    .into(ivUserIcon);
+                        }
+
                     }
 
                     // TODO: 2017/5/24 默认显示界面 

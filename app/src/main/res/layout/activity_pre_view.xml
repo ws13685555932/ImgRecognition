@@ -8,8 +8,10 @@
     android:background="#000"
     tools:context="com.momo.imgrecognition.module.detail.PreviewActivity">
 
-    <com.bm.library.PhotoView
+    <!--android:transitionName="@string/transName"-->
+    <ImageView
         android:id="@+id/photo_view"
+        android:transitionName="anim"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerInside"

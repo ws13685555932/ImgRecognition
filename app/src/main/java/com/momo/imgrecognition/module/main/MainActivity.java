@@ -174,10 +174,29 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void loginSuccess(LoginResponse response) {
                         tvUserName.setText(response.getName());
-                        Glide.with(MainActivity.this).load(response.getAvatarUrl()).into(ivUserIcon);
+                        if(!response.getAvatarUrl() .equals("")) {
+                            Glide.with(MainActivity.this)
+                                    .load(response.getAvatarUrl())
+                                    .into(ivUserIcon);
+                        }else{
+                            Glide.with(MainActivity.this)
+                                    .load(R.drawable.default_user)
+                                    .into(ivUserIcon);
+                        }
                         View header = navView.getHeaderView(0);
                         CircleImageView ivUserIconNav = (CircleImageView) header.findViewById(R.id.civ_user_icon);
-                        Glide.with(MainActivity.this).load(response.getAvatarUrl()).into(ivUserIconNav);
+                        if(!response.getAvatarUrl() .equals("")) {
+                            Glide.with(MainActivity.this)
+                                    .load(response.getAvatarUrl())
+                                    .into(ivUserIconNav);
+                        }else{
+                            Glide.with(MainActivity.this)
+                                    .load(R.drawable.default_user)
+                                    .into(ivUserIconNav);
+                        }
+                        TextView tvLevel = (TextView) header.findViewById(R.id.tv_level);
+                        int level = (int) SharedUtil.getParam(UserConfig.USER_LEVEL,0);
+                        tvLevel.setText("Lv." + level);
                     }
 
                     @Override
@@ -194,11 +213,30 @@ public class MainActivity extends BaseActivity {
         tvUserName.setText(username);
         String userIconUrl = (String) SharedUtil.getParam(UserConfig.USER_ICON_URL,"");
         if(!userIconUrl.equals("")){
-            Glide.with(this).load(userIconUrl).into(ivUserIcon);
+            if(!userIconUrl.equals("")) {
+                Glide.with(MainActivity.this)
+                        .load(userIconUrl)
+                        .into(ivUserIcon);
+            }else{
+                Glide.with(MainActivity.this)
+                        .load(R.drawable.default_user)
+                        .into(ivUserIcon);
+            }
             View header = navView.getHeaderView(0);
             CircleImageView ivUserIconNav = (CircleImageView) header.findViewById(R.id.civ_user_icon);
-            Glide.with(this).load(userIconUrl).into(ivUserIconNav);
+            if(!userIconUrl.equals("")) {
+                Glide.with(MainActivity.this)
+                        .load(userIconUrl)
+                        .into(ivUserIconNav);
+            }else{
+                Glide.with(MainActivity.this)
+                        .load(R.drawable.default_user)
+                        .into(ivUserIconNav);
+            }
             BitmapUtil.downloadUserIcon(userIconUrl);
+            TextView tvLevel = (TextView) header.findViewById(R.id.tv_level);
+            int level = (int) SharedUtil.getParam(UserConfig.USER_LEVEL,0);
+            tvLevel.setText("Lv." + level);
         }
 
 
@@ -289,6 +327,14 @@ public class MainActivity extends BaseActivity {
             View header = navView.getHeaderView(0);
             CircleImageView ivUserIconNav = (CircleImageView) header.findViewById(R.id.civ_user_icon);
             Glide.with(this).load(userIconUrl).into(ivUserIconNav);
+            TextView tvName = (TextView) header.findViewById(R.id.tv_user_name);
+            tvName.setText((String) SharedUtil.getParam(UserConfig.USER_NAME,""));
+            tvUserName.setText((String) SharedUtil.getParam(UserConfig.USER_NAME,""));
+        }else if(requestCode == REQUEST_MY_SCORE){
+            View header = navView.getHeaderView(0);
+            TextView tvLevel = (TextView) header.findViewById(R.id.tv_level);
+            int level = (int) SharedUtil.getParam(UserConfig.USER_LEVEL,0);
+            tvLevel.setText("Lv." + level);
         }
 
     }

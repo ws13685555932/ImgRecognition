@@ -84,6 +84,8 @@ public class MyScoreActivity extends BaseActivity {
         int level = userInfo.getLevel();
         int currScore = userInfo.getScore();
 
+        SharedUtil.saveParam(UserConfig.USER_LEVEL,level);
+
         scoreView.setTotal(scores[level-1]);
         scoreView.setProgress(currScore);
         scoreView.setLevel(level);

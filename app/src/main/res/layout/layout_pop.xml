@@ -6,52 +6,54 @@
     android:background="@drawable/bg_popup_window"
     android:orientation="vertical">
 
-    <!--<LinearLayout-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-        <!---->
-        <!--<ImageView-->
-            <!--android:layout_width="40dp"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:src="@mipmap/ic_launcher"/>-->
-
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:padding="5dp"-->
-            <!--android:textColor="#3a3a3a"-->
-            <!--android:textSize="18sp"-->
-            <!--android:id="@+id/tv_tag_later"-->
-            <!--android:gravity="center_vertical"-->
-            <!--android:text="添加到稍后再评"/>-->
-    <!--</LinearLayout>-->
-
-    <TextView
+    <LinearLayout
+        android:id="@+id/ll_tag_later"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:textColor="@color/default_text_color"
-        android:textSize="16sp"
-        android:layout_margin="4dp"
-        android:id="@+id/tv_tag_later"
-        android:drawableLeft="@mipmap/ic_launcher"
-        android:gravity="center_vertical"
-        android:drawablePadding="10dp"
-        android:text="添加到稍后再评"/>
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-    <TextView
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_tag_later"
+            android:backgroundTint="@color/theme_color_primary"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="添加到稍后再评"
+            android:textColor="@color/default_text_color"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_not_interested"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:id="@+id/tv_not_interested"
-        android:textColor="@color/default_text_color"
-        android:textSize="16sp"
-        android:layout_margin="4dp"
-        android:drawableLeft="@mipmap/ic_launcher"
-        android:gravity="center_vertical"
-        android:drawablePadding="10dp"
-        android:text="不感兴趣"/>
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_margin="3dp"
+            android:background="@drawable/ic_not_interested"
+            android:backgroundTint="@color/theme_color_primary"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="不感兴趣"
+            android:textColor="@color/default_text_color"
+            android:textSize="16sp"/>
+    </LinearLayout>
 
 
 </LinearLayout>
