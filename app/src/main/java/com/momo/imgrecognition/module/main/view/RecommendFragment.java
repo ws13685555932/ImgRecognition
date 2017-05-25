@@ -2,7 +2,6 @@ package com.momo.imgrecognition.module.main.view;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,15 +12,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.apiservice.PictureService;
+import com.momo.imgrecognition.apiservice.ResponseInfo;
+import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.module.main.adapter.ImageAdapter;
 import com.momo.imgrecognition.module.main.bean.ImageBean;
+import com.momo.imgrecognition.module.main.bean.PictureRequest;
+import com.momo.imgrecognition.module.main.bean.RecomResponse;
+import com.momo.imgrecognition.utils.HttpManager;
+import com.momo.imgrecognition.utils.HttpObserver;
+import com.momo.imgrecognition.utils.RxSchedulersHelper;
+import com.momo.imgrecognition.utils.SharedUtil;
+import com.momo.imgrecognition.utils.ShowUtil;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.Observable;
 
 /**
  * Created by Administrator on 2017/4/21.
@@ -36,6 +47,7 @@ public class RecommendFragment extends Fragment {
     SwipeRefreshLayout swipeRefresh;
     private ImageAdapter mAdapter;
     private List<ImageBean> imageBeanList = new ArrayList<>();
+    private ImageAdapter mAdapter;
     private int[] resId = new int[]{R.drawable.bg_sample_one, R.drawable.bg_sample_two, R.drawable.bg_sample_three, R.drawable.bg_sample_four
             , R.drawable.bg_sample_five, R.drawable.bg_sample_six, R.drawable.bg_sample_seven};
     private String[] resName = new String[]{"onedfhgsdf",

@@ -12,4 +12,12 @@
     <style name="MyDatePickerDialog" parent="android:Theme.Material.Light.Dialog">
         <item name="android:colorAccent">@color/theme_color_primary</item>
     </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/theme_color_primary</item>
+        <item name="colorPrimaryDark">@color/theme_color_primary_dark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
 </resources>
