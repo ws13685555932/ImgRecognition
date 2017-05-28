@@ -17,4 +17,5 @@ public interface PictureService {
 
     @POST("picture/getPicture")
     Observable<ResponseInfo<RecomResponse>> getPicture(@Body PictureRequest request);
+
 }

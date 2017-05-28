@@ -45,7 +45,6 @@ public class RecommendFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
-    private ImageAdapter mAdapter;
     private List<ImageBean> imageBeanList = new ArrayList<>();
     private ImageAdapter mAdapter;
     private int[] resId = new int[]{R.drawable.bg_sample_one, R.drawable.bg_sample_two, R.drawable.bg_sample_three, R.drawable.bg_sample_four

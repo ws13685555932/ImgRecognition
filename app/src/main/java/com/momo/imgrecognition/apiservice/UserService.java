@@ -1,7 +1,10 @@
 package com.momo.imgrecognition.apiservice;
 
+import com.momo.imgrecognition.module.history.HistoryRequest;
+import com.momo.imgrecognition.module.history.HistoryResponse;
 import com.momo.imgrecognition.module.login.bean.LoginResponse;
 import com.momo.imgrecognition.module.login.bean.User;
+import com.momo.imgrecognition.module.main.bean.RecomResponse;
 import com.momo.imgrecognition.module.myinfo.BirthdayBean;
 import com.momo.imgrecognition.module.myinfo.DescriptionBean;
 import com.momo.imgrecognition.module.myinfo.EmailBean;
@@ -61,7 +64,8 @@ public interface UserService {
     @POST("user/updateUserAvatar")
     Observable<ResponseInfo<UpdateResponse>> updateUserAvatar(@Body UrlBean urlBean);
 
-
+    @POST("user/getHistoryLabel")
+    Observable<ResponseInfo<HistoryResponse>> getHistoryLabel(@Body HistoryRequest request);
 
 
 }

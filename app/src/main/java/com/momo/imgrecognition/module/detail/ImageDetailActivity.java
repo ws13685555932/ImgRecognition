@@ -25,7 +25,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.module.BaseActivity;
+import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -70,6 +72,12 @@ public class ImageDetailActivity extends BaseActivity {
     Toolbar toolbar;
 
     private boolean isInput  =false;
+
+    int limitPic;
+
+    private int limit[] = new int[]{
+            1,1,2,3,4,4,5,6,7,9
+    };
     
 
     @Override
@@ -201,6 +209,9 @@ public class ImageDetailActivity extends BaseActivity {
     private void initData() {
         url = getIntent().getIntExtra("url",0);
         Glide.with(this).load(url).into(ivImage);
+
+        int level = (int) SharedUtil.getParam(UserConfig.USER_LEVEL,0);
+        limitPic = limit[level-1];
     }
 
     private void selectLastOne() {
