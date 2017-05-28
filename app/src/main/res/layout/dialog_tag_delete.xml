@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="乃确定不是手滑了吗？"
+        android:text="确定要删除此标签吗？"
         android:textAlignment="center"
         android:textSize="16sp"
         android:textColor="@color/default_text_color"/>
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/transparent"
-            android:text="我手滑了"
+            android:text="取消"
             android:textColor="@color/theme_color_primary"/>
 
         <Button
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/transparent"
-            android:text="注销"
+            android:text="确定"
             android:textColor="@color/theme_color_primary"/>
     </LinearLayout>
 </LinearLayout>

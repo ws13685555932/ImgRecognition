@@ -2,15 +2,21 @@ package com.momo.imgrecognition.module.detail;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +32,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.config.UserConfig;
+import com.momo.imgrecognition.customedview.InfoDialog;
+import com.momo.imgrecognition.customedview.TagDeleteDialog;
 import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
@@ -64,21 +72,24 @@ public class ImageDetailActivity extends BaseActivity {
     Button btnConfirm;
 
     RelativeLayout mRoot;
+
     List<String> tagList;
+    List<String> hisList;
+
     TagAdapter tagAdapter;
     @BindView(R.id.iv_image)
     ImageView ivImage;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    private boolean isInput  =false;
+    private boolean isInput = false;
 
     int limitPic;
 
     private int limit[] = new int[]{
-            1,1,2,3,4,4,5,6,7,9
+            1, 1, 2, 3, 4, 4, 5, 6, 7, 9
     };
-    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +98,7 @@ public class ImageDetailActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         initData();
-        
+
         if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
             int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -120,7 +131,7 @@ public class ImageDetailActivity extends BaseActivity {
 //                    tranlateUp(-softHeight);
 
 
-                } else if(isInput){//否则判断为输入法隐藏了w
+                } else if (isInput) {//否则判断为输入法隐藏了w
                     isInput = false;
                     llCustomedTag.setVisibility(View.GONE);
                     llCustomedTag.setTranslationY(softHeight);
@@ -132,18 +143,24 @@ public class ImageDetailActivity extends BaseActivity {
         final String[] labels = new String[]{"android", "java", "php", "hello", "world", "lalala", "lalala", "自定义"};
         tagList = new ArrayList<>(Arrays.asList(labels));
         final String[] labels2 = new String[]{"android", "java", "php", "hello", "world", "hhh"};
+        hisList = new ArrayList<>(Arrays.asList(labels2));
 
         tagAdapter = new TagAdapter<String>(tagList) {
             @Override
-            public View getView(FlowLayout parent, int position, String s) {
+            public View getView(FlowLayout parent, final int position, String s) {
                 TextView tvLabel = (TextView) LayoutInflater.from(ImageDetailActivity.this)
                         .inflate(R.layout.layout_labels, parent, false);
                 tvLabel.setText(s);
+
+                tvLabel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showInfo(position);
+                    }
+                });
                 return tvLabel;
             }
         };
-
-//
 
         tflLabels.setAdapter(tagAdapter);
 
@@ -196,22 +213,40 @@ public class ImageDetailActivity extends BaseActivity {
         tflHistoryLabels.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
-                String tag = labels[position];
-                tagList.add(tag);
-                tagAdapter.notifyDataChanged();
-//                selectLastOne();
+                String tag = hisList.get(position);
+                if (!tagList.contains(tag)) {
+                    tagList.add(tag);
+                    tagAdapter.notifyDataChanged();
+                }
                 return true;
             }
         });
     }
 
+    private void showInfo(final int position) {
+        TagDeleteDialog dialog = new TagDeleteDialog();
+        dialog.setOnConfirmListener(new InfoDialog.OnConfirmListener() {
+            @Override
+            public void onConfirm() {
+                tagList.remove(position);
+                tagAdapter.notifyDataChanged();
+            }
+        });
+
+        dialog.show(getSupportFragmentManager(),TagDeleteDialog.TAG);
+
+
+
+    }
+
     int url;
+
     private void initData() {
-        url = getIntent().getIntExtra("url",0);
+        url = getIntent().getIntExtra("url", 0);
         Glide.with(this).load(url).into(ivImage);
 
-        int level = (int) SharedUtil.getParam(UserConfig.USER_LEVEL,0);
-        limitPic = limit[level-1];
+        int level = (int) SharedUtil.getParam(UserConfig.USER_LEVEL, 0);
+        limitPic = limit[level - 1];
     }
 
     private void selectLastOne() {
@@ -228,11 +263,11 @@ public class ImageDetailActivity extends BaseActivity {
     @OnClick(R.id.iv_image)
     public void onViewClicked() {
         Intent intent = new Intent(this, PreviewActivity.class);
-        intent.putExtra("url",url);
+        intent.putExtra("url", url);
         ActivityOptionsCompat compat =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(this,
                         ivImage, getString(R.string.transName));
-        ActivityCompat.startActivity(this,intent, compat.toBundle());
+        ActivityCompat.startActivity(this, intent, compat.toBundle());
 
 //        startActivity(intent);
     }
@@ -255,7 +290,7 @@ public class ImageDetailActivity extends BaseActivity {
         return result;
     }
 
-    public void fadeIn(View view){
+    public void fadeIn(View view) {
         AnimatorSet animatorSet = new AnimatorSet();//组合动画
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0, 1);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0, 1);
@@ -265,7 +300,7 @@ public class ImageDetailActivity extends BaseActivity {
         animatorSet.start();
     }
 
-    public void fadeOut(View view){
+    public void fadeOut(View view) {
         AnimatorSet animatorSet = new AnimatorSet();//组合动画
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1, 0);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1, 0);
@@ -275,13 +310,11 @@ public class ImageDetailActivity extends BaseActivity {
         animatorSet.start();
     }
 
-    private void tranlateUp(int height){
+    private void tranlateUp(int height) {
         ObjectAnimator tranlateUp = ObjectAnimator.ofFloat(llCustomedTag, "translationY", 0, height);
         tranlateUp.setDuration(350);
         tranlateUp.start();
     }
-
-
 
 
 }
