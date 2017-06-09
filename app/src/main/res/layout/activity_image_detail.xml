@@ -13,8 +13,7 @@
         android:id="@+id/iv_image"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_nav"/>
+        android:scaleType="centerCrop"/>
 
     <View
         android:layout_width="match_parent"
@@ -96,16 +95,18 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_choose_tags"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="选择你认为合适的标签"
+                    android:text="您认为合适的标签"
                     android:textColor="@color/default_text_color"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
 
                 <com.zhy.view.flowlayout.TagFlowLayout
                     android:id="@+id/tfl_labels"
+                    android:minHeight="50dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 

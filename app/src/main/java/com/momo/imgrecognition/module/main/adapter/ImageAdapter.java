@@ -31,6 +31,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     private Context mContext;
     private List<ImageBean> imageList;
+    int currIndex ;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -76,6 +77,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         holder.iv_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                currIndex = position;
                 showPopUpWindow(holder.iv_more);
             }
         });
@@ -83,7 +85,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ImageDetailActivity.class);
-                intent.putExtra("url" , imageList.get(position).getImgUrl());
+                intent.putExtra("imageId" , imageList.get(position).getImageId());
                 mContext.startActivity(intent);
             }
         });
@@ -154,6 +156,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                 break;
             case R.id.ll_not_interested:
                 pop.dismiss();
+                imageList.remove(currIndex);
+                notifyDataSetChanged();
                 break;
         }
     }

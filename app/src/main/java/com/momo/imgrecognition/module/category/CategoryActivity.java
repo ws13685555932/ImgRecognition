@@ -11,6 +11,7 @@ import com.momo.imgrecognition.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,10 +33,14 @@ public class CategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category);
         ButterKnife.bind(this);
 
+        Random r = new Random();
         List<CateImageBean> list = new ArrayList<>();
         for(int i=0;i<15;i++){
             CateImageBean bean = new CateImageBean();
             bean.setResUrl(R.drawable.bg_sample_five);
+            bean.setTagAdmin("哈哈哈哈");
+            bean.setTagCont("这是一个标签标题");
+            bean.setTagNum(r.nextInt(10));
             list.add(bean);
         }
 

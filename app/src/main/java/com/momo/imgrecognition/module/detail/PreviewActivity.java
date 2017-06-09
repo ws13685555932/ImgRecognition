@@ -6,16 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
-import com.bm.library.Info;
-import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class PreviewActivity extends AppCompatActivity {
 
@@ -36,7 +34,7 @@ public class PreviewActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(option);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
 
-        int url = getIntent().getIntExtra("url",0);
+        int url = getIntent().getIntExtra("url", 0);
         Glide.with(this).load(url).into(photoView);
 
 //        // 启用图片缩放功能
@@ -59,5 +57,10 @@ public class PreviewActivity extends AppCompatActivity {
 //        float maxScale = photoView.getMaxScale();
 //        // 设置动画的插入器
 //        photoView.setInterpolator(new LinearInterpolator());
+    }
+
+    @OnClick(R.id.photo_view)
+    public void onViewClicked() {
+        finish();
     }
 }

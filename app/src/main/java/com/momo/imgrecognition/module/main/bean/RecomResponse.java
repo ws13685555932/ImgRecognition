@@ -35,7 +35,7 @@ public class RecomResponse {
          * recognitionLabel : null
          */
 
-        private int id;
+        private String id;
         private int managerId;
         private String path;
         private String type;
@@ -47,11 +47,11 @@ public class RecomResponse {
         private String uploadTime;
         private String recognitionLabel;
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 

@@ -24,6 +24,7 @@ import com.momo.imgrecognition.utils.HttpObserver;
 import com.momo.imgrecognition.utils.RxSchedulersHelper;
 import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
+import com.momo.imgrecognition.utils.TimeUtil;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -89,65 +90,66 @@ public class RecommendFragment extends Fragment {
 
 
     private void refreshData() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                getActivity().runOnUiThread(new Runnable() {
+        PictureService pictureService = HttpManager.getInstance().createService(PictureService.class);
+        final PictureRequest request = new PictureRequest();
+        request.setLimit(10);
+        request.setId((int) SharedUtil.getParam(UserConfig.USER_ID,0));
+
+        Observable<ResponseInfo<RecomResponse>> call = pictureService.getPicture(request);
+        call.compose(RxSchedulersHelper.<ResponseInfo<RecomResponse>>io_main())
+                .subscribe(new HttpObserver<RecomResponse>() {
                     @Override
-                    public void run() {
-                        initPicture();
+                    public void onSuccess(RecomResponse recomResponse) {
+                        List<ImageBean> imgList = new ArrayList<>();
+                        ArrayList<RecomResponse.PictureListBean> pictureList =
+                                (ArrayList<RecomResponse.PictureListBean>) recomResponse.getPictureList();
+                        for (int i = 0; i < pictureList.size(); i++) {
+                            RecomResponse.PictureListBean picture = pictureList.get(i);
+                            ImageBean bean = new ImageBean();
+                            bean.setImageId(picture.getId());
+                            bean.setImgUrl(picture.getPath());
+                            String tags = picture.getAcceptedLabel();
+                            if(tags != null){
+                                bean.setTags(tags);
+                            }else{
+                                bean.setTags("该图片还没有标签，快来添加吧");
+                            }
+                            if(picture.getAcceptedLabel() != null) {
+                                String[] tagArr = picture.getAcceptedLabel().split(",");
+                                bean.setTagNum(tagArr.length);
+                            }else {
+                                bean.setTagNum(0);
+                            }
+                            long tagTime= Long.valueOf(picture.getUploadTime()) *1000;
+                            String tagTimeStr = TimeUtil.timeStamp2Date(tagTime);
+                            bean.setTime(tagTimeStr);
+                            imgList.add(bean);
+                        }
+                        imageBeanList.addAll(0,imgList);
                         mAdapter.notifyDataSetChanged();
                         swipeRefresh.setRefreshing(false);
+                        ShowUtil.toast("更新了"+ request.getLimit() + "条内容");
+                    }
+
+                    @Override
+                    public void onFailed(String message) {
+                        ShowUtil.toast(message);
                     }
                 });
-            }
-        }).start();
     }
 
     private void initPicture() {
-        List<ImageBean> imgList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            ImageBean bean = new ImageBean();
-            bean.setImgUrl(resId[i % 7]);
-            bean.setTags(resName[i % 7]);
-            bean.setTagNum(10);
-            imgList.add(bean);
-        }
-        imageBeanList.addAll(0,imgList);
+//        List<ImageBean> imgList = new ArrayList<>();
+//        for (int i = 0; i < 20; i++) {
+//            ImageBean bean = new ImageBean();
+//            bean.setImgUrl(resId[i % 7]);
+//            bean.setTags(resName[i % 7]);
+//            bean.setTagNum(10);
+//            imgList.add(bean);
+//        }
+//        imageBeanList.addAll(0,imgList);
 
-//        PictureService pictureService = HttpManager.getInstance().createService(PictureService.class);
-//        PictureRequest request = new PictureRequest();
-//        request.setLimit(20);
-//        request.setId((int) SharedUtil.getParam(UserConfig.USER_ID,0));
-//        Observable<ResponseInfo<RecomResponse>> call = pictureService.getPicture(request);
-//        call.compose(RxSchedulersHelper.<ResponseInfo<RecomResponse>>io_main())
-//                .subscribe(new HttpObserver<RecomResponse>() {
-//                    @Override
-//                    public void onSuccess(RecomResponse recomResponse) {
-//                        List<ImageBean> imgList = new ArrayList<>();
-//                        ArrayList<RecomResponse.PictureListBean> pictureList =
-//                                (ArrayList<RecomResponse.PictureListBean>) recomResponse.getPictureList();
-//                        for (int i = 0; i < pictureList.size(); i++) {
-//                            RecomResponse.PictureListBean picture = pictureList.get(i);
-//                            ImageBean bean = new ImageBean();
-//                            bean.setImgUrl(picture.getPath());
-//                            bean.setName(resName[i % 7]);
-//                            imgList.add(bean);
-//                        }
-//                        imageBeanList.addAll(0,imgList);
-//                        ShowUtil.toast("更新了20条内容！");
-//                    }
-//
-//                    @Override
-//                    public void onFailed(String message) {
-//
-//                    }
-//                });
+
     }
 
     @Override
