@@ -31,7 +31,7 @@ public class CategoryAdapter extends CommonAdapter<CategoryBean> {
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         CommonViewHolder holder = CommonViewHolder.get(mContext,
                 convertView,parent,R.layout.item_grid_category,position);
         TextView tvCate = holder.getView(R.id.tv_category);
@@ -42,6 +42,7 @@ public class CategoryAdapter extends CommonAdapter<CategoryBean> {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, CategoryActivity.class);
+                intent.putExtra("category", mDatas.get(position).getCategory());
                 mContext.startActivity(intent);
             }
         });

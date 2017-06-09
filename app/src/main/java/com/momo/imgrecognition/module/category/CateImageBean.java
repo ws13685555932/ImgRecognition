@@ -5,11 +5,27 @@ package com.momo.imgrecognition.module.category;
  */
 
 public class CateImageBean {
-    int resUrl;
+    String imgUrl;
     String picId;
     String tagCont;
     String tagAdmin;
     int tagNum;
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getPicId() {
+        return picId;
+    }
+
+    public void setPicId(String picId) {
+        this.picId = picId;
+    }
 
     public String getTagCont() {
         return tagCont;
@@ -35,19 +51,14 @@ public class CateImageBean {
         this.tagNum = tagNum;
     }
 
-    public int getResUrl() {
-        return resUrl;
-    }
-
-    public void setResUrl(int resUrl) {
-        this.resUrl = resUrl;
-    }
-
-    public String getPicId() {
-        return picId;
-    }
-
-    public void setPicId(String picId) {
-        this.picId = picId;
+    @Override
+    public String toString() {
+        return "CateImageBean{" +
+                "imgUrl='" + imgUrl + '\'' +
+                ", picId='" + picId + '\'' +
+                ", tagCont='" + tagCont + '\'' +
+                ", tagAdmin='" + tagAdmin + '\'' +
+                ", tagNum=" + tagNum +
+                '}';
     }
 }

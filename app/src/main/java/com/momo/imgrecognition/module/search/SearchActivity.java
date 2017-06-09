@@ -135,94 +135,6 @@ public class SearchActivity extends BaseActivity {
         }
     }
 
-//    private void showExtendView() {
-//        int intw=View.MeasureSpec.makeMeasureSpec((1<<30)-1,View.MeasureSpec.UNSPECIFIED);
-//        int inth=View.MeasureSpec.makeMeasureSpec((1<<30)-1,View.MeasureSpec.UNSPECIFIED);
-//        llExtend.measure(intw, inth);
-//        int endHeight = llExtend.getMeasuredHeight();
-//        ShowUtil.print("endHeight:" + endHeight);
-//        ValueAnimator sizeAnimator = ValueAnimator.ofInt(0, endHeight);
-//        sizeAnimator.setDuration(1500);
-//        sizeAnimator.setInterpolator(new AccelerateInterpolator());
-//
-//        sizeAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//            @Override
-//            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-//                int current = (int) valueAnimator.getAnimatedValue();
-//                llExtend.getLayoutParams().height = current;
-////                ShowUtil.print("current:" + current);
-//                llExtend.requestLayout();
-//                card.requestLayout();
-//            }
-//        });
-//
-//        sizeAnimator.addListener(new Animator.AnimatorListener() {
-//            @Override
-//            public void onAnimationStart(Animator animator) {
-//                llExtend.setVisibility(View.VISIBLE);
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animator animator) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationCancel(Animator animator) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animator animator) {
-//
-//            }
-//        });
-//
-//        sizeAnimator.start();
-//
-//    }
-
-
-//    private void hideExtendView() {
-//        int endHeight = llExtend.getLayoutParams().height;
-//        ValueAnimator sizeAnimator = ValueAnimator.ofInt(endHeight, 0);
-//        sizeAnimator.setDuration(500);
-//        sizeAnimator.setInterpolator(new AccelerateInterpolator());
-//
-//        sizeAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//            @Override
-//            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-//                int current = (int) valueAnimator.getAnimatedValue();
-//                llExtend.getLayoutParams().height = current;
-//                llExtend.requestLayout();
-//            }
-//        });
-//
-//        sizeAnimator.addListener(new Animator.AnimatorListener() {
-//            @Override
-//            public void onAnimationStart(Animator animator) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animator animator) {
-//                llExtend.setVisibility(View.GONE);
-//            }
-//
-//            @Override
-//            public void onAnimationCancel(Animator animator) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animator animator) {
-//
-//            }
-//        });
-//
-//        sizeAnimator.start();
-//
-//    }
 
     @Override
     public void onBackPressed() {
@@ -232,14 +144,4 @@ public class SearchActivity extends BaseActivity {
             finish();
         }
     }
-
-
-//    @Override
-//    public void onWindowFocusChanged(boolean hasFocus) {
-//        super.onWindowFocusChanged(hasFocus);
-//        llExtend.setVisibility(View.VISIBLE);
-//        int height = llExtend.getChildCount() * llExtend.getHeight();
-//        ShowUtil.print("count:" + llExtend.getChildCount());
-//        ShowUtil.print("height:" + height);
-//    }
 }

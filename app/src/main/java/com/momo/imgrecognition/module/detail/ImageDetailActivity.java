@@ -4,9 +4,9 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -28,23 +28,22 @@ import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.apiservice.PictureService;
 import com.momo.imgrecognition.apiservice.ResponseInfo;
-import com.momo.imgrecognition.config.UserConfig;
+import com.momo.imgrecognition.config.Config;
 import com.momo.imgrecognition.customedview.InfoDialog;
 import com.momo.imgrecognition.customedview.TagDeleteDialog;
 import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.detail.bean.IdRequest;
 import com.momo.imgrecognition.module.detail.bean.PictureResponse;
+import com.momo.imgrecognition.utils.BitmapUtil;
 import com.momo.imgrecognition.utils.HttpManager;
 import com.momo.imgrecognition.utils.HttpObserver;
 import com.momo.imgrecognition.utils.RxSchedulersHelper;
-import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
-import com.zhy.view.flowlayout.TagView;
 
-import java.text.BreakIterator;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -87,6 +86,8 @@ public class ImageDetailActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.tv_choose_tags)
     TextView tvChooseTags;
+    @BindView(R.id.title)
+    TextView title;
 
     private boolean isInput = false;
 
@@ -190,9 +191,9 @@ public class ImageDetailActivity extends BaseActivity {
                 llCustomedTag.setVisibility(View.INVISIBLE);
                 String tag = etCustomedTag.getText().toString();
                 tagList.add(tag);
-                chooseNum ++;
-                 updateChooseTag();
-                if(chooseNum == limitPic){
+                chooseNum++;
+                updateChooseTag();
+                if (chooseNum == limitPic) {
                     setCustomedTagEnable(false);
                 }
                 tagAdapter.notifyDataChanged();
@@ -227,18 +228,18 @@ public class ImageDetailActivity extends BaseActivity {
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 String tag = hisList.get(position);
                 if (!tagList.contains(tag)) {
-                    if(chooseNum == limitPic){
+                    if (chooseNum == limitPic) {
                         ShowUtil.toast("您添加的标签数目已达当前等级的上限");
                         return true;
                     }
                     tagList.add(tag);
-                    chooseNum ++ ;
-                    if(chooseNum == limitPic){
+                    chooseNum++;
+                    if (chooseNum == limitPic) {
                         setCustomedTagEnable(false);
                     }
                     updateChooseTag();
                     tagAdapter.notifyDataChanged();
-                }else{
+                } else {
                     ShowUtil.toast("您已添加过该标签");
                 }
                 return true;
@@ -252,7 +253,7 @@ public class ImageDetailActivity extends BaseActivity {
             @Override
             public void onConfirm() {
                 tagList.remove(position);
-                chooseNum -- ;
+                chooseNum--;
                 updateChooseTag();
                 setCustomedTagEnable(true);
                 tagAdapter.notifyDataChanged();
@@ -264,7 +265,7 @@ public class ImageDetailActivity extends BaseActivity {
     String url;
 
     private void initData() {
-        
+
 
         // TODO: 2017/6/9 test level
 //        int level = (int) SharedUtil.getParam(UserConfig.USER_LEVEL, 0);
@@ -291,7 +292,7 @@ public class ImageDetailActivity extends BaseActivity {
                     @Override
                     public void onSuccess(PictureResponse pictureResponse) {
                         String imgUrl = pictureResponse.getPath();
-                        ShowUtil.print(imgUrl);
+                        url = imgUrl;
                         Glide.with(ImageDetailActivity.this).load(imgUrl).into(ivImage);
                         String tags = pictureResponse.getResultLabel();
                         if (tags != null) {
@@ -304,22 +305,15 @@ public class ImageDetailActivity extends BaseActivity {
 
                     @Override
                     public void onFailed(String message) {
-                            ShowUtil.toast(message);
+                        ShowUtil.toast(message);
                     }
                 });
-
     }
 
 
     @OnClick(R.id.iv_image)
     public void onViewClicked() {
-        Intent intent = new Intent(this, PreviewActivity.class);
-        intent.putExtra("url", url);
-        ActivityOptionsCompat compat =
-                ActivityOptionsCompat.makeSceneTransitionAnimation(this,
-                        ivImage, getString(R.string.transName));
-        ActivityCompat.startActivity(this, intent, compat.toBundle());
-
+        showLargeImage();
 //        startActivity(intent);
     }
 
@@ -367,15 +361,15 @@ public class ImageDetailActivity extends BaseActivity {
         tranlateUp.start();
     }
 
-    private void updateChooseTag(){
+    private void updateChooseTag() {
         tvChooseTags.setText("您认为合适的标签（" + chooseNum + "/" + limitPic + "）");
     }
 
-    private void setCustomedTagEnable(boolean enable){
+    private void setCustomedTagEnable(boolean enable) {
         if (!enable) {
             tvAddCustomedTag.setTextColor(getResources().getColor(R.color.gray_dark));
             tvAddCustomedTag.setClickable(false);
-        }else{
+        } else {
             tvAddCustomedTag.setTextColor(getResources().getColor(R.color.theme_color_primary));
             tvAddCustomedTag.setClickable(true);
         }
@@ -383,4 +377,34 @@ public class ImageDetailActivity extends BaseActivity {
     }
 
 
+    @OnClick(R.id.title)
+    public void titleClicked() {
+        showLargeImage();
+    }
+
+    private void showLargeImage() {
+        final File tempFile = new File(Config.TEMP_FILE_PATH, "temp.jpeg");
+
+        BitmapUtil.downloadPicture(url, tempFile.getAbsolutePath(), new BitmapUtil.DownloadListener() {
+            @Override
+            public void downloadSuccess(String path) {
+                toPreviewActivity(tempFile.getAbsolutePath());
+            }
+
+            @Override
+            public void downloadFailed() {
+                ShowUtil.toast("网络未链接");
+            }
+        });
+
+    }
+
+    public void toPreviewActivity(String path) {
+        Intent intent = new Intent(this, PreviewActivity.class);
+        intent.putExtra("imagePath", path);
+        ActivityOptionsCompat compat =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+                        ivImage, getString(R.string.transName));
+        ActivityCompat.startActivity(this, intent, compat.toBundle());
+    }
 }

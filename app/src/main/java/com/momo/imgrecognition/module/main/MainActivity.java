@@ -91,7 +91,6 @@ public class MainActivity extends BaseActivity {
 
         initData();
 
-
         List<Fragment> fragments = new ArrayList<>();
         RecommendFragment recommendFragment = new RecommendFragment();
         CategoryFragment categoryFragment = new CategoryFragment();

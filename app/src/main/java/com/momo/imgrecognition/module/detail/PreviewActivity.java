@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
 
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -34,8 +36,11 @@ public class PreviewActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(option);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
 
-        int url = getIntent().getIntExtra("url", 0);
-        Glide.with(this).load(url).into(photoView);
+        String path = getIntent().getStringExtra("imagePath");
+        File image = new File(path);
+        if(image.exists()) {
+            Glide.with(this).load(image).into(photoView);
+        }
 
 //        // 启用图片缩放功能
 //        photoView.enable();

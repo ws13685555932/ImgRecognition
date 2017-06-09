@@ -64,7 +64,7 @@ public class CateAdapter extends RecyclerView.Adapter<CateAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         CateImageBean bean = imageList.get(position);
-        Glide.with(mContext).load(bean.getResUrl()).into(holder.imageView);
+        Glide.with(mContext).load(bean.getImgUrl()).into(holder.imageView);
 
         holder.tvTagCont.setText(bean.getTagCont());
         holder.tvTagAdmin.setText(bean.getTagAdmin());
@@ -74,7 +74,7 @@ public class CateAdapter extends RecyclerView.Adapter<CateAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ImageDetailActivity.class);
-                intent.putExtra("url", imageList.get(position).getResUrl());
+                intent.putExtra("imageId", imageList.get(position).getPicId());
                 mContext.startActivity(intent);
             }
         });

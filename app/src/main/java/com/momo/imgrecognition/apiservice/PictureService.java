@@ -1,7 +1,10 @@
 package com.momo.imgrecognition.apiservice;
 
 import android.icu.text.Replaceable;
+import android.text.style.RelativeSizeSpan;
 
+import com.momo.imgrecognition.module.category.bean.CateRequest;
+import com.momo.imgrecognition.module.category.bean.CateResponse;
 import com.momo.imgrecognition.module.detail.bean.IdRequest;
 import com.momo.imgrecognition.module.detail.bean.PictureResponse;
 import com.momo.imgrecognition.module.main.bean.PictureRequest;
@@ -23,5 +26,6 @@ public interface PictureService {
     @POST("picture/getPictureById")
     Observable<ResponseInfo<PictureResponse>> getPictureById(@Body IdRequest request);
 
-
+    @POST("picture/getPictureByType")
+    Observable<ResponseInfo<CateResponse>> getPictureByType(@Body CateRequest request);
 }

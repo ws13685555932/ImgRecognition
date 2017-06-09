@@ -30,9 +30,9 @@ public class CategoryFragment extends Fragment {
     Unbinder unbinder;
 
     private String[] cateStrs = new String[]{
-        "动物", "风景", "建筑", "医疗",
+        "动物", "风景", "建筑", "健康",
         "生活", "体育", "人物", "文化",
-        "学术", "娱乐", "植物", "其他"
+        "教育", "娱乐", "植物", "其他"
     };
 
     private int[] resId = new int[]{
