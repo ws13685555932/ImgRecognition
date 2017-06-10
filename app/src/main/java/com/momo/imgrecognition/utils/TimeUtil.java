@@ -25,6 +25,13 @@ public class TimeUtil {
         return date.getTime();
     }
 
+    public static String timeStamp2Date(long time,String format){
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+        Date date = new Date(time);
+        String timeString = dateFormat.format(date);
+        return timeString;
+    }
+
     public static int getYear(long time){
         String dateStr = timeStamp2Date(time);
         String year = dateStr.substring(0,4);

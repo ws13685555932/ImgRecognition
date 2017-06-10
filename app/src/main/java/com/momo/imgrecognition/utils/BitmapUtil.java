@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Path;
 import android.os.Environment;
+import android.renderscript.FieldPacker;
 import android.util.Log;
 
 import com.momo.imgrecognition.apiservice.DownloadService;
@@ -51,10 +52,10 @@ public class BitmapUtil {
         downloadUserIcon(url,null);
     }
     public static void downloadUserIcon(String url,DownloadListener listener){
-        downloadPicture(url,Config.TEMP_FILE_PATH,listener);
+        downloadPicture(url,Config.TEMP_FILE_PATH,"userIcon.jpeg",listener);
     }
 
-    public static void downloadPicture(String url , final String destPath, final DownloadListener listener){
+    public static void downloadPicture(String url , final String destPath, final String fileName ,final DownloadListener listener){
         DownloadService downloadService = HttpManager.getInstance()
                 .createService(DownloadService.class);
         Observable<ResponseBody> call =  downloadService.downloadFileWithUrl(url);
@@ -62,7 +63,8 @@ public class BitmapUtil {
                 .map(new Function<ResponseBody, String>() {
                     @Override
                     public String apply(@NonNull ResponseBody responseBody) throws Exception {
-                        String filePath = writeResponseBodyToDisk(responseBody,destPath);
+                        String filePath = writeResponseBodyToDisk(responseBody,destPath,fileName);
+                        ShowUtil.print(filePath);
                         return filePath;
                     }
                 })
@@ -78,10 +80,16 @@ public class BitmapUtil {
                 });
     }
 
-    private static String writeResponseBodyToDisk(ResponseBody body , String destPath) {
+    private static String writeResponseBodyToDisk(ResponseBody body , String destPath , String fileName) {
         try {
             // todo change the file location/name according to your needs
-            File futureStudioIconFile = new File(destPath,"userIcon.jpeg");
+            File destFile = new File(destPath,fileName);
+
+            try {
+                destFile.createNewFile(); // 创建文件
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             InputStream inputStream = null;
             OutputStream outputStream = null;
@@ -93,7 +101,7 @@ public class BitmapUtil {
                 long fileSizeDownloaded = 0;
 
                 inputStream = body.byteStream();
-                outputStream = new FileOutputStream(futureStudioIconFile);
+                outputStream = new FileOutputStream(destFile);
 
                 while (true) {
                     int read = inputStream.read(fileReader);
@@ -106,12 +114,12 @@ public class BitmapUtil {
 
                     fileSizeDownloaded += read;
 
-//                    Log.d(TAG, "file download: " + fileSizeDownloaded + " of " + fileSize);
+                    ShowUtil.print("file download: " + fileSizeDownloaded *1.0 / fileSize + " % ");
                 }
 
                 outputStream.flush();
 
-                return futureStudioIconFile.toString();
+                return destFile.toString();
             } catch (IOException e) {
                 return null;
             } finally {

@@ -4,19 +4,26 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
+import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.apiservice.PictureService;
 import com.momo.imgrecognition.apiservice.ResponseInfo;
 import com.momo.imgrecognition.apiservice.UserService;
 import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.module.BaseActivity;
+import com.momo.imgrecognition.module.detail.ImageDetailActivity;
+import com.momo.imgrecognition.module.detail.bean.IdRequest;
+import com.momo.imgrecognition.module.detail.bean.PictureResponse;
 import com.momo.imgrecognition.module.login.bean.User;
 import com.momo.imgrecognition.module.taglater.bean.TagLaterBean;
 import com.momo.imgrecognition.utils.HttpManager;
 import com.momo.imgrecognition.utils.HttpObserver;
 import com.momo.imgrecognition.utils.RxSchedulersHelper;
 import com.momo.imgrecognition.utils.SharedUtil;
+import com.momo.imgrecognition.utils.ShowUtil;
 import com.momo.imgrecognition.utils.TimeUtil;
 
+import java.security.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +38,7 @@ public class HistoryActivity extends BaseActivity {
     ListView lvHistoryList;
 
     private List<HistoryBean> historyList = new ArrayList<>();
+    HistoryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,19 +46,20 @@ public class HistoryActivity extends BaseActivity {
         setContentView(R.layout.activity_history);
         ButterKnife.bind(this);
 
-//        getData();
+        getData();
 
-        List<HistoryBean> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            HistoryBean bean = new HistoryBean();
-            bean.setAdminName("管理员：momo1005" + i);
-            bean.setResId(R.drawable.bg_cover);
-            bean.setTagStr("科学,人文景观,动漫,人文景观,动漫,人文景观,动漫,人文景观,动漫,人文景观,动漫");
-            bean.setTime(1494932883);
-            list.add(bean);
-        }
+//        List<HistoryBean> list = new ArrayList<>();
+//        for (int i = 0; i < 10; i++) {
+//            HistoryBean bean = new HistoryBean();
+//            bean.setAdminName("管理员：momo1005" + i);
+//            bean.setResId(R.drawable.bg_cover);
+//            bean.setTagStr("#其他# 科学,人文景观,动漫,人文景观,动漫,人文景观,动漫,人文景观,动漫,人文景观,动漫");
+//            bean.setTime(1494932883);
+//            list.add(bean);
+//        }
 
-        lvHistoryList.setAdapter(new HistoryAdapter(this, list));
+        adapter = new HistoryAdapter(this,historyList);
+        lvHistoryList.setAdapter(adapter);
 
     }
 
@@ -59,15 +68,16 @@ public class HistoryActivity extends BaseActivity {
     private void getData() {
         UserService userService = HttpManager.getInstance().createService(UserService.class);
         HistoryRequest request = new HistoryRequest();
-        request.setId((String) SharedUtil.getParam(UserConfig.USER_ID, 0));
-        request.setLimit(20);
+        request.setId((String) SharedUtil.getParam(UserConfig.USER_ID, ""));
+        request.setLimit(10);
         request.setPage(page);
-        page++;
+
         Observable<ResponseInfo<HistoryResponse>> call = userService.getHistoryLabel(request);
         call.compose(RxSchedulersHelper.<ResponseInfo<HistoryResponse>>io_main())
                 .subscribe(new HttpObserver<HistoryResponse>() {
                     @Override
                     public void onSuccess(HistoryResponse historyResponse) {
+                        page++;
                         showHistory(historyResponse);
                     }
 
@@ -82,13 +92,39 @@ public class HistoryActivity extends BaseActivity {
         List<HistoryResponse.LabelListBean> picList = historyResponse.getLabelList();
 
         for (int i = 0; i < picList.size(); i++) {
-            HistoryBean bean = new HistoryBean();
-            bean.setTime(TimeUtil.convertTimeStamp(picList.get(i).getCreated_time()));
-            String tagStr = picList.get(i).getLabel();
-            bean.setTags(Arrays.asList(tagStr.split(",")));
-            bean.setPicId(picList.get(i).getPictureId());
-//            bean.setPicUrl(picList.get(i).get);
+            HistoryBean hist = new HistoryBean();
+            HistoryResponse.LabelListBean bean = picList.get(i);
 
+            hist.setTime(TimeUtil.timeStamp2Date(Long.valueOf(bean.getCreated_time())));
+            String type = bean.getType();
+            String label = bean.getLabel();
+            String tagStr = "#" + type + "# " + label;
+            hist.setTagStr(tagStr);
+            hist.setTags(label);
+            hist.setPicId(bean.getPictureId());
+            getPicById(hist);
         }
+
+    }
+
+    private void getPicById(final HistoryBean bean) {
+        IdRequest request = new IdRequest(bean.getPicId());
+        PictureService pictureService = HttpManager.getInstance().createService(PictureService.class);
+        Observable<ResponseInfo<PictureResponse>> call = pictureService.getPictureById(request);
+        call.compose(RxSchedulersHelper.<ResponseInfo<PictureResponse>>io_main())
+                .subscribe(new HttpObserver<PictureResponse>() {
+                    @Override
+                    public void onSuccess(PictureResponse pictureResponse) {
+                        bean.setPicUrl(pictureResponse.getPath());
+                        ShowUtil.print(bean.getPicUrl());
+                        historyList.add(bean);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailed(String message) {
+                        ShowUtil.toast(message);
+                    }
+                });
     }
 }

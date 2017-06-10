@@ -1,7 +1,11 @@
 package com.momo.imgrecognition.module.history;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.customedview.InfoDialog;
 import com.momo.imgrecognition.customedview.PopupWindowWithAnim;
+import com.momo.imgrecognition.module.detail.ImageDetailActivity;
 import com.momo.imgrecognition.utils.CommonAdapter;
 import com.momo.imgrecognition.utils.CommonViewHolder;
 import com.momo.imgrecognition.utils.ShowUtil;
@@ -44,18 +50,34 @@ public class HistoryAdapter extends CommonAdapter<HistoryBean> implements View.O
         TextView tvAdminName = holder.getView(R.id.tv_admin_name);
         TextView tvTime = holder.getView(R.id.tv_time);
         ImageButton ibMore = holder.getView(R.id.ib_more);
+        LinearLayout llHistory = holder.getView(R.id.ll_history);
 
-        HistoryBean bean = (HistoryBean) getItem(position);
-        ivImage.setBackgroundResource(bean.getResId());
-        tvTags.setText(bean.getTagStr());
+        final HistoryBean bean = (HistoryBean) getItem(position);
+        Glide.with(mContext).load(bean.getPicUrl()).into(ivImage);
+//        ivImage.setBackgroundResource(bean.getResId());
+
+        SpannableString spanText = new SpannableString(bean.getTagStr());
+        spanText.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.theme_color_primary))
+                ,0, 4, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        tvTags.setText(spanText);
         tvAdminName.setText(bean.getAdminName());
-        tvTime.setText(TimeUtil.timeStamp2Date(bean.getTime()));
+        tvTime.setText(bean.getTime());
 
         ibMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mPosition = position;
                 showDeleteDialog(view);
+            }
+        });
+
+        llHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ImageDetailActivity.class);
+                intent.putExtra("tags",bean.getTags());
+                intent.putExtra("imageId",bean.getPicId());
+                mContext.startActivity(intent);
             }
         });
         return holder.getConvertView();

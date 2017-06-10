@@ -95,7 +95,7 @@ public class CategoryActivity extends AppCompatActivity {
 
     private void initData(final String category) {
         final CateRequest request = new CateRequest();
-        request.setLimit(9);
+        request.setLimit(10);
         request.setPage(page);
         request.setType(category);
 
@@ -106,7 +106,7 @@ public class CategoryActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(CateResponse cateResponse) {
                         page++;
-                        if (cateResponse.getPictureList().size() < request.getLimit()-1) {
+                        if (cateResponse.getPictureList().size() < request.getLimit()) {
                             isNeedRefresh = false;
                         }
                         handleMessage(cateResponse.getPictureList());

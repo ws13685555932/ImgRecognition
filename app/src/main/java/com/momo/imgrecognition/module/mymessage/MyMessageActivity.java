@@ -86,7 +86,6 @@ public class MyMessageActivity extends BaseActivity {
                     @Override
                     public void onSuccess(MessageList messageList) {
 
-
                         ShowUtil.print("size:" + messageList.getMessageList().size());
                         if (messageList.getMessageList().size() !=0 ) {
                             initMessageList(messageList);

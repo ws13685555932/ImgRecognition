@@ -10,8 +10,10 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.utils.ShowUtil;
 
 import java.io.File;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,6 +23,7 @@ public class PreviewActivity extends AppCompatActivity {
 
     @BindView(R.id.photo_view)
     ImageView photoView;
+    String mPath;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -36,9 +39,12 @@ public class PreviewActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(option);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
 
-        String path = getIntent().getStringExtra("imagePath");
-        File image = new File(path);
+        mPath = getIntent().getStringExtra("imagePath");
+        ShowUtil.print(mPath);
+        File image = new File(mPath);
+
         if(image.exists()) {
+            ShowUtil.print("load");
             Glide.with(this).load(image).into(photoView);
         }
 
@@ -66,6 +72,14 @@ public class PreviewActivity extends AppCompatActivity {
 
     @OnClick(R.id.photo_view)
     public void onViewClicked() {
+        deleteTempFile();
         finish();
+    }
+
+    private void deleteTempFile() {
+        File file = new File(mPath);
+        if(file.exists()){
+            file.delete();
+        }
     }
 }

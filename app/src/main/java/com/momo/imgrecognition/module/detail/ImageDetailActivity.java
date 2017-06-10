@@ -37,11 +37,13 @@ import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.detail.bean.AddTagsRequest;
 import com.momo.imgrecognition.module.detail.bean.IdRequest;
 import com.momo.imgrecognition.module.detail.bean.PictureResponse;
+import com.momo.imgrecognition.utils.BitmapUtil;
 import com.momo.imgrecognition.utils.HttpManager;
 import com.momo.imgrecognition.utils.HttpObserver;
 import com.momo.imgrecognition.utils.RxSchedulersHelper;
 import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
+import com.momo.imgrecognition.utils.TimeUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -109,8 +111,10 @@ public class ImageDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detail);
         ButterKnife.bind(this);
-
+        ivImage.setClickable(false);
+        title.setClickable(false);
         initData();
+
 
         if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
@@ -153,8 +157,6 @@ public class ImageDetailActivity extends BaseActivity {
             }
         });
 
-        final String[] labels = new String[]{};
-        tagList = new ArrayList<>(Arrays.asList(labels));
 //        final String[] labels2 = new String[]{"android", "java", "php", "hello", "world", "hhh"};
         hisList = SharedUtil.getDataList(UserConfig.HISTORY_LABELS);
 
@@ -271,7 +273,9 @@ public class ImageDetailActivity extends BaseActivity {
         request.setPictureId(id);
         StringBuilder labels = new StringBuilder();
         for (String s : tagList) {
-            labels.append(s).append(",");
+            if(!markedLabelList.contains(s)) {
+                labels.append(s).append(",");
+            }
         }
         request.setLabel(labels.substring(0,labels.length()-1));
         Observable<ResponseInfo<Object>> call = userService.addPictureLabel(request);
@@ -311,6 +315,9 @@ public class ImageDetailActivity extends BaseActivity {
     String url;
     String id;
 
+
+    List<String> markedLabelList = new ArrayList<>();
+
     private void initData() {
 
 
@@ -326,6 +333,19 @@ public class ImageDetailActivity extends BaseActivity {
 
         id = getIntent().getStringExtra("imageId");
         IdRequest request = new IdRequest(id);
+        String tags = getIntent().getStringExtra("tags");
+        if(tags != null){
+            String[] tagArr = tags.split(",");
+            tagList = new ArrayList<>(Arrays.asList(tagArr));
+            markedLabelList = new ArrayList<>(Arrays.asList(tagArr));
+            for (String s : tagList) {
+                ShowUtil.print(s + "  ");
+            }
+            setFillEnable(false);
+            chooseNum = tagList.size();
+            updateChooseTag();
+
+        }
         getImageData(request);
 
     }
@@ -337,6 +357,7 @@ public class ImageDetailActivity extends BaseActivity {
                 .subscribe(new HttpObserver<PictureResponse>() {
                     @Override
                     public void onSuccess(PictureResponse pictureResponse) {
+
                         String imgUrl = pictureResponse.getPath();
                         url = imgUrl;
                         Glide.with(ImageDetailActivity.this).load(imgUrl).into(ivImage);
@@ -347,6 +368,9 @@ public class ImageDetailActivity extends BaseActivity {
                             hisList.clear();
                             hisList.addAll(0,list);
                         }
+
+                        ivImage.setClickable(true);
+                        title.setClickable(true);
                     }
 
                     @Override
@@ -429,20 +453,19 @@ public class ImageDetailActivity extends BaseActivity {
     }
 
     private void showLargeImage() {
-        final File tempFile = new File(Config.TEMP_FILE_PATH, "temp.jpeg");
+        String fileName = TimeUtil.timeStamp2Date(System.currentTimeMillis(),"yyMMddHHmmss") + ".jpeg";
+        BitmapUtil.downloadPicture(url, Config.TEMP_FILE_PATH,fileName, new BitmapUtil.DownloadListener() {
 
-//        BitmapUtil.downloadPicture(url, tempFile.getAbsolutePath(), new BitmapUtil.DownloadListener() {
-//
-//            @Override
-//            public void downloadSuccess(String path) {
-//                toPreviewActivity(tempFile.getAbsolutePath());
-//            }
-//
-//            @Override
-//            public void downloadFailed() {
-//                ShowUtil.toast("网络未链接");
-//            }
-//        });
+            @Override
+            public void downloadSuccess(String path) {
+                toPreviewActivity(path);
+            }
+
+            @Override
+            public void downloadFailed() {
+                ShowUtil.toast("网络未链接");
+            }
+        });
 
     }
 

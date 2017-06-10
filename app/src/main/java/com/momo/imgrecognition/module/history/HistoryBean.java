@@ -7,14 +7,32 @@ import java.util.List;
  */
 
 public class HistoryBean {
-    int picId;
+    String picId;
     String picUrl;
     String type;
-    List<String> tags;
     String adminName;
-    long time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    String time;
 
     int resId;
+    String tags;
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
     String tagStr;
 
     public int getResId() {
@@ -33,11 +51,11 @@ public class HistoryBean {
         this.tagStr = tagStr;
     }
 
-    public int getPicId() {
+    public String getPicId() {
         return picId;
     }
 
-    public void setPicId(int picId) {
+    public void setPicId(String picId) {
         this.picId = picId;
     }
 
@@ -57,13 +75,6 @@ public class HistoryBean {
         this.type = type;
     }
 
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
 
     public String getAdminName() {
         return adminName;
@@ -73,11 +84,5 @@ public class HistoryBean {
         this.adminName = adminName;
     }
 
-    public long getTime() {
-        return time;
-    }
 
-    public void setTime(long time) {
-        this.time = time;
-    }
 }
