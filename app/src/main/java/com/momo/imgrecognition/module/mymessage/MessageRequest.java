@@ -5,22 +5,22 @@ package com.momo.imgrecognition.module.mymessage;
  */
 
 public class MessageRequest {
-    int id;
+    String id;
     String token;
 
     public MessageRequest() {
     }
 
-    public MessageRequest(int id, String token) {
+    public MessageRequest(String id, String token) {
         this.id = id;
         this.token = token;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -32,7 +32,6 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycle"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -42,6 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:visibility="gone"
             android:padding="8dp"
             android:textSize="14sp"
             android:text="对不起，啥都没搜到！╮(╯▽╰)╭"
@@ -115,7 +115,7 @@
                 android:id="@+id/ll_extend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <View
@@ -129,7 +129,6 @@
                     android:layout_width="match_parent"
                     android:divider="@color/transparent"
                     android:layout_height="wrap_content">
-
                 </ListView>
             </LinearLayout>
 

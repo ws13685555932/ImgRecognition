@@ -104,13 +104,25 @@
                     android:textSize="14sp"
                     android:textStyle="bold"/>
 
-                <com.zhy.view.flowlayout.TagFlowLayout
-                    android:id="@+id/tfl_labels"
-                    android:minHeight="50dp"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                </com.zhy.view.flowlayout.TagFlowLayout>
+                    <com.zhy.view.flowlayout.TagFlowLayout
+                        android:id="@+id/tfl_labels"
+                        android:minHeight="50dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </com.zhy.view.flowlayout.TagFlowLayout>
+
+                    <TextView
+                        android:id="@+id/tv_fill"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="您还未添加标签"
+                        android:gravity="center"/>
+
+                </FrameLayout>
 
                 <TextView
                     android:padding="8dp"

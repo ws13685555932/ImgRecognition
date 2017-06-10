@@ -67,7 +67,7 @@ public class RecommendFragment extends Fragment {
 
 
 
-        initPicture();
+        refreshData();
         StaggeredGridLayoutManager staggeredGridLayoutManager =
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recycle.setLayoutManager(staggeredGridLayoutManager);
@@ -93,7 +93,7 @@ public class RecommendFragment extends Fragment {
         PictureService pictureService = HttpManager.getInstance().createService(PictureService.class);
         final PictureRequest request = new PictureRequest();
         request.setLimit(10);
-        request.setId((int) SharedUtil.getParam(UserConfig.USER_ID,0));
+        request.setId((String) SharedUtil.getParam(UserConfig.USER_ID,""));
 
         Observable<ResponseInfo<RecomResponse>> call = pictureService.getPicture(request);
         call.compose(RxSchedulersHelper.<ResponseInfo<RecomResponse>>io_main())

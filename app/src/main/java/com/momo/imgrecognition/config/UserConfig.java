@@ -14,5 +14,6 @@ public class UserConfig {
 
 
     public static final String USER_LOGIN = "login_password";
+    public static final String HISTORY_LABELS = "historyLabels";
 
 }

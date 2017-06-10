@@ -2,9 +2,9 @@ package com.momo.imgrecognition.module.detail;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
@@ -28,16 +28,19 @@ import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.apiservice.PictureService;
 import com.momo.imgrecognition.apiservice.ResponseInfo;
+import com.momo.imgrecognition.apiservice.UserService;
 import com.momo.imgrecognition.config.Config;
+import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.customedview.InfoDialog;
 import com.momo.imgrecognition.customedview.TagDeleteDialog;
 import com.momo.imgrecognition.module.BaseActivity;
+import com.momo.imgrecognition.module.detail.bean.AddTagsRequest;
 import com.momo.imgrecognition.module.detail.bean.IdRequest;
 import com.momo.imgrecognition.module.detail.bean.PictureResponse;
-import com.momo.imgrecognition.utils.BitmapUtil;
 import com.momo.imgrecognition.utils.HttpManager;
 import com.momo.imgrecognition.utils.HttpObserver;
 import com.momo.imgrecognition.utils.RxSchedulersHelper;
+import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -88,6 +91,8 @@ public class ImageDetailActivity extends BaseActivity {
     TextView tvChooseTags;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.tv_fill)
+    TextView tvFill;
 
     private boolean isInput = false;
 
@@ -151,7 +156,7 @@ public class ImageDetailActivity extends BaseActivity {
         final String[] labels = new String[]{};
         tagList = new ArrayList<>(Arrays.asList(labels));
 //        final String[] labels2 = new String[]{"android", "java", "php", "hello", "world", "hhh"};
-        hisList = new ArrayList<>();
+        hisList = SharedUtil.getDataList(UserConfig.HISTORY_LABELS);
 
         tagAdapter = new TagAdapter<String>(tagList) {
             @Override
@@ -188,27 +193,38 @@ public class ImageDetailActivity extends BaseActivity {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                llCustomedTag.setVisibility(View.INVISIBLE);
                 String tag = etCustomedTag.getText().toString();
-                tagList.add(tag);
-                chooseNum++;
-                updateChooseTag();
-                if (chooseNum == limitPic) {
-                    setCustomedTagEnable(false);
+                if (!tagList.contains(tag)) {
+                    llCustomedTag.setVisibility(View.INVISIBLE);
+
+                    tagList.add(tag);
+                    chooseNum++;
+                    updateChooseTag();
+                    setFillEnable(false);
+                    if (chooseNum == limitPic) {
+                        setCustomedTagEnable(false);
+                    }
+                    tagAdapter.notifyDataChanged();
+
+                    InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
+                    etCustomedTag.setText("");
+                    List<String> list = SharedUtil.getDataList(UserConfig.HISTORY_LABELS);
+                    if(!list.contains(tag)) {
+                        list.add(0, tag);
+                    }
+                    SharedUtil.saveDataList(UserConfig.HISTORY_LABELS,list);
+                }else{
+                    ShowUtil.toast("您已经添加过该标签了!");
                 }
-                tagAdapter.notifyDataChanged();
-
-                InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-
-                etCustomedTag.setText("");
             }
         });
 
         fabConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShowUtil.toast("提交！");
+                addTags();
             }
         });
 
@@ -234,6 +250,7 @@ public class ImageDetailActivity extends BaseActivity {
                     }
                     tagList.add(tag);
                     chooseNum++;
+                    setFillEnable(false);
                     if (chooseNum == limitPic) {
                         setCustomedTagEnable(false);
                     }
@@ -247,6 +264,32 @@ public class ImageDetailActivity extends BaseActivity {
         });
     }
 
+    private void addTags() {
+        UserService userService = HttpManager.getInstance().createService(UserService.class);
+        AddTagsRequest request = new AddTagsRequest();
+        request.setId((String) SharedUtil.getParam(UserConfig.USER_ID,""));
+        request.setPictureId(id);
+        StringBuilder labels = new StringBuilder();
+        for (String s : tagList) {
+            labels.append(s).append(",");
+        }
+        request.setLabel(labels.substring(0,labels.length()-1));
+        Observable<ResponseInfo<Object>> call = userService.addPictureLabel(request);
+        call.compose(RxSchedulersHelper.<ResponseInfo<Object>>io_main())
+                .subscribe(new HttpObserver<Object>() {
+                    @Override
+                    public void onSuccess(Object o) {
+                        ShowUtil.toast("提交成功");
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailed(String message) {
+                        ShowUtil.toast("提交失败");
+                    }
+                });
+    }
+
     private void showInfo(final int position) {
         TagDeleteDialog dialog = new TagDeleteDialog();
         dialog.setOnConfirmListener(new InfoDialog.OnConfirmListener() {
@@ -254,6 +297,9 @@ public class ImageDetailActivity extends BaseActivity {
             public void onConfirm() {
                 tagList.remove(position);
                 chooseNum--;
+                if (chooseNum == 0) {
+                    setFillEnable(true);
+                }
                 updateChooseTag();
                 setCustomedTagEnable(true);
                 tagAdapter.notifyDataChanged();
@@ -263,6 +309,7 @@ public class ImageDetailActivity extends BaseActivity {
     }
 
     String url;
+    String id;
 
     private void initData() {
 
@@ -277,8 +324,7 @@ public class ImageDetailActivity extends BaseActivity {
         }
         updateChooseTag();
 
-
-        String id = getIntent().getStringExtra("imageId");
+        id = getIntent().getStringExtra("imageId");
         IdRequest request = new IdRequest(id);
         getImageData(request);
 
@@ -298,8 +344,8 @@ public class ImageDetailActivity extends BaseActivity {
                         if (tags != null) {
                             String[] splitArr = tags.split(",");
                             List<String> list = new ArrayList<String>(Arrays.asList(splitArr));
-                            tagList.clear();
-                            tagList.addAll(list);
+                            hisList.clear();
+                            hisList.addAll(0,list);
                         }
                     }
 
@@ -385,17 +431,18 @@ public class ImageDetailActivity extends BaseActivity {
     private void showLargeImage() {
         final File tempFile = new File(Config.TEMP_FILE_PATH, "temp.jpeg");
 
-        BitmapUtil.downloadPicture(url, tempFile.getAbsolutePath(), new BitmapUtil.DownloadListener() {
-            @Override
-            public void downloadSuccess(String path) {
-                toPreviewActivity(tempFile.getAbsolutePath());
-            }
-
-            @Override
-            public void downloadFailed() {
-                ShowUtil.toast("网络未链接");
-            }
-        });
+//        BitmapUtil.downloadPicture(url, tempFile.getAbsolutePath(), new BitmapUtil.DownloadListener() {
+//
+//            @Override
+//            public void downloadSuccess(String path) {
+//                toPreviewActivity(tempFile.getAbsolutePath());
+//            }
+//
+//            @Override
+//            public void downloadFailed() {
+//                ShowUtil.toast("网络未链接");
+//            }
+//        });
 
     }
 
@@ -406,5 +453,13 @@ public class ImageDetailActivity extends BaseActivity {
                 ActivityOptionsCompat.makeSceneTransitionAnimation(this,
                         ivImage, getString(R.string.transName));
         ActivityCompat.startActivity(this, intent, compat.toBundle());
+    }
+
+    public void setFillEnable(boolean enable) {
+        if (enable) {
+            tvFill.setVisibility(View.VISIBLE);
+        } else {
+            tvFill.setVisibility(View.GONE);
+        }
     }
 }

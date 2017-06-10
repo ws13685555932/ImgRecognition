@@ -1,5 +1,6 @@
 package com.momo.imgrecognition.apiservice;
 
+import com.momo.imgrecognition.module.detail.bean.AddTagsRequest;
 import com.momo.imgrecognition.module.history.HistoryRequest;
 import com.momo.imgrecognition.module.history.HistoryResponse;
 import com.momo.imgrecognition.module.login.bean.LoginResponse;
@@ -67,6 +68,8 @@ public interface UserService {
     @POST("user/getHistoryLabel")
     Observable<ResponseInfo<HistoryResponse>> getHistoryLabel(@Body HistoryRequest request);
 
+    @POST("user/addPictureLabel")
+    Observable<ResponseInfo<Object>> addPictureLabel(@Body AddTagsRequest request);
 
 }
 

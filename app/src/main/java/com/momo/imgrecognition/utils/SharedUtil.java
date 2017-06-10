@@ -2,8 +2,14 @@ package com.momo.imgrecognition.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.Preference;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.momo.imgrecognition.MyApplication;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/5/15.
@@ -18,7 +24,6 @@ public class SharedUtil {
 
     /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
-     * @param context
      * @param key
      * @param object
      */
@@ -51,7 +56,6 @@ public class SharedUtil {
 
     /**
      * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
-     * @param context
      * @param key
      * @param defaultObject
      * @return
@@ -80,5 +84,43 @@ public class SharedUtil {
         return null;
     }
 
+    /**
+     * 保存List
+     * @param tag
+     * @param datalist
+     */
+    public static <T> void saveDataList(String tag, List<T> datalist) {
+        Context context = MyApplication.getContext();
+        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        if (null == datalist || datalist.size() <= 0)
+            return;
+        Gson gson = new Gson();
+        //转换成json数据，再保存
+        String strJson = gson.toJson(datalist);
+        editor.clear();
+        editor.putString(tag, strJson);
+        editor.commit();
+
+    }
+
+    /**
+     * 获取List
+     * @param tag
+     * @return
+     */
+    public static <T> ArrayList<T> getDataList(String tag) {
+        Context context = MyApplication.getContext();
+        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        List<T> datalist=new ArrayList<T>();
+        String strJson = sp.getString(tag, null);
+        if (null == strJson) {
+            return (ArrayList<T>) datalist;
+        }
+        Gson gson = new Gson();
+        datalist = gson.fromJson(strJson, new TypeToken<List<T>>() {
+        }.getType());
+        return (ArrayList<T>) datalist;
+    }
 
 }

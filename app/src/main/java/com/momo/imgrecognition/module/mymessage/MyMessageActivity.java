@@ -70,7 +70,7 @@ public class MyMessageActivity extends BaseActivity {
 
         UserService userService = HttpManager.getInstance().createService(UserService.class);
         MessageRequest request = new MessageRequest();
-        int id = (Integer) SharedUtil.getParam(UserConfig.USER_ID, 0);
+        String id = (String) SharedUtil.getParam(UserConfig.USER_ID, "");
         String token = (String) SharedUtil.getParam(UserConfig.USER_TOKEN, "");
         request.setId(id);
         request.setToken(token);

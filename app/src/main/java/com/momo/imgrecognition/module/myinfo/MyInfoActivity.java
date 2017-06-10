@@ -124,7 +124,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
         UserService userService = HttpManager.getInstance().createService(UserService.class);
         UserRequest request = new UserRequest();
         request.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN, ""));
-        request.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID, 0));
+        request.setId((String) SharedUtil.getParam(UserConfig.USER_ID, ""));
         request.setName((String) SharedUtil.getParam(UserConfig.USER_NAME, ""));
         ShowUtil.print(request.toString());
         Observable<ResponseInfo<UserInfo>> call = userService.getUserInfo(request);
@@ -292,7 +292,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
         UrlBean urlBean = new UrlBean();
         urlBean.setAvatarUrl(url);
         urlBean.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
-        urlBean.setId((int) SharedUtil.getParam(UserConfig.USER_ID,0));
+        urlBean.setId((String) SharedUtil.getParam(UserConfig.USER_ID,""));
         Observable<ResponseInfo<UpdateResponse>> call = userService.updateUserAvatar(urlBean);
         call.compose(RxSchedulersHelper.<ResponseInfo<UpdateResponse>>io_main())
                 .subscribe(new HttpObserver<UpdateResponse>() {
@@ -418,7 +418,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
         UserService userService = HttpManager.getInstance().createService(UserService.class);
         BirthdayBean birthday = new BirthdayBean(birthdayStr);
         birthday.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
-        birthday.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
+        birthday.setId((String) SharedUtil.getParam(UserConfig.USER_ID,""));
         Observable<ResponseInfo<UpdateResponse>> call =  userService.updateBirthday(birthday);
         call.compose(RxSchedulersHelper.<ResponseInfo<UpdateResponse>>io_main())
                 .subscribe(new HttpObserver<UpdateResponse>() {
@@ -451,7 +451,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
         UserService userService = HttpManager.getInstance().createService(UserService.class);
         SexBean sex = new SexBean(text);
         sex.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
-        sex.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
+        sex.setId((String) SharedUtil.getParam(UserConfig.USER_ID,""));
         Observable<ResponseInfo<UpdateResponse>> call =  userService.updateSex(sex);
         call.compose(RxSchedulersHelper.<ResponseInfo<UpdateResponse>>io_main())
                 .subscribe(new HttpObserver<UpdateResponse>() {

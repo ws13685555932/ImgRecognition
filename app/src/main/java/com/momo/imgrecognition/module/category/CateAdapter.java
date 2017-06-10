@@ -9,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.module.detail.ImageDetailActivity;
+import com.momo.imgrecognition.utils.ShowUtil;
 
 import java.util.List;
 
@@ -46,6 +48,18 @@ public class CateAdapter extends RecyclerView.Adapter<CateAdapter.ViewHolder> {
         }
     }
 
+    static class BottomViewHolder extends RecyclerView.ViewHolder {
+
+        LinearLayout llBottom;
+        TextView tvBottom;
+
+        public BottomViewHolder(View itemView) {
+            super(itemView);
+            llBottom = (LinearLayout) itemView;
+            tvBottom = (TextView) itemView.findViewById(R.id.tv_bottom);
+        }
+    }
+
     public CateAdapter(List<CateImageBean> list, Context mContext) {
         this.imageList = list;
         this.mContext = mContext;
@@ -56,8 +70,8 @@ public class CateAdapter extends RecyclerView.Adapter<CateAdapter.ViewHolder> {
         if (mContext != null) {
             mContext = parent.getContext();
         }
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_recycler_cate_image, parent, false);
-
+        View view;
+        view = LayoutInflater.from(mContext).inflate(R.layout.item_recycler_cate_image, parent, false);
         return new ViewHolder(view);
     }
 
@@ -68,7 +82,7 @@ public class CateAdapter extends RecyclerView.Adapter<CateAdapter.ViewHolder> {
 
         holder.tvTagCont.setText(bean.getTagCont());
         holder.tvTagAdmin.setText(bean.getTagAdmin());
-        holder.tvTagNumber.setText(bean.getTagNum()+"个标签");
+        holder.tvTagNumber.setText(bean.getTagNum() + "个标签");
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,11 +92,29 @@ public class CateAdapter extends RecyclerView.Adapter<CateAdapter.ViewHolder> {
                 mContext.startActivity(intent);
             }
         });
+
+        if(position == getItemCount()-1){//已经到达列表的底部
+            if(listener!=null) {
+                listener.onRefresh();
+                ShowUtil.print("onrefresh");
+            }
+        }
     }
 
     @Override
     public int getItemCount() {
         return imageList.size();
     }
+
+    interface OnRefreshListener{
+        void onRefresh();
+    }
+
+    private OnRefreshListener listener;
+
+    public void setOnRefreshListener(OnRefreshListener listener){
+        this.listener = listener;
+    }
+
 }
 

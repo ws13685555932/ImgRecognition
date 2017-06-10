@@ -5,7 +5,7 @@ package com.momo.imgrecognition.module.myinfo;
  */
 
 public class BirthdayBean {
-    int id;
+    String id;
     String birthday;
     String token;
 
@@ -13,8 +13,16 @@ public class BirthdayBean {
         this.birthday = birthday;
     }
 
-    public void setId(int id) {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getToken() {
+        return token;
     }
 
     public void setToken(String token) {

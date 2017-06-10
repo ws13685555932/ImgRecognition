@@ -92,7 +92,7 @@ public class ChangeInfoActivity extends BaseActivity {
         UserService userService = HttpManager.getInstance().createService(UserService.class);
         DescriptionBean description = new DescriptionBean(text);
         description.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
-        description.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
+        description.setId((String) SharedUtil.getParam(UserConfig.USER_ID,""));
         Observable<ResponseInfo<UpdateResponse>> call =  userService.updateDescription(description);
         call.compose(RxSchedulersHelper.<ResponseInfo<UpdateResponse>>io_main())
                 .subscribe(new HttpObserver<UpdateResponse>() {
@@ -114,7 +114,7 @@ public class ChangeInfoActivity extends BaseActivity {
         UserService userService = HttpManager.getInstance().createService(UserService.class);
         NameBean name = new NameBean(text);
         name.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
-        name.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
+        name.setId((String) SharedUtil.getParam(UserConfig.USER_ID,""));
         Observable<ResponseInfo<UpdateResponse>> call =  userService.updateName(name);
         call.compose(RxSchedulersHelper.<ResponseInfo<UpdateResponse>>io_main())
                 .subscribe(new HttpObserver<UpdateResponse>() {
@@ -136,7 +136,7 @@ public class ChangeInfoActivity extends BaseActivity {
         UserService userService = HttpManager.getInstance().createService(UserService.class);
         EmailBean email = new EmailBean(text);
         email.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN,""));
-        email.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID,0));
+        email.setId((String) SharedUtil.getParam(UserConfig.USER_ID,""));
         Observable<ResponseInfo<UpdateResponse>> call =  userService.updateEmail(email);
         call.compose(RxSchedulersHelper.<ResponseInfo<UpdateResponse>>io_main())
                 .subscribe(new HttpObserver<UpdateResponse>() {

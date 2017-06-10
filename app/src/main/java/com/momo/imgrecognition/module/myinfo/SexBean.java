@@ -5,7 +5,7 @@ package com.momo.imgrecognition.module.myinfo;
  */
 
 public class SexBean {
-    int id;
+    String id;
     String sex;
     String token;
 
@@ -18,9 +18,16 @@ public class SexBean {
         this.sex = sex;
     }
 
-    public void setId(int id) {
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getToken() {
+        return token;
     }
 
     public void setSex(String sex) {

@@ -22,7 +22,7 @@ public class UserInfo {
      * phone : 15195891362
      */
 
-    private int id;
+    private String id;
     private String email;
     private String name;
     private String avatarUrl;
@@ -37,11 +37,11 @@ public class UserInfo {
     private int level;
     private String phone;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

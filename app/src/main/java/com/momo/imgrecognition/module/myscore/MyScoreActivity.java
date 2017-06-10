@@ -53,7 +53,7 @@ public class MyScoreActivity extends BaseActivity {
         UserService userService = HttpManager.getInstance().createService(UserService.class);
         UserRequest request = new UserRequest();
         request.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN, ""));
-        request.setId((Integer) SharedUtil.getParam(UserConfig.USER_ID, 0));
+        request.setId((String) SharedUtil.getParam(UserConfig.USER_ID,""));
         request.setName((String) SharedUtil.getParam(UserConfig.USER_NAME, ""));
         ShowUtil.print(request.toString());
         Observable<ResponseInfo<UserInfo>> call = userService.getUserInfo(request);

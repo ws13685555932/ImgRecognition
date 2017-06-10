@@ -21,6 +21,7 @@ import com.momo.imgrecognition.module.login.view.ILoginView;
 import com.momo.imgrecognition.module.main.MainActivity;
 import com.momo.imgrecognition.module.register.VarifyActivity;
 import com.momo.imgrecognition.utils.SharedUtil;
+import com.momo.imgrecognition.utils.ShowUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,14 +68,13 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 
         //自动登录
         if (!isBackFlag) {
-            autoToMainActivity();
-//            String name = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
-//            String password = (String) SharedUtil.getParam(UserConfig.USER_PASSWORD, "");
-//
-////            ShowUtil.print(name + ":" + password);
-//            if (!name.equals("") && !password.equals("")) {
-//                mLoginPresenter.autoLogin(name, password);
-//            }
+            String name = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
+            String password = (String) SharedUtil.getParam(UserConfig.USER_PASSWORD, "");
+//            ShowUtil.print(name + ":" + password);
+//            ShowUtil.print(name.equals("")+""+password.equals(""));
+            if (!name.equals("") && !password.equals("")) {
+                autoToMainActivity();
+            }
         }
 
 //        if (!Config.IS_TEST) {

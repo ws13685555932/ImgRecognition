@@ -1,10 +1,14 @@
 package com.momo.imgrecognition.module.category;
 
 import android.graphics.Picture;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,32 +45,59 @@ public class CategoryActivity extends AppCompatActivity {
     int page = 1;
     List<CateImageBean> cateList = new ArrayList<>();
     CateAdapter cateAdapter;
+    private boolean isNeedRefresh = true;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
         ButterKnife.bind(this);
 
-        String category = getIntent().getStringExtra("category");
+        final String category = getIntent().getStringExtra("category");
         title.setText(category);
 
         initData(category);
         
 
         cateAdapter = new CateAdapter(cateList,this);
+        cateAdapter.setOnRefreshListener(new CateAdapter.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (isNeedRefresh) {
+                    initData(category);
+                }
+            }
+        });
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
         recyclerCate.setLayoutManager(gridLayoutManager);
         recyclerCate.setAdapter(cateAdapter);
+
+//        recyclerCate.setOnScrollChangeListener((new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                int lastVisibleItem = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
+//                int totalItemCount = mLayoutManager.getItemCount();
+//                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载，各位自由选择
+//                // dy>0 表示向下滑动
+//                if (lastVisibleItem >= totalItemCount - 4 && dy > 0) {
+//                    if(isLoadingMore){
+//                        Log.d(TAG,"ignore manually update!");
+//                    } else{
+//                        loadPage();//这里多线程也要手动控制isLoadingMore
+//                        isLoadingMore = false;
+//                    }
+//                }
+//            }
+//        }););
     }
 
     private void initData(final String category) {
-        CateRequest request = new CateRequest();
-        request.setLimit(20);
+        final CateRequest request = new CateRequest();
+        request.setLimit(9);
         request.setPage(page);
         request.setType(category);
-
-
 
         PictureService pictureService = HttpManager.getInstance().createService(PictureService.class);
         Observable<ResponseInfo<CateResponse>> call =  pictureService.getPictureByType(request);
@@ -74,6 +105,10 @@ public class CategoryActivity extends AppCompatActivity {
                 .subscribe(new HttpObserver<CateResponse>() {
                     @Override
                     public void onSuccess(CateResponse cateResponse) {
+                        page++;
+                        if (cateResponse.getPictureList().size() < request.getLimit()-1) {
+                            isNeedRefresh = false;
+                        }
                         handleMessage(cateResponse.getPictureList());
                     }
 
@@ -101,7 +136,6 @@ public class CategoryActivity extends AppCompatActivity {
             cate.setPicId(bean.getPictureId());
             cate.setTagAdmin("By:" + bean.getManagerName());
             cate.setImgUrl(bean.getPath());
-            ShowUtil.print(cate.toString());
             cateList.add(cate);
 
         }
