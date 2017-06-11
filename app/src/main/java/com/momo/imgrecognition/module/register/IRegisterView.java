@@ -13,5 +13,5 @@ public interface IRegisterView {
     String getPhoneNumber();
     void showError(String message);
 
-    void toMainActivity();
+    void toMainActivity(int level, String iconUrl, String name);
 }

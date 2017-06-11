@@ -16,10 +16,10 @@
 
     </group>
     <group android:id="@+id/group2">
-        <item
-            android:id="@+id/nav_tag_later"
-            android:icon="@drawable/menu_tag_later"
-            android:title="稍后再评" />
+        <!--<item-->
+            <!--android:id="@+id/nav_tag_later"-->
+            <!--android:icon="@drawable/menu_tag_later"-->
+            <!--android:title="稍后再评" />-->
         <item
             android:id="@+id/nav_history"
             android:icon="@drawable/menu_history"

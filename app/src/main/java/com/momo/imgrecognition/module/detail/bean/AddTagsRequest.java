@@ -39,4 +39,13 @@ public class AddTagsRequest {
     public void setLabel(String label) {
         this.label = label;
     }
+
+    @Override
+    public String toString() {
+        return "AddTagsRequest{" +
+                "id='" + id + '\'' +
+                ", pictureId='" + pictureId + '\'' +
+                ", label='" + label + '\'' +
+                '}';
+    }
 }

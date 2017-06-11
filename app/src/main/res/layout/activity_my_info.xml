@@ -88,7 +88,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
-                    android:src="@drawable/ic_user"/>
+                    android:src="@drawable/bg_app_icon_gray"/>
             </RelativeLayout>
 
             <View
@@ -117,7 +117,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="8dp"
                     android:gravity="center_vertical"
-                    android:text="陌上疏影凉"
+                    android:text=""
                     android:textColor="#bbbbbb"
                     android:textSize="14sp"/>
             </RelativeLayout>
@@ -145,7 +145,7 @@
                     style="@style/TextViewInfoRight"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="男"/>
+                    android:text=""/>
             </RelativeLayout>
 
             <View
@@ -171,7 +171,7 @@
                     style="@style/TextViewInfoRight"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="1996-10-5"/>
+                    android:text=""/>
             </RelativeLayout>
 
             <View
@@ -224,7 +224,7 @@
                     style="@style/TextViewInfoRight"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="1748532294@qq.com"/>
+                    android:text=""/>
 
             </RelativeLayout>
 
@@ -260,7 +260,7 @@
                     android:autoLink="all"
                     android:textColor="#bbbbbb"
                     android:textSize="14sp"
-                    android:text="呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！呀哈喽！"/>
+                    android:text=""/>
 
             </RelativeLayout>
 

@@ -6,14 +6,17 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.config.Config;
+import com.momo.imgrecognition.utils.BitmapUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
+import com.momo.imgrecognition.utils.TimeUtil;
 
 import java.io.File;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +26,9 @@ public class PreviewActivity extends AppCompatActivity {
 
     @BindView(R.id.photo_view)
     ImageView photoView;
-    String mPath;
+    String mUrl;
+    @BindView(R.id.btn_download)
+    Button btnDownload;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -39,13 +44,12 @@ public class PreviewActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(option);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
 
-        mPath = getIntent().getStringExtra("imagePath");
-        ShowUtil.print(mPath);
-        File image = new File(mPath);
+        mUrl = getIntent().getStringExtra("url");
 
-        if(image.exists()) {
+
+        if (mUrl != null) {
             ShowUtil.print("load");
-            Glide.with(this).load(image).into(photoView);
+            Glide.with(this).load(mUrl).into(photoView);
         }
 
 //        // 启用图片缩放功能
@@ -70,16 +74,37 @@ public class PreviewActivity extends AppCompatActivity {
 //        photoView.setInterpolator(new LinearInterpolator());
     }
 
-    @OnClick(R.id.photo_view)
-    public void onViewClicked() {
-        deleteTempFile();
-        finish();
+    @OnClick({R.id.photo_view, R.id.btn_download})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.photo_view:
+                finish();
+                break;
+            case R.id.btn_download:
+                downloadPicture();
+                break;
+        }
     }
 
-    private void deleteTempFile() {
-        File file = new File(mPath);
-        if(file.exists()){
-            file.delete();
+    private void downloadPicture() {
+        String fileName = TimeUtil.timeStamp2Date(System.currentTimeMillis(), "yyMMddHHmmss") + ".jpg";
+        File fileDir = new File(Config.DOWNLOAD_IMG_PATH);
+        if(!fileDir.exists()){
+            fileDir.mkdirs();
         }
+        btnDownload.setText("下载中...");
+        BitmapUtil.downloadPicture(mUrl, Config.DOWNLOAD_IMG_PATH, fileName, new BitmapUtil.DownloadListener() {
+            @Override
+            public void downloadSuccess(String path) {
+                ShowUtil.toast("图片已保存到:" + path);
+                btnDownload.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void downloadFailed() {
+                btnDownload.setText("下载图片");
+                ShowUtil.toast("下载失败");
+            }
+        });
     }
 }

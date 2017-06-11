@@ -1,5 +1,6 @@
 package com.momo.imgrecognition.utils;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.Preference;
@@ -122,5 +123,10 @@ public class SharedUtil {
         }.getType());
         return (ArrayList<T>) datalist;
     }
+
+    public static void clearList(String tag){
+        getDataList(tag).clear();
+    }
+
 
 }

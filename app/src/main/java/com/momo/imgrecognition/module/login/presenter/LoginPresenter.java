@@ -43,8 +43,12 @@ public class LoginPresenter {
                 @Override
                 public void loginSuccess(LoginResponse response) {
                     mLoginView.dismissLoadDialog();
+                    String name = response.getName();
+                    String iconUrl = response.getAvatarUrl();
+                    int level = response.getLevel();
                     saveData(response,password);
-                    mLoginView.toMainActivity();
+                    mLoginView.saveId(response.getId());
+                    mLoginView.toMainActivity(level,iconUrl,name);
                     ShowUtil.toast("登录成功!");
                 }
 
@@ -58,29 +62,15 @@ public class LoginPresenter {
         }
     }
 
-    public void autoLogin(String username , final String password){
-//        mLoginView.toMainActivity();
-        User user = new User(password, username);
-        mLoginBiz.login(user, new OnLoginListener() {
-            @Override
-            public void loginSuccess(LoginResponse response) {
-                saveData(response , password);
-                mLoginView.toMainActivity();
-            }
-
-            @Override
-            public void loginFailed(String message) {
-                ShowUtil.toast(message);
-            }
-        });
-    }
-
     private void saveData(LoginResponse response,String password) {
         SharedUtil.saveParam(UserConfig.USER_ID, response.getId());
+        ShowUtil.print("id saved: " + SharedUtil.getParam(UserConfig.USER_ID,""));
         SharedUtil.saveParam(UserConfig.USER_NAME, response.getName());
+
         SharedUtil.saveParam(UserConfig.USER_TOKEN, response.getToken());
         SharedUtil.saveParam(UserConfig.USER_PASSWORD,password);
         SharedUtil.saveParam(UserConfig.USER_ICON_URL, response.getAvatarUrl());
+        SharedUtil.saveParam(UserConfig.USER_LEVEL,response.getLevel());
 //        if(userIconUrl!= null) {
 //            Bitmap userIcon = BitmapUtil.getHttpPicture(userIconUrl);
 //            BitmapUtil.savePicture(userIcon, Config.TEMP_FILE_PATH ,"userIcon.jpeg");

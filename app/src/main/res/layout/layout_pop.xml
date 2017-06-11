@@ -6,29 +6,29 @@
     android:background="@drawable/bg_popup_window"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/ll_tag_later"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
+    <!--<LinearLayout-->
+        <!--android:id="@+id/ll_tag_later"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:padding="8dp">-->
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_tag_later"
-            android:backgroundTint="@color/theme_color_primary"/>
+        <!--<ImageView-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:background="@drawable/ic_tag_later"-->
+            <!--android:backgroundTint="@color/theme_color_primary"/>-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:padding="5dp"
-            android:text="添加到稍后再评"
-            android:textColor="@color/default_text_color"
-            android:textSize="16sp"/>
-    </LinearLayout>
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:padding="5dp"-->
+            <!--android:text="添加到稍后再评"-->
+            <!--android:textColor="@color/default_text_color"-->
+            <!--android:textSize="16sp"/>-->
+    <!--</LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/ll_not_interested"

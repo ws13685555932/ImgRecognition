@@ -10,8 +10,9 @@ public interface ILoginView {
     String getUsername();
     String getPassword();
 
-    void toMainActivity();
+    void toMainActivity(int level, String iconUrl, String name);
     void toRegisterActivity();
     void showLoadDialog();
     void dismissLoadDialog();
+    void saveId(String id);
 }

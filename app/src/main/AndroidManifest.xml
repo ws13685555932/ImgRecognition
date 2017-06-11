@@ -17,25 +17,17 @@
         <activity
             android:name=".module.login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBarWithTranslucentStatus">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".module.register.VarifyActivity"/>
         <activity android:name=".module.main.MainActivity">
-
         </activity>
         <activity android:name=".module.changeskin.ChangeSkinActivity">
         </activity>
         <activity android:name=".module.detail.ImageDetailActivity">
-
         </activity>
         <activity android:name=".module.mymessage.MyMessageActivity">
         </activity>
         <activity android:name=".module.myscore.MyScoreActivity">
-
         </activity>
         <activity android:name=".module.taglater.TagLaterActivity">
         </activity>
@@ -52,22 +44,22 @@
         <activity android:name=".module.settings.SettingsActivity">
         </activity>
         <activity android:name=".module.mytask.MyTaskActivity">
-
         </activity>
-
         <activity android:name=".module.detail.PreviewActivity">
-
         </activity>
-
         <activity android:name=".module.search.SearchActivity">
-        </activity>
-
-        <activity android:name=".module.detail.PreviewActivity">
-
         </activity>
         <activity android:name=".module.category.CategoryActivity">
         </activity>
+        <activity android:name=".module.firstpage.FirstPageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".module.gallery.GalleryActivity">
+        </activity>
     </application>
 
 </manifest>

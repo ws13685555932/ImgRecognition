@@ -65,16 +65,13 @@ public class RecommendFragment extends Fragment {
 
         unbinder = ButterKnife.bind(this, view);
 
-
-
         refreshData();
+
         StaggeredGridLayoutManager staggeredGridLayoutManager =
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recycle.setLayoutManager(staggeredGridLayoutManager);
         mAdapter = new ImageAdapter(imageBeanList, getContext());
-
         recycle.setAdapter(mAdapter);
-
 
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.theme_color_primary));
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

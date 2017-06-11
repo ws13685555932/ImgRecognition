@@ -9,6 +9,8 @@ import com.momo.imgrecognition.module.detail.bean.IdRequest;
 import com.momo.imgrecognition.module.detail.bean.PictureResponse;
 import com.momo.imgrecognition.module.main.bean.PictureRequest;
 import com.momo.imgrecognition.module.main.bean.RecomResponse;
+import com.momo.imgrecognition.module.search.SearchReponse;
+import com.momo.imgrecognition.module.search.SearchRequest;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
@@ -28,4 +30,7 @@ public interface PictureService {
 
     @POST("picture/getPictureByType")
     Observable<ResponseInfo<CateResponse>> getPictureByType(@Body CateRequest request);
+
+    @POST("picture/searchPicture")
+    Observable<ResponseInfo<SearchReponse>> searchPicture(@Body SearchRequest request);
 }

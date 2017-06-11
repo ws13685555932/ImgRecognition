@@ -138,13 +138,9 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
                         tvPhoneNumber.setText(userInfo.getPhone());
                         tvEmail.setText(userInfo.getEmail());
                         tvDescription.setText(userInfo.getIntroduction());
-                        if(!userInfo.getAvatarUrl() .equals("")) {
+                        if(userInfo.getAvatarUrl()!=null) {
                             Glide.with(MyInfoActivity.this)
                                     .load(userInfo.getAvatarUrl())
-                                    .into(ivUserIcon);
-                        }else{
-                            Glide.with(MyInfoActivity.this)
-                                    .load(R.drawable.default_user)
                                     .into(ivUserIcon);
                         }
 
@@ -370,17 +366,32 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
 
     private void logOut() {
         final InfoDialog dialog = new InfoDialog();
+
+        dialog.show(getSupportFragmentManager(),dialog.TAG);
+
         dialog.setOnConfirmListener(new InfoDialog.OnConfirmListener() {
             @Override
             public void onConfirm() {
+
+                clearData();
+
                 Intent intent = new Intent(MyInfoActivity.this, LoginActivity.class);
                 intent.putExtra(UserConfig.USER_LOGIN,"login_password");
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
         });
-        dialog.show(getSupportFragmentManager(),dialog.TAG);
+    }
 
+    private void clearData() {
+        SharedUtil.saveParam(UserConfig.USER_ID,"");
+        SharedUtil.saveParam(UserConfig.USER_LEVEL,0);
+        SharedUtil.saveParam(UserConfig.USER_ICON_URL,"");
+        SharedUtil.saveParam(UserConfig.USER_NAME,"");
+        SharedUtil.saveParam(UserConfig.USER_PASSWORD,"");
+        SharedUtil.saveParam(UserConfig.USER_TOKEN,"");
+        SharedUtil.clearList(UserConfig.HISTORY_SEARCH);
+        SharedUtil.clearList(UserConfig.HISTORY_LABELS);
     }
 
     private void changeInfo(String type){

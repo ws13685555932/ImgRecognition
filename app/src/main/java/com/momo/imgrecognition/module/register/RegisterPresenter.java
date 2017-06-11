@@ -31,12 +31,13 @@ public class RegisterPresenter {
 
         // TODO: 2017/5/16 phone number is not modified
         RegisterBean bean = new RegisterBean(password,username,phoneNumber);
+        ShowUtil.print(bean.toString());
         mRegisterBiz.register(bean, new RegisterListener() {
             @Override
             public void regiseteSuccess(RegisterResponse response) {
                 saveData(response , password);
                 ShowUtil.toast("注册成功！");
-                mRegisterView.toMainActivity();
+//                mRegisterView.toMainActivity();
             }
 
             @Override

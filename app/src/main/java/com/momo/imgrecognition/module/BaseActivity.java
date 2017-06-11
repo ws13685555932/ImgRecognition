@@ -12,6 +12,9 @@ import com.momo.imgrecognition.utils.ActivityManager;
 
 public class BaseActivity extends AppCompatActivity {
 
+
+    private String id;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,5 +25,13 @@ public class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ActivityManager.removeActivity(this);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

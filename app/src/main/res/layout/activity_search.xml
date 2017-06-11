@@ -38,6 +38,7 @@
         </android.support.v7.widget.RecyclerView>
 
         <TextView
+            android:id="@+id/tv_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -96,8 +97,7 @@
                     android:textSize="16sp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    android:hint="搜索"
-                    android:text="搜索"
+                    android:hint="请输入您想要搜索的词"
                     android:textColor="@color/default_text_color"
                     android:background="@color/transparent"/>
 
@@ -115,7 +115,7 @@
                 android:id="@+id/ll_extend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:orientation="vertical">
 
                 <View
@@ -131,8 +131,6 @@
                     android:layout_height="wrap_content">
                 </ListView>
             </LinearLayout>
-
-
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

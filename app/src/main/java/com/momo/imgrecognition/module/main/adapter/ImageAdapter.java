@@ -16,9 +16,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.momo.imgrecognition.R;
+import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.module.detail.ImageDetailActivity;
 import com.momo.imgrecognition.module.main.bean.ImageBean;
 import com.momo.imgrecognition.customedview.PopupWindowWithAnim;
+import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
 
 import java.util.List;
@@ -84,6 +86,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ShowUtil.print("id: main adapter " + SharedUtil.getParam(UserConfig.USER_ID,""));
                 Intent intent = new Intent(mContext, ImageDetailActivity.class);
                 intent.putExtra("imageId" , imageList.get(position).getImageId());
                 mContext.startActivity(intent);
@@ -101,10 +104,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         pop.setBackgroundDrawable(new ColorDrawable());
 
         //popupWindows中按钮设置点击事件
-        LinearLayout ll_tag_later = (LinearLayout) popView.findViewById(R.id.ll_tag_later);
+//        LinearLayout ll_tag_later = (LinearLayout) popView.findViewById(R.id.ll_tag_later);
         LinearLayout ll_not_interested = (LinearLayout) popView.findViewById(R.id.ll_not_interested);
 
-        ll_tag_later.setOnClickListener(this);
+//        ll_tag_later.setOnClickListener(this);
         ll_not_interested.setOnClickListener(this);
 
         pop.getContentView().measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
@@ -151,9 +154,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.ll_tag_later:
-                pop.dismiss();
-                break;
+//            case R.id.ll_tag_later:
+//                pop.dismiss();
+//                break;
             case R.id.ll_not_interested:
                 pop.dismiss();
                 imageList.remove(currIndex);

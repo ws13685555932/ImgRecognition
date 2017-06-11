@@ -21,11 +21,8 @@ import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.config.UserConfig;
 import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.changeskin.ChangeSkinActivity;
+import com.momo.imgrecognition.module.gallery.GalleryActivity;
 import com.momo.imgrecognition.module.history.HistoryActivity;
-import com.momo.imgrecognition.module.login.bean.LoginResponse;
-import com.momo.imgrecognition.module.login.bean.User;
-import com.momo.imgrecognition.module.login.biz.LoginBiz;
-import com.momo.imgrecognition.module.login.biz.OnLoginListener;
 import com.momo.imgrecognition.module.main.adapter.ViewPagerAdapter;
 import com.momo.imgrecognition.module.main.view.CategoryFragment;
 import com.momo.imgrecognition.module.main.view.RecommendFragment;
@@ -37,7 +34,6 @@ import com.momo.imgrecognition.module.search.SearchActivity;
 import com.momo.imgrecognition.module.settings.SettingsActivity;
 import com.momo.imgrecognition.module.taglater.TagLaterActivity;
 import com.momo.imgrecognition.utils.ActivityManager;
-import com.momo.imgrecognition.utils.BitmapUtil;
 import com.momo.imgrecognition.utils.SharedUtil;
 import com.momo.imgrecognition.utils.ShowUtil;
 
@@ -77,6 +73,8 @@ public class MainActivity extends BaseActivity {
     TextView tvUserName;
     @BindView(R.id.iv_search)
     ImageView ivSearch;
+    @BindView(R.id.iv_download)
+    ImageView ivDownload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,9 +138,9 @@ public class MainActivity extends BaseActivity {
                     case R.id.nav_settings:
                         toSettings();
                         break;
-                    case R.id.nav_tag_later:
-                        toTaglatter();
-                        break;
+//                    case R.id.nav_tag_later:
+//                        toTaglatter();
+//                        break;
                 }
                 return true;
             }
@@ -161,44 +159,64 @@ public class MainActivity extends BaseActivity {
 
     // TODO: 2017/5/24 等级
     private void initData() {
+        ShowUtil.print("id: main init " + SharedUtil.getParam(UserConfig.USER_ID,""));
         //自动登录
         if (getIntent() != null) {
-            String type = getIntent().getStringExtra("type");
-            if (type != null) {
-                LoginBiz loginBiz = new LoginBiz();
-                String username = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
-                String password = (String) SharedUtil.getParam(UserConfig.USER_PASSWORD, "");
-                User user = new User(password, username);
-                loginBiz.login(user, new OnLoginListener() {
-                    @Override
-                    public void loginSuccess(LoginResponse response) {
-                        tvUserName.setText(response.getName());
-                        Glide.with(MainActivity.this).load(response.getAvatarUrl()).into(ivUserIcon);
-                        View header = navView.getHeaderView(0);
-                        CircleImageView ivUserIconNav = (CircleImageView) header.findViewById(R.id.civ_user_icon);
-                        Glide.with(MainActivity.this).load(response.getAvatarUrl()).into(ivUserIconNav);
-                    }
+            int level = getIntent().getIntExtra("level", 0);
+            String iconUrl = getIntent().getStringExtra("iconUrl");
+            String name = getIntent().getStringExtra("name");
 
-                    @Override
-                    public void loginFailed(String msg) {
-
-                    }
-                });
-                return;
-            }
-        }
-
-        //正常登录
-        String username = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
-        tvUserName.setText(username);
-        String userIconUrl = (String) SharedUtil.getParam(UserConfig.USER_ICON_URL, "");
-        if (!userIconUrl.equals("")) {
-            Glide.with(this).load(userIconUrl).into(ivUserIcon);
+            tvUserName.setText(name);
             View header = navView.getHeaderView(0);
             CircleImageView ivUserIconNav = (CircleImageView) header.findViewById(R.id.civ_user_icon);
-            Glide.with(this).load(userIconUrl).into(ivUserIconNav);
-            BitmapUtil.downloadUserIcon(userIconUrl);
+            if (iconUrl != null) {
+                Glide.with(MainActivity.this).load(iconUrl).into(ivUserIcon);
+                Glide.with(MainActivity.this).load(iconUrl).into(ivUserIconNav);
+            }
+            TextView tvNavUsername = (TextView) header.findViewById(R.id.tv_user_name);
+            tvNavUsername.setText(name);
+            TextView tvNavLevel = (TextView) header.findViewById(R.id.tv_level);
+            tvNavLevel.setText("Lv." + level);
+
+
+
         }
+//            String type = getIntent().getStringExtra("type");
+//            if (type != null) {
+//                LoginBiz loginBiz = new LoginBiz();
+//                String username = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
+//                String password = (String) SharedUtil.getParam(UserConfig.USER_PASSWORD, "");
+//                User user = new User(password, username);
+//                loginBiz.login(user, new OnLoginListener() {
+//                    @Override
+//                    public void loginSuccess(LoginResponse response) {
+//                        tvUserName.setText(response.getName());
+//                        Glide.with(MainActivity.this).load(response.getAvatarUrl()).into(ivUserIcon);
+//                        View header = navView.getHeaderView(0);
+//                        CircleImageView ivUserIconNav = (CircleImageView) header.findViewById(R.id.civ_user_icon);
+//                        Glide.with(MainActivity.this).load(response.getAvatarUrl()).into(ivUserIconNav);
+//                    }
+//
+//                    @Override
+//                    public void loginFailed(String msg) {
+//
+//                    }
+//                });
+//                return;
+//            }
+//        }
+
+//        //正常登录
+//        String username = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
+//        tvUserName.setText(username);
+//        String userIconUrl = (String) SharedUtil.getParam(UserConfig.USER_ICON_URL, "");
+//        if (!userIconUrl.equals("")) {
+//            Glide.with(this).load(userIconUrl).into(ivUserIcon);
+//            View header = navView.getHeaderView(0);
+//            CircleImageView ivUserIconNav = (CircleImageView) header.findViewById(R.id.civ_user_icon);
+//            Glide.with(this).load(userIconUrl).into(ivUserIconNav);
+//            BitmapUtil.downloadUserIcon(userIconUrl);
+//        }
 
 
     }
@@ -287,7 +305,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.iv_user_icon, R.id.iv_search})
+    @OnClick({R.id.iv_user_icon, R.id.iv_search,R.id.iv_download})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_user_icon:
@@ -296,7 +314,15 @@ public class MainActivity extends BaseActivity {
             case R.id.iv_search:
                 toSearchActivity();
                 break;
+            case R.id.iv_download:
+                toDownloadActivity();
+                break;
         }
+    }
+
+    private void toDownloadActivity() {
+        Intent intent = new Intent(this, GalleryActivity.class);
+        startActivity(intent);
     }
 
     private void toSearchActivity() {

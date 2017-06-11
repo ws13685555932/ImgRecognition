@@ -59,46 +59,28 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        if (getIntent() != null) {
-            String flag = getIntent().getStringExtra(UserConfig.USER_LOGIN);
-            if (flag != null) {
-                isBackFlag = true;
-            }
-        }
+//        if (getIntent() != null) {
+//            String flag = getIntent().getStringExtra(UserConfig.USER_LOGIN);
+//            if (flag != null) {
+//                isBackFlag = true;
+//            }
+//        }
 
-        //自动登录
-        if (!isBackFlag) {
-            String name = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
-            String password = (String) SharedUtil.getParam(UserConfig.USER_PASSWORD, "");
-//            ShowUtil.print(name + ":" + password);
-//            ShowUtil.print(name.equals("")+""+password.equals(""));
-            if (!name.equals("") && !password.equals("")) {
-                autoToMainActivity();
-            }
-        }
+//        //自动登录
+//        if (!isBackFlag) {
+//            String name = (String) SharedUtil.getParam(UserConfig.USER_NAME, "");
+//            String password = (String) SharedUtil.getParam(UserConfig.USER_PASSWORD, "");
+////            ShowUtil.print(name + ":" + password);
+////            ShowUtil.print(name.equals("")+""+password.equals(""));
+//            if (!name.equals("") && !password.equals("")) {
+//                autoToMainActivity();
+//            }
+//        }
 
 //        if (!Config.IS_TEST) {
 //            rxBinding();
 //        }
 
-
-        etUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b){
-                    ivPet.setBackground(getResources().getDrawable(R.drawable.login_username));
-                }
-            }
-        });
-
-        etPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b){
-                    ivPet.setBackground(getResources().getDrawable(R.drawable.login_password));
-                }
-            }
-        });
     }
 
     private void rxBinding() {
@@ -127,9 +109,12 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     }
 
     @Override
-    public void toMainActivity() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+    public void toMainActivity(int level, String iconUrl, String name) {
+        Intent intent = new Intent(this,MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("level", level);
+        intent.putExtra("iconUrl", iconUrl);
+        intent.putExtra("name", name);
         startActivity(intent);
     }
 
@@ -156,6 +141,11 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         mLoadDialog.dismiss();
     }
 
+    @Override
+    public void saveId(String id) {
+        setId(id);
+    }
+
     @OnClick(R.id.btn_login)
     public void onLogin() {
         mLoginPresenter.login();
@@ -168,4 +158,8 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     }
 
 
+    @Override
+    public void onBackPressed() {
+
+    }
 }

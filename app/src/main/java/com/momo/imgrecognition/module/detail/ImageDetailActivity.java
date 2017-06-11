@@ -93,8 +93,8 @@ public class ImageDetailActivity extends BaseActivity {
     TextView tvChooseTags;
     @BindView(R.id.title)
     TextView title;
-    @BindView(R.id.tv_fill)
-    TextView tvFill;
+//    @BindView(R.id.tv_fill)
+//    TextView tvFill;
 
     private boolean isInput = false;
 
@@ -111,10 +111,6 @@ public class ImageDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detail);
         ButterKnife.bind(this);
-        ivImage.setClickable(false);
-        title.setClickable(false);
-        initData();
-
 
         if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
@@ -124,7 +120,10 @@ public class ImageDetailActivity extends BaseActivity {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
 
-
+        ivImage.setClickable(false);
+        title.setClickable(false);
+        initData();
+        ShowUtil.print("id: detail " + SharedUtil.getParam(UserConfig.USER_ID,""));
         llCustomedTag.setVisibility(View.INVISIBLE);
 
         mRoot = (RelativeLayout) findViewById(R.id.root);
@@ -198,11 +197,12 @@ public class ImageDetailActivity extends BaseActivity {
                 String tag = etCustomedTag.getText().toString();
                 if (!tagList.contains(tag)) {
                     llCustomedTag.setVisibility(View.INVISIBLE);
-
+                    tflLabels.setVisibility(View.VISIBLE);
                     tagList.add(tag);
+                    ShowUtil.print(tagList.toString());
                     chooseNum++;
                     updateChooseTag();
-                    setFillEnable(false);
+//                    setFillEnable(false);
                     if (chooseNum == limitPic) {
                         setCustomedTagEnable(false);
                     }
@@ -213,11 +213,11 @@ public class ImageDetailActivity extends BaseActivity {
 
                     etCustomedTag.setText("");
                     List<String> list = SharedUtil.getDataList(UserConfig.HISTORY_LABELS);
-                    if(!list.contains(tag)) {
+                    if (!list.contains(tag)) {
                         list.add(0, tag);
                     }
-                    SharedUtil.saveDataList(UserConfig.HISTORY_LABELS,list);
-                }else{
+                    SharedUtil.saveDataList(UserConfig.HISTORY_LABELS, list);
+                } else {
                     ShowUtil.toast("您已经添加过该标签了!");
                 }
             }
@@ -245,14 +245,14 @@ public class ImageDetailActivity extends BaseActivity {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 String tag = hisList.get(position);
+                if (chooseNum == limitPic) {
+                    ShowUtil.toast("您添加的标签数目已达当前等级的上限");
+                    return true;
+                }
                 if (!tagList.contains(tag)) {
-                    if (chooseNum == limitPic) {
-                        ShowUtil.toast("您添加的标签数目已达当前等级的上限");
-                        return true;
-                    }
                     tagList.add(tag);
                     chooseNum++;
-                    setFillEnable(false);
+//                    setFillEnable(false);
                     if (chooseNum == limitPic) {
                         setCustomedTagEnable(false);
                     }
@@ -267,17 +267,21 @@ public class ImageDetailActivity extends BaseActivity {
     }
 
     private void addTags() {
+        if(tagList.size() == 0){
+            return;
+        }
         UserService userService = HttpManager.getInstance().createService(UserService.class);
         AddTagsRequest request = new AddTagsRequest();
         request.setId((String) SharedUtil.getParam(UserConfig.USER_ID,""));
         request.setPictureId(id);
         StringBuilder labels = new StringBuilder();
         for (String s : tagList) {
-            if(!markedLabelList.contains(s)) {
+            if (!markedLabelList.contains(s)) {
                 labels.append(s).append(",");
             }
         }
-        request.setLabel(labels.substring(0,labels.length()-1));
+        request.setLabel(labels.substring(0, labels.length() - 1));
+        ShowUtil.print(request.toString());
         Observable<ResponseInfo<Object>> call = userService.addPictureLabel(request);
         call.compose(RxSchedulersHelper.<ResponseInfo<Object>>io_main())
                 .subscribe(new HttpObserver<Object>() {
@@ -289,7 +293,7 @@ public class ImageDetailActivity extends BaseActivity {
 
                     @Override
                     public void onFailed(String message) {
-                        ShowUtil.toast("提交失败");
+                        ShowUtil.toast(message);
                     }
                 });
     }
@@ -302,7 +306,7 @@ public class ImageDetailActivity extends BaseActivity {
                 tagList.remove(position);
                 chooseNum--;
                 if (chooseNum == 0) {
-                    setFillEnable(true);
+//                    setFillEnable(true);
                 }
                 updateChooseTag();
                 setCustomedTagEnable(true);
@@ -322,8 +326,8 @@ public class ImageDetailActivity extends BaseActivity {
 
 
         // TODO: 2017/6/9 test level
-//        int level = (int) SharedUtil.getParam(UserConfig.USER_LEVEL, 0);
-        int level = 5;
+        int level = (int) SharedUtil.getParam(UserConfig.USER_LEVEL, 0);
+//        int level = 5;
         if (level != 0) {
             limitPic = limit[level - 1];
         } else {
@@ -333,15 +337,17 @@ public class ImageDetailActivity extends BaseActivity {
 
         id = getIntent().getStringExtra("imageId");
         IdRequest request = new IdRequest(id);
+        tagList = new ArrayList<>();
         String tags = getIntent().getStringExtra("tags");
-        if(tags != null){
+
+        if (tags != null) {
             String[] tagArr = tags.split(",");
             tagList = new ArrayList<>(Arrays.asList(tagArr));
             markedLabelList = new ArrayList<>(Arrays.asList(tagArr));
             for (String s : tagList) {
                 ShowUtil.print(s + "  ");
             }
-            setFillEnable(false);
+//            setFillEnable(false);
             chooseNum = tagList.size();
             updateChooseTag();
 
@@ -366,7 +372,7 @@ public class ImageDetailActivity extends BaseActivity {
                             String[] splitArr = tags.split(",");
                             List<String> list = new ArrayList<String>(Arrays.asList(splitArr));
                             hisList.clear();
-                            hisList.addAll(0,list);
+                            hisList.addAll(0, list);
                         }
 
                         ivImage.setClickable(true);
@@ -453,36 +459,44 @@ public class ImageDetailActivity extends BaseActivity {
     }
 
     private void showLargeImage() {
-        String fileName = TimeUtil.timeStamp2Date(System.currentTimeMillis(),"yyMMddHHmmss") + ".jpeg";
-        BitmapUtil.downloadPicture(url, Config.TEMP_FILE_PATH,fileName, new BitmapUtil.DownloadListener() {
-
-            @Override
-            public void downloadSuccess(String path) {
-                toPreviewActivity(path);
-            }
-
-            @Override
-            public void downloadFailed() {
-                ShowUtil.toast("网络未链接");
-            }
-        });
+//        String fileName = "picture" + id + ".jpeg";
+//        File tempFile = new File(Config.TEMP_FILE_PATH, fileName);
+//        if (tempFile.exists()) {
+//            return;
+//        }
+//        BitmapUtil.downloadPicture(url, Config.TEMP_FILE_PATH, fileName, new BitmapUtil.DownloadListener() {
+//
+//            @Override
+//            public void downloadSuccess(String path) {
+                toPreviewActivity(url);
+//            }
+//
+//            @Override
+//            public void downloadFailed() {
+//                ShowUtil.toast("网络未链接");
+//            }
+//        });
 
     }
 
-    public void toPreviewActivity(String path) {
+
+    public void toPreviewActivity(String imgUrl) {
         Intent intent = new Intent(this, PreviewActivity.class);
-        intent.putExtra("imagePath", path);
-        ActivityOptionsCompat compat =
-                ActivityOptionsCompat.makeSceneTransitionAnimation(this,
-                        ivImage, getString(R.string.transName));
-        ActivityCompat.startActivity(this, intent, compat.toBundle());
+        intent.putExtra("url", imgUrl);
+        startActivity(intent);
+//        ActivityOptionsCompat compat =
+//                ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+//                        ivImage, getString(R.string.transName));
+//        ActivityCompat.startActivity(this, intent, compat.toBundle());
+//        ActivityCompat.startActivityForResult(this, intent, 0, compat.toBundle());
     }
 
-    public void setFillEnable(boolean enable) {
-        if (enable) {
-            tvFill.setVisibility(View.VISIBLE);
-        } else {
-            tvFill.setVisibility(View.GONE);
-        }
-    }
+//    public void setFillEnable(boolean enable) {
+//        if (enable) {
+//            tvFill.setVisibility(View.VISIBLE);
+//        } else {
+//            tvFill.setVisibility(View.GONE);
+//        }
+//    }
+
 }

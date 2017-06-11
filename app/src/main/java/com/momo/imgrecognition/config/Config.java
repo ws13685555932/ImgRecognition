@@ -34,8 +34,4 @@ public class Config {
     // TODO: 2017/5/22  在哪用到的？
     public static final String TEMP_FILE_PATH = SD_CARD + PACKAGE_NAME + "/tempFile";
 
-
-
-
-
 }

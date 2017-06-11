@@ -82,9 +82,7 @@ public class BitmapUtil {
 
     private static String writeResponseBodyToDisk(ResponseBody body , String destPath , String fileName) {
         try {
-            // todo change the file location/name according to your needs
             File destFile = new File(destPath,fileName);
-
             try {
                 destFile.createNewFile(); // 创建文件
             } catch (IOException e) {

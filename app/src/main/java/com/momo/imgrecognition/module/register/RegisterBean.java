@@ -11,6 +11,16 @@ public class RegisterBean {
     private String phone;
 //    private String phone;
 
+    @Override
+    public String toString() {
+        return "RegisterBean{" +
+                "password='" + password + '\'' +
+                ", confirmPassword='" + confirmPassword + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
+
     public RegisterBean(String password, String name , String phone) {
         this.password = password;
         this.confirmPassword = password;

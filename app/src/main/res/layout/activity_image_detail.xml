@@ -3,17 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/root"
     tools:context="com.momo.imgrecognition.module.detail.ImageDetailActivity">
 
     <ImageView
-        android:transitionName="@string/transName"
         android:id="@+id/iv_image"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        />
+    <!--android:transitionName="@string/transName"-->
 
     <View
         android:layout_width="match_parent"
@@ -45,8 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="8dp"
-            android:text="点击查看完整图片"
             android:paddingRight="8dp"
+            android:text="点击查看完整图片"
             android:textColor="@color/white"
             android:textSize="18sp"/>
 
@@ -77,7 +78,6 @@
         android:orientation="vertical">
 
 
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -88,11 +88,11 @@
                 android:id="@+id/ll_labels"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="100dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="100dp">
 
                 <TextView
                     android:id="@+id/tv_choose_tags"
@@ -104,35 +104,30 @@
                     android:textSize="14sp"
                     android:textStyle="bold"/>
 
-                <FrameLayout
+
+                <com.zhy.view.flowlayout.TagFlowLayout
+                    android:id="@+id/tfl_labels"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+                </com.zhy.view.flowlayout.TagFlowLayout>
 
-                    <com.zhy.view.flowlayout.TagFlowLayout
-                        android:id="@+id/tfl_labels"
-                        android:minHeight="50dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    </com.zhy.view.flowlayout.TagFlowLayout>
+                <!--<TextView-->
+                <!--android:id="@+id/tv_fill"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:text="您还未添加标签"-->
+                <!--android:gravity="center"/>-->
 
-                    <TextView
-                        android:id="@+id/tv_fill"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="您还未添加标签"
-                        android:gravity="center"/>
-
-                </FrameLayout>
 
                 <TextView
-                    android:padding="8dp"
                     android:id="@+id/tv_add_customed_tag"
-                    android:text="标签不合适？添加自己的标签"
-                    android:textColor="@color/theme_color_primary"
-                    android:gravity="center"
-                    android:textSize="14sp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="添加自定义标签"
+                    android:textColor="@color/theme_color_primary"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -157,46 +152,46 @@
         android:id="@+id/ll_customed_tag"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
         android:background="#eef2f7"
-        android:layout_alignParentBottom="true">
+        android:gravity="center_vertical">
 
         <EditText
             android:id="@+id/et_customed_tag"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="30dp"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
-            android:hint="请输入自定义标签"
-            android:textColorHint="@color/gray_dark"
-            android:textColor="@color/default_text_color"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:background="@drawable/bg_customed_tag"/>
+            android:layout_weight="1"
+            android:background="@drawable/bg_customed_tag"
+            android:gravity="center_vertical"
+            android:hint="请输入自定义标签"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:textColor="@color/default_text_color"
+            android:textColorHint="@color/gray_dark"
+            android:textSize="16sp"/>
 
         <Button
             android:id="@+id/btn_confirm"
             android:layout_width="50dp"
             android:layout_height="30dp"
-            android:textColor="@color/white"
-            android:text="确定"
             android:layout_marginRight="8dp"
-            android:background="@drawable/selector_button_login"/>
+            android:background="@drawable/selector_button_login"
+            android:text="确定"
+            android:textColor="@color/white"/>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fltbtn_confirm"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp"
-        app:backgroundTint="@color/theme_color_primary"
-        app:rippleColor="@color/theme_color_primary_dark"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="48dp"
+        android:layout_marginRight="16dp"
         android:src="@drawable/ic_confirm_bigger"
-        android:layout_marginBottom="48dp"/>
+        app:backgroundTint="@color/theme_color_primary"
+        app:rippleColor="@color/theme_color_primary_dark"/>
 
 </RelativeLayout>
