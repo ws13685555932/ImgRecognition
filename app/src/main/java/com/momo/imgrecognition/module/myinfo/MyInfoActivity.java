@@ -297,6 +297,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
                         Glide.with(MyInfoActivity.this)
                                 .load(url)
                                 .into(ivUserIcon);
+                        SharedUtil.saveParam(UserConfig.USER_ICON_URL,url);
                         ShowUtil.toast("更换成功");
                     }
 
@@ -478,11 +479,4 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
                 });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent();
-        setResult(RESULT_OK , intent);
-        finish();
-    }
 }

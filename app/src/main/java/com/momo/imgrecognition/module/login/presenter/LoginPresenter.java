@@ -62,19 +62,16 @@ public class LoginPresenter {
         }
     }
 
-    private void saveData(LoginResponse response,String password) {
+    public void saveData(LoginResponse response,String password) {
+        ShowUtil.print("数据保存：" + response.toString());
         SharedUtil.saveParam(UserConfig.USER_ID, response.getId());
-        ShowUtil.print("id saved: " + SharedUtil.getParam(UserConfig.USER_ID,""));
         SharedUtil.saveParam(UserConfig.USER_NAME, response.getName());
-
         SharedUtil.saveParam(UserConfig.USER_TOKEN, response.getToken());
         SharedUtil.saveParam(UserConfig.USER_PASSWORD,password);
-        SharedUtil.saveParam(UserConfig.USER_ICON_URL, response.getAvatarUrl());
+        if(response.getAvatarUrl() != null) {
+            SharedUtil.saveParam(UserConfig.USER_ICON_URL, response.getAvatarUrl());
+        }
         SharedUtil.saveParam(UserConfig.USER_LEVEL,response.getLevel());
-//        if(userIconUrl!= null) {
-//            Bitmap userIcon = BitmapUtil.getHttpPicture(userIconUrl);
-//            BitmapUtil.savePicture(userIcon, Config.TEMP_FILE_PATH ,"userIcon.jpeg");
-//        }
 
     }
 }

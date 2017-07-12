@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.Resource;
 import com.momo.imgrecognition.R;
 import com.momo.imgrecognition.apiservice.PictureService;
 import com.momo.imgrecognition.apiservice.ResponseInfo;
@@ -35,8 +36,12 @@ import com.momo.imgrecognition.customedview.InfoDialog;
 import com.momo.imgrecognition.customedview.TagDeleteDialog;
 import com.momo.imgrecognition.module.BaseActivity;
 import com.momo.imgrecognition.module.detail.bean.AddTagsRequest;
+import com.momo.imgrecognition.module.detail.bean.IdAndPicId;
 import com.momo.imgrecognition.module.detail.bean.IdRequest;
+import com.momo.imgrecognition.module.detail.bean.LabelResponse;
 import com.momo.imgrecognition.module.detail.bean.PictureResponse;
+import com.momo.imgrecognition.module.login.bean.LoginResponse;
+import com.momo.imgrecognition.module.login.bean.User;
 import com.momo.imgrecognition.utils.BitmapUtil;
 import com.momo.imgrecognition.utils.HttpManager;
 import com.momo.imgrecognition.utils.HttpObserver;
@@ -82,9 +87,10 @@ public class ImageDetailActivity extends BaseActivity {
     RelativeLayout mRoot;
 
     List<String> tagList;
-    List<String> hisList;
+    List<TagString> hisList;
 
     TagAdapter tagAdapter;
+    TagAdapter hisAdapter;
     @BindView(R.id.iv_image)
     ImageView ivImage;
     @BindView(R.id.toolbar)
@@ -123,7 +129,7 @@ public class ImageDetailActivity extends BaseActivity {
         ivImage.setClickable(false);
         title.setClickable(false);
         initData();
-        ShowUtil.print("id: detail " + SharedUtil.getParam(UserConfig.USER_ID,""));
+        ShowUtil.print("id: detail " + SharedUtil.getParam(UserConfig.USER_ID, ""));
         llCustomedTag.setVisibility(View.INVISIBLE);
 
         mRoot = (RelativeLayout) findViewById(R.id.root);
@@ -157,7 +163,13 @@ public class ImageDetailActivity extends BaseActivity {
         });
 
 //        final String[] labels2 = new String[]{"android", "java", "php", "hello", "world", "hhh"};
-        hisList = SharedUtil.getDataList(UserConfig.HISTORY_LABELS);
+        List<String> hisStrList = SharedUtil.getDataList(UserConfig.HISTORY_LABELS);
+        hisList = new ArrayList<TagString>() {
+        };
+        for (String s : hisStrList) {
+            hisList.add(new TagString(s, 1));
+        }
+
 
         tagAdapter = new TagAdapter<String>(tagList) {
             @Override
@@ -165,7 +177,6 @@ public class ImageDetailActivity extends BaseActivity {
                 TextView tvLabel = (TextView) LayoutInflater.from(ImageDetailActivity.this)
                         .inflate(R.layout.layout_labels, parent, false);
                 tvLabel.setText(s);
-
                 tvLabel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -195,7 +206,7 @@ public class ImageDetailActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 String tag = etCustomedTag.getText().toString();
-                if (!tagList.contains(tag)) {
+                if (!tagList.contains(tag) && !tag.equals("")) {
                     llCustomedTag.setVisibility(View.INVISIBLE);
                     tflLabels.setVisibility(View.VISIBLE);
                     tagList.add(tag);
@@ -230,21 +241,30 @@ public class ImageDetailActivity extends BaseActivity {
             }
         });
 
-        tflHistoryLabels.setAdapter(new TagAdapter<String>(hisList) {
+        hisAdapter = new TagAdapter<TagString>(hisList) {
 
             @Override
-            public View getView(FlowLayout parent, int position, String s) {
-                TextView tvLabel = (TextView) LayoutInflater.from(ImageDetailActivity.this)
-                        .inflate(R.layout.layout_normal_label, parent, false);
-                tvLabel.setText(s);
+            public View getView(FlowLayout parent, int position, TagString tag) {
+                TextView tvLabel;
+                if (tag.getType() == 1) {
+                    tvLabel = (TextView) LayoutInflater.from(ImageDetailActivity.this)
+                            .inflate(R.layout.layout_normal_label, parent, false);
+                } else {
+                    tvLabel = (TextView) LayoutInflater.from(ImageDetailActivity.this)
+                            .inflate(R.layout.layout_recom_label, parent, false);
+                }
+                tvLabel.setText(tag.getTag());
                 return tvLabel;
             }
-        });
+        };
+
+        tflHistoryLabels.setAdapter(hisAdapter);
 
         tflHistoryLabels.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
-                String tag = hisList.get(position);
+                TagString tagString = hisList.get(position);
+                String tag = tagString.getTag();
                 if (chooseNum == limitPic) {
                     ShowUtil.toast("您添加的标签数目已达当前等级的上限");
                     return true;
@@ -267,19 +287,22 @@ public class ImageDetailActivity extends BaseActivity {
     }
 
     private void addTags() {
-        if(tagList.size() == 0){
+        if (tagList.size() == 0) {
             return;
         }
         UserService userService = HttpManager.getInstance().createService(UserService.class);
         AddTagsRequest request = new AddTagsRequest();
-        request.setId((String) SharedUtil.getParam(UserConfig.USER_ID,""));
+        request.setId((String) SharedUtil.getParam(UserConfig.USER_ID, ""));
+        if (request.getId().equals("")) {
+            request.setId(userId);
+        }
         request.setPictureId(id);
         StringBuilder labels = new StringBuilder();
+
         for (String s : tagList) {
-            if (!markedLabelList.contains(s)) {
-                labels.append(s).append(",");
-            }
+            labels.append(s).append(",");
         }
+        ShowUtil.print(labels.toString());
         request.setLabel(labels.substring(0, labels.length() - 1));
         ShowUtil.print(request.toString());
         Observable<ResponseInfo<Object>> call = userService.addPictureLabel(request);
@@ -336,24 +359,75 @@ public class ImageDetailActivity extends BaseActivity {
         updateChooseTag();
 
         id = getIntent().getStringExtra("imageId");
-        IdRequest request = new IdRequest(id);
+
         tagList = new ArrayList<>();
-        String tags = getIntent().getStringExtra("tags");
-
-        if (tags != null) {
-            String[] tagArr = tags.split(",");
-            tagList = new ArrayList<>(Arrays.asList(tagArr));
-            markedLabelList = new ArrayList<>(Arrays.asList(tagArr));
-            for (String s : tagList) {
-                ShowUtil.print(s + "  ");
-            }
-//            setFillEnable(false);
-            chooseNum = tagList.size();
-            updateChooseTag();
-
-        }
+//        String tags = getIntent().getStringExtra("tags");
+//
+//        if (tags != null) {
+//            String[] tagArr = tags.split(",");
+//            tagList = new ArrayList<>(Arrays.asList(tagArr));
+//            markedLabelList = new ArrayList<>(Arrays.asList(tagArr));
+//            for (String s : tagList) {
+//                ShowUtil.print(s + "  ");
+//            }
+////            setFillEnable(false);
+//            chooseNum = tagList.size();
+//            updateChooseTag();
+//
+//        }
+        getUseId();
+        IdRequest request = new IdRequest(id);
         getImageData(request);
+    }
 
+    String userId = "";
+
+    private void getUseId() {
+        UserService userService = HttpManager.getInstance().createService(UserService.class);
+        User user = new User();
+        user.setName((String) SharedUtil.getParam(UserConfig.USER_NAME, ""));
+        user.setPassword((String) SharedUtil.getParam(UserConfig.USER_PASSWORD, ""));
+        Observable<ResponseInfo<LoginResponse>> call = userService.login(user);
+        call.compose(RxSchedulersHelper.<ResponseInfo<LoginResponse>>io_main())
+                .subscribe(new HttpObserver<LoginResponse>() {
+                    @Override
+                    public void onSuccess(LoginResponse response) {
+                        userId = response.getId();
+                        IdAndPicId request2 = new IdAndPicId();
+                        request2.setId(response.getId());
+                        request2.setPictureId(id);
+                        getLabelsById(request2);
+                    }
+
+                    @Override
+                    public void onFailed(String message) {
+
+                    }
+                });
+    }
+
+    private void getLabelsById(IdAndPicId request2) {
+        UserService userService = HttpManager.getInstance().createService(UserService.class);
+        Observable<ResponseInfo<LabelResponse>> call = userService.getLabelByUseridPictureid(request2);
+        call.compose(RxSchedulersHelper.<ResponseInfo<LabelResponse>>io_main())
+                .subscribe(new HttpObserver<LabelResponse>() {
+                    @Override
+                    public void onSuccess(LabelResponse labelResponse) {
+                        List<LabelResponse.LabelListBean> beanList = labelResponse.getLabelList();
+
+                        for (LabelResponse.LabelListBean labelListBean : beanList) {
+                            tagList.add(labelListBean.getLabel());
+                            markedLabelList.add(labelListBean.getLabel());
+                        }
+                        chooseNum = tagList.size();
+                        updateChooseTag();
+                        tagAdapter.notifyDataChanged();
+                    }
+
+                    @Override
+                    public void onFailed(String message) {
+                    }
+                });
     }
 
     private void getImageData(IdRequest request) {
@@ -367,12 +441,18 @@ public class ImageDetailActivity extends BaseActivity {
                         String imgUrl = pictureResponse.getPath();
                         url = imgUrl;
                         Glide.with(ImageDetailActivity.this).load(imgUrl).into(ivImage);
-                        String tags = pictureResponse.getResultLabel();
-                        if (tags != null) {
+                        String tags = pictureResponse.getAcceptedLabel();
+                        if (tags != null && !tags.equals("")) {
                             String[] splitArr = tags.split(",");
-                            List<String> list = new ArrayList<String>(Arrays.asList(splitArr));
-                            hisList.clear();
-                            hisList.addAll(0, list);
+//                            List<String> list = new ArrayList<String>(Arrays.asList(splitArr));
+//                            hisList.clear();
+                            List<TagString> tagList = new ArrayList<TagString>();
+                            for (String s : splitArr) {
+                                if(!s.equals(""))
+                                tagList.add(new TagString(s, 2));
+                            }
+                            hisList.addAll(0, tagList);
+                            hisAdapter.notifyDataChanged();
                         }
 
                         ivImage.setClickable(true);
@@ -468,7 +548,7 @@ public class ImageDetailActivity extends BaseActivity {
 //
 //            @Override
 //            public void downloadSuccess(String path) {
-                toPreviewActivity(url);
+        toPreviewActivity(url);
 //            }
 //
 //            @Override

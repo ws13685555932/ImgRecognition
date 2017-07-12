@@ -125,7 +125,7 @@ public class CategoryActivity extends AppCompatActivity {
             CateImageBean cate = new CateImageBean();
             String tags = bean.getAcceptedLabel();
 
-            if (tags != null) {
+            if (tags != null && !tags.trim().equals("")) {
                 String[] splitArr = tags.split(",");
                 cate.setTagCont(tags);
                 cate.setTagNum(splitArr.length);

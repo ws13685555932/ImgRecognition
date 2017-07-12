@@ -102,22 +102,23 @@ public class RecommendFragment extends Fragment {
                                 (ArrayList<RecomResponse.PictureListBean>) recomResponse.getPictureList();
                         for (int i = 0; i < pictureList.size(); i++) {
                             RecomResponse.PictureListBean picture = pictureList.get(i);
+                            ShowUtil.print(picture.toString());
                             ImageBean bean = new ImageBean();
                             bean.setImageId(picture.getId());
                             bean.setImgUrl(picture.getPath());
                             String tags = picture.getAcceptedLabel();
-                            if(tags != null){
+                            if(tags != null && !tags.equals("")){
                                 bean.setTags(tags);
-                            }else{
-                                bean.setTags("该图片还没有标签，快来添加吧");
-                            }
-                            if(picture.getAcceptedLabel() != null) {
+                                if(!tags.contains(",")){
+                                    bean.setTagNum(1);
+                                }
                                 String[] tagArr = picture.getAcceptedLabel().split(",");
                                 bean.setTagNum(tagArr.length);
-                            }else {
+                            }else{
+                                bean.setTags("该图片还没有标签，快来添加吧");
                                 bean.setTagNum(0);
                             }
-                            long tagTime= Long.valueOf(picture.getUploadTime()) *1000;
+                            long tagTime= Long.valueOf(picture.getUploadTime());
                             String tagTimeStr = TimeUtil.timeStamp2Date(tagTime);
                             bean.setTime(tagTimeStr);
                             imgList.add(bean);

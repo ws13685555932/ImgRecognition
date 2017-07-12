@@ -134,6 +134,16 @@ public class RecomResponse {
         public void setRecognitionLabel(String recognitionLabel) {
             this.recognitionLabel = recognitionLabel;
         }
+
+        @Override
+        public String toString() {
+            return "PictureListBean{" +
+                    "id='" + id + '\'' +
+                    ", managerId=" + managerId +
+                    ", acceptedLabel='" + acceptedLabel + '\'' +
+                    ", recognitionLabel='" + recognitionLabel + '\'' +
+                    '}';
+        }
     }
 
 }

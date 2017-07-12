@@ -2,6 +2,8 @@ package com.momo.imgrecognition.module.history;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.widget.ListView;
 
 import com.bumptech.glide.Glide;
@@ -15,6 +17,7 @@ import com.momo.imgrecognition.module.detail.ImageDetailActivity;
 import com.momo.imgrecognition.module.detail.bean.IdRequest;
 import com.momo.imgrecognition.module.detail.bean.PictureResponse;
 import com.momo.imgrecognition.module.login.bean.User;
+import com.momo.imgrecognition.module.main.adapter.ImageAdapter;
 import com.momo.imgrecognition.module.taglater.bean.TagLaterBean;
 import com.momo.imgrecognition.utils.HttpManager;
 import com.momo.imgrecognition.utils.HttpObserver;
@@ -35,10 +38,10 @@ import io.reactivex.Observable;
 public class HistoryActivity extends BaseActivity {
 
     @BindView(R.id.lv_history_list)
-    ListView lvHistoryList;
+    RecyclerView lvHistoryList;
 
     private List<HistoryBean> historyList = new ArrayList<>();
-    HistoryAdapter adapter;
+    HistoryRecyAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,10 @@ public class HistoryActivity extends BaseActivity {
 //            list.add(bean);
 //        }
 
-        adapter = new HistoryAdapter(this,historyList);
+        StaggeredGridLayoutManager staggeredGridLayoutManager =
+                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        lvHistoryList.setLayoutManager(staggeredGridLayoutManager);
+        adapter = new HistoryRecyAdapter(historyList,this);
         lvHistoryList.setAdapter(adapter);
 
     }
@@ -90,11 +96,13 @@ public class HistoryActivity extends BaseActivity {
 
     private void showHistory(HistoryResponse historyResponse) {
         List<HistoryResponse.LabelListBean> picList = historyResponse.getLabelList();
-
+        List<String> idList = new ArrayList<>();
         for (int i = 0; i < picList.size(); i++) {
             HistoryBean hist = new HistoryBean();
             HistoryResponse.LabelListBean bean = picList.get(i);
-
+            if(idList.contains(bean.getPictureId())){
+                continue;
+            }
             hist.setTime(TimeUtil.timeStamp2Date(Long.valueOf(bean.getCreated_time())));
             String type = bean.getType();
             String label = bean.getLabel();
@@ -102,6 +110,7 @@ public class HistoryActivity extends BaseActivity {
             hist.setTagStr(tagStr);
             hist.setTags(label);
             hist.setPicId(bean.getPictureId());
+            idList.add(bean.getPictureId());
             getPicById(hist);
         }
 

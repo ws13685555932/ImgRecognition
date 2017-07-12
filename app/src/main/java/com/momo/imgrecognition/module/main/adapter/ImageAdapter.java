@@ -86,14 +86,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShowUtil.print("id: main adapter " + SharedUtil.getParam(UserConfig.USER_ID,""));
+//                ShowUtil.print("id: main adapter " + SharedUtil.getParam(UserConfig.USER_ID,""));
                 Intent intent = new Intent(mContext, ImageDetailActivity.class);
                 intent.putExtra("imageId" , imageList.get(position).getImageId());
                 mContext.startActivity(intent);
             }
         });
         holder.tvTagNumber.setText("已有" + bean.getTagNum() + "个标签");
-        holder.tvTime.setText("2016-5-12 5:15");
+        holder.tvTime.setText(bean.getTime());
     }
     PopupWindowWithAnim pop;
     private void showPopUpWindow(View view) {
@@ -125,12 +125,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         int[] location = new int[2];
         view.getLocationOnScreen(location);
 
-        ShowUtil.print("y:" + location[1]);
+//        ShowUtil.print("y:" + location[1]);
 
         int border = screenY * 2 / 3 ;
-        ShowUtil.print("y:" + location[1]);
-        ShowUtil.print("screenY:" + screenY);
-        ShowUtil.print("border:" + border);
+//        ShowUtil.print("y:" + location[1]);
+//        ShowUtil.print("screenY:" + screenY);
+//        ShowUtil.print("border:" + border);
         if(location[1] <= border){
             offsetY = view.getHeight();
             pop.showAsDropDown(view,offsetX,offsetY);

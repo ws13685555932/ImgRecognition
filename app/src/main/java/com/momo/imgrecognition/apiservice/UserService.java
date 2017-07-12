@@ -1,15 +1,15 @@
 package com.momo.imgrecognition.apiservice;
 
 import com.momo.imgrecognition.module.detail.bean.AddTagsRequest;
+import com.momo.imgrecognition.module.detail.bean.IdAndPicId;
+import com.momo.imgrecognition.module.detail.bean.LabelResponse;
 import com.momo.imgrecognition.module.history.HistoryRequest;
 import com.momo.imgrecognition.module.history.HistoryResponse;
 import com.momo.imgrecognition.module.login.bean.LoginResponse;
 import com.momo.imgrecognition.module.login.bean.User;
-import com.momo.imgrecognition.module.main.bean.RecomResponse;
 import com.momo.imgrecognition.module.myinfo.BirthdayBean;
 import com.momo.imgrecognition.module.myinfo.DescriptionBean;
 import com.momo.imgrecognition.module.myinfo.EmailBean;
-import com.momo.imgrecognition.module.myinfo.InfoBean;
 import com.momo.imgrecognition.module.myinfo.UpdateResponse;
 import com.momo.imgrecognition.module.myinfo.NameBean;
 import com.momo.imgrecognition.module.myinfo.SexBean;
@@ -68,8 +68,11 @@ public interface UserService {
     @POST("user/getHistoryLabel")
     Observable<ResponseInfo<HistoryResponse>> getHistoryLabel(@Body HistoryRequest request);
 
-    @POST("user/addPictureLabel")
+    @POST("user/updatePictureLabel")
     Observable<ResponseInfo<Object>> addPictureLabel(@Body AddTagsRequest request);
+
+    @POST("user/getLabelByUseridPictureid")
+    Observable<ResponseInfo<LabelResponse>> getLabelByUseridPictureid (@Body IdAndPicId request);
 
 }
 

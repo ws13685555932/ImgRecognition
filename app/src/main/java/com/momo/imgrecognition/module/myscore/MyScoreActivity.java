@@ -53,9 +53,11 @@ public class MyScoreActivity extends BaseActivity {
         UserService userService = HttpManager.getInstance().createService(UserService.class);
         UserRequest request = new UserRequest();
         request.setToken((String) SharedUtil.getParam(UserConfig.USER_TOKEN, ""));
-        request.setId((String) SharedUtil.getParam(UserConfig.USER_ID,""));
+        request.setId((String) SharedUtil.getParam(UserConfig.USER_ID, ""));
         request.setName((String) SharedUtil.getParam(UserConfig.USER_NAME, ""));
-        ShowUtil.print(request.toString());
+
+        ShowUtil.print("MyScore:" + request.toString());
+
         Observable<ResponseInfo<UserInfo>> call = userService.getUserInfo(request);
         call.compose(RxSchedulersHelper.<ResponseInfo<UserInfo>>io_main())
                 .subscribe(new HttpObserver<UserInfo>() {
@@ -82,11 +84,16 @@ public class MyScoreActivity extends BaseActivity {
 
     private void showScore(UserInfo userInfo) {
         int level = userInfo.getLevel();
+        if (level <= 0) {
+            level = 1;
+        }
         int currScore = userInfo.getScore();
 
-        SharedUtil.saveParam(UserConfig.USER_LEVEL,level);
+        SharedUtil.saveParam(UserConfig.USER_LEVEL, level);
 
-        scoreView.setTotal(scores[level-1]);
+
+        scoreView.setTotal(scores[level - 1]);
+
         scoreView.setProgress(currScore);
         scoreView.setLevel(level);
         scoreView.startAnim();
@@ -94,7 +101,7 @@ public class MyScoreActivity extends BaseActivity {
         if (level == 10) {
             tvNextLevel.setText("恭喜您已满级！");
         } else {
-            int lastScore = scores[level-1] - currScore;
+            int lastScore = scores[level - 1] - currScore;
             tvNextLevel.setText("距离下一级还差" + lastScore + "分");
         }
     }

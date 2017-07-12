@@ -65,20 +65,22 @@ public class FirstPageActivity extends BaseActivity {
 
         LoginBiz loginBiz = new LoginBiz();
 
-        ShowUtil.print(username + ":" + password);
         User user = new User(password, username);
+
+        ShowUtil.print("登录请求：" + user.toString());
+
         loginBiz.login(user, new OnLoginListener() {
             @Override
             public void loginSuccess(LoginResponse response) {
                 int level = response.getLevel();
                 String iconUrl = response.getAvatarUrl();
                 String name = response.getName();
-                setId(response.getId());
                 toMainActivity(level,iconUrl,name);
             }
 
             @Override
             public void loginFailed(String msg) {
+                ShowUtil.print("跳转到LoginActivity");
                 toLoginActivity();
             }
         });
@@ -91,6 +93,10 @@ public class FirstPageActivity extends BaseActivity {
         intent.putExtra("level", level);
         intent.putExtra("iconUrl", iconUrl);
         intent.putExtra("name", name);
+        ShowUtil.print("LoginActivity->MainActivity:"
+                + "level:" + level
+                + "iconUrl" + iconUrl
+                + "name" + name);
         startActivity(intent);
     }
 

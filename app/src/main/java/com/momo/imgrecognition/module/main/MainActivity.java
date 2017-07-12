@@ -47,6 +47,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.R.attr.level;
+import static android.R.attr.name;
+
 public class MainActivity extends BaseActivity {
 
     private static final int REQUEST_MY_INFO = 1001;
@@ -159,7 +162,6 @@ public class MainActivity extends BaseActivity {
 
     // TODO: 2017/5/24 等级
     private void initData() {
-        ShowUtil.print("id: main init " + SharedUtil.getParam(UserConfig.USER_ID,""));
         //自动登录
         if (getIntent() != null) {
             int level = getIntent().getIntExtra("level", 0);
@@ -177,7 +179,6 @@ public class MainActivity extends BaseActivity {
             tvNavUsername.setText(name);
             TextView tvNavLevel = (TextView) header.findViewById(R.id.tv_level);
             tvNavLevel.setText("Lv." + level);
-
 
 
         }
@@ -294,18 +295,24 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == REQUEST_MY_INFO) {
+
             ShowUtil.print("user icon changed ");
             String userIconUrl = (String) SharedUtil.getParam(UserConfig.USER_ICON_URL, "");
             Glide.with(this).load(userIconUrl).into(ivUserIcon);
             View header = navView.getHeaderView(0);
             CircleImageView ivUserIconNav = (CircleImageView) header.findViewById(R.id.civ_user_icon);
             Glide.with(this).load(userIconUrl).into(ivUserIconNav);
+
+            tvUserName.setText((String) SharedUtil.getParam(UserConfig.USER_NAME, ""));
+            TextView tvNavUsername = (TextView) header.findViewById(R.id.tv_user_name);
+            tvNavUsername.setText((String) SharedUtil.getParam(UserConfig.USER_NAME, ""));
         }
 
     }
 
-    @OnClick({R.id.iv_user_icon, R.id.iv_search,R.id.iv_download})
+    @OnClick({R.id.iv_user_icon, R.id.iv_search, R.id.iv_download})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_user_icon:

@@ -47,8 +47,6 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     LoginPresenter mLoginPresenter = new LoginPresenter(this);
 
     LoadDialog mLoadDialog;
-    @BindView(R.id.iv_pet)
-    ImageView ivPet;
 
     private boolean isBackFlag = false;
 
@@ -110,18 +108,22 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 
     @Override
     public void toMainActivity(int level, String iconUrl, String name) {
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("level", level);
         intent.putExtra("iconUrl", iconUrl);
         intent.putExtra("name", name);
+        ShowUtil.print("LoginActivity->MainActivity:"
+                + "level:" + level
+                + "iconUrl" + iconUrl
+                + "name" + name);
         startActivity(intent);
     }
 
-    public void autoToMainActivity(){
+    public void autoToMainActivity() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("type","auto");
+        intent.putExtra("type", "auto");
         startActivity(intent);
     }
 
